@@ -52,8 +52,8 @@ const MenuHome = () => {
   return (
     <div className="lg:py-20 py-16 bg-[#FAF8F5] dark:bg-[#181C20]">
       <div className="max-w-[1320px] mx-auto ">
-        <div className="text-center mb-[36px] md:mb-[50px]">
-          <h2 className="font-jost text-base md:text-[20px] font-medium capitalize mb-[9px]">
+        <div className="text-center mb-[36px] md:mb-[50px] px-4">
+          <h2 className="font-jost text-[24px] md:text-[36px] font-semibold capitalize mb-[9px]">
             Glimpses of Our Menu
           </h2>
           <p className="md:text-base text-sm font-normal font-jost">
@@ -61,7 +61,7 @@ const MenuHome = () => {
             your favorites, served with love.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:gap-x-[134px] md:gap-5 gap-6 grid-cols-1 px-4">
+        <div className="grid md:grid-cols-2 lg:gap-x-[134px] md:gap-x-[100px] gap-6 grid-cols-1 px-4">
           {menuItems.map((item) => (
             <MenuItemCard
               key={item.id}
