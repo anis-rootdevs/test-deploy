@@ -7,24 +7,20 @@ export const navItems = [
     href: "/",
   },
   {
+    label: "Our Story",
+    href: "/outlets",
+  },
+  {
     label: "Menu",
     href: "/menu",
   },
   {
-    label: "Outlets",
-    href: "/outlets",
-  },
-  {
-    label: "Blog",
+    label: "Gallery",
     href: "/all-blogs",
   },
   {
-    label: "Reviews",
+    label: "Reserve Table",
     href: "/reviews",
-  },
-  {
-    label: "Subscribe",
-    href: "/subscribe",
   },
 ];
 // feature products

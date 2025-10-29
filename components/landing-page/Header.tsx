@@ -33,47 +33,32 @@ const Header = () => {
   };
 
   return (
-    <header
-      className={`w-full border-b-[2px] border-[#E0E0E0] md:py-4 py-2 bg-transparent  z-50`}
-    >
-      <div className="container max-w-[1520px] mx-auto h-[80px] px-4">
-        <div
-          className={`md:justify-between flex items-center h-full ${
-            isMobileMenuOpen ? "justify-between" : ""
-          }`}
-        >
+    <header className={`w-full bg-black h-[100px] flex items-center`}>
+      <div className="max-w-[1320px] mx-auto w-full px-4">
+        <div className="flex items-center justify-between w-full">
           {/* Mobile View */}
           <div className="flex items-center justify-between w-full md:hidden">
-            <div className="flex items-center">
-              {/* <ThemeToggleButton /> */}
-              <MobileMenuSection />
-              <Link href="/">
-                <Image
-                  src="/images/doctor-protal-logo.svg"
-                  alt="logo"
-                  height={40}
-                  width={40}
-                  className="h-[40px] w-[40px] aspect-square"
-                />
-              </Link>
-            </div>
+            <Link href="/">
+              <h2 className="font-think text-[31px] uppercase text-[#FAF8F5]">
+                Neer
+              </h2>
+            </Link>
+            <MobileMenuSection />
           </div>
 
           {/* Desktop View */}
-          <div className="hidden md:flex items-center lg:gap-x-[41px] gap-x-[30px] w-full">
-            <div>
+          <div className="hidden md:flex items-center justify-between w-full">
+            {/* Logo */}
+            <div className="flex-shrink-0">
               <Link href="/">
-                <Image
-                  src="/images/doctor-protal-logo.svg"
-                  alt="logo"
-                  height={80}
-                  width={80}
-                  className="h-[80px] w-[80px] object-contain"
-                />
+                <h2 className="font-think text-[31px] uppercase text-[#FAF8F5]">
+                  Neer
+                </h2>
               </Link>
             </div>
-            <div className="flex items-center justify-between w-full">
-              {/* Navigation Items */}
+
+            {/* Navigation Items - Evenly Spaced */}
+            <nav className="flex items-center lg:gap-16 xl:gap-20 gap-10">
               {navItems.map((item) => {
                 const isActive =
                   pathname === item.href ||
@@ -83,15 +68,15 @@ const Header = () => {
                     key={item.label}
                     href={item.href}
                     onClick={() => handleNavClick(item.href)}
-                    className={`text-[14px] font-jost font-bold  hover:text-primary uppercase transition-colors ${
-                      isActive ? "text-primary font-bold" : "text-[#FBFBFB]"
+                    className={`text-base font-jost font-normal hover:text-primary capitalize transition-colors ${
+                      isActive ? "text-primary font-bold" : "text-[#FAF8F5]"
                     }`}
                   >
                     {item.label}
                   </Link>
                 );
               })}
-            </div>
+            </nav>
           </div>
         </div>
       </div>

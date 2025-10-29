@@ -21,7 +21,7 @@ const MobileMenuSection = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <button className="md:hidden me-2 cursor-pointer">
+        <button className="md:hidden cursor-pointer">
           <Menu className=" text-primary h-6 w-6" />
         </button>
       </SheetTrigger>
@@ -31,10 +31,8 @@ const MobileMenuSection = () => {
       >
         <SheetHeader>
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2">
-              <h1 className="text-[24px]  font-merriweather font-bold">
-                Doctor Portal
-              </h1>
+            <Link href="/">
+              <h2 className="font-think text-[31px] uppercase">Neer</h2>
             </Link>
 
             <button

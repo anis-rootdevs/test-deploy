@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${jost.className} ${jost.variable} bg-[#FEFEFC] dark:bg-[#0F141B] dark:text-[#FEFEFF]   text-[#101020]`}
+        className={`${jost.className} ${jost.variable} bg-[#FEFEFC] dark:bg-[#0F141B] dark:text-[#FEFEFF]  text-[#101020]`}
       >
         <ThemeProvider
           attribute="class"
