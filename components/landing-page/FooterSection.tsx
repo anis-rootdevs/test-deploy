@@ -3,6 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import { Icons } from "../custom/icons";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../ui/carousel";
 
 const quickMenu = [
   { name: "Home", href: "/" },
@@ -25,10 +32,12 @@ const policy = [
 ];
 
 const galleryImages = [
-  "/images/gallery/gallery-1.jpg",
-  "/images/gallery/gallery-2.jpg",
-  "/images/gallery/gallery-3.jpg",
-  "/images/gallery/gallery-4.jpg",
+  "/images/gallery/coffee-cup-with-chocolate-cake.svg",
+  "/images/gallery/counter-with-espresso-machine-cafe.svg",
+  "/images/gallery/hot-coffee-with-girl.svg",
+  "/images/gallery/hot-coffee-with-girl.svg",
+  "/images/gallery/hot-coffee-with-girl.svg",
+  "/images/gallery/shop-process-making-coffee-is-shown.svg",
 ];
 
 const FooterSection = () => {
@@ -103,27 +112,47 @@ const FooterSection = () => {
             <div className="w-[31px] my-[15px]">
               <Separator className="bg-primary h-[2px]" />
             </div>
-            <div className="grid grid-cols-4 gap-2 mb-3">
-              {galleryImages.map((img, i) => (
-                <div
-                  key={i}
-                  className="relative aspect-square rounded-md overflow-hidden"
-                >
-                  <Image
-                    src={img}
-                    alt={`Gallery ${i + 1}`}
-                    fill
-                    className="object-cover hover:scale-110 transition-transform duration-300"
-                  />
+
+            <div className="relative">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-4">
+                  {galleryImages.map((img, index) => (
+                    <CarouselItem key={index} className="pl-2 basis-1/4">
+                      <div className="relative aspect-[74/67] overflow-hidden bg-white">
+                        <Image
+                          src={img}
+                          alt={`Gallery ${index + 1}`}
+                          width={50}
+                          height={50}
+                          className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="flex items-center justify-between mt-5">
+                  {/* See more link */}
+                  <div className="">
+                    <Link
+                      href="#"
+                      className="text-[13px] font-jost font-normal hover:text-primary "
+                    >
+                      See more
+                    </Link>
+                  </div>
+                  <div className="absolute -right-7">
+                    <CarouselPrevious className="absolute left-auto right-10  bg-transparent hover:bg-transparent cursor-pointer dark:bg-transparent border-none dark:hover:bg-transparent" />
+                    <CarouselNext className="absolute  right-3 bg-transparent hover:bg-transparent cursor-pointer dark:bg-transparent border-none dark:hover:bg-transparent" />
+                  </div>
                 </div>
-              ))}
+              </Carousel>
             </div>
-            <Link
-              href="/gallery"
-              className="text-sm font-jost hover:text-primary underline transition"
-            >
-              See more →
-            </Link>
           </div>
         </div>
 
