@@ -1,4 +1,5 @@
 import { CustomButton } from "@/components/custom/custom-button";
+import OpeningsHours from "@/components/custom/openings-hours";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import React from "react";
@@ -56,20 +57,13 @@ const BookReserveHome = () => {
               </CustomButton>
             </div>
 
-            {/* Opening Hours */}
-            <div className="flex flex-col">
-              <div className="font-medium text-[#FAF8F5] text-base font-jost">
-                <span className="">Sunday to Thursday</span> -
-                <span className="ml-3 ">10 AM - 9 PM</span>
-              </div>
-              <div className="w-[268px] my-2">
-                <Separator className="bg-primary h-[1px]" />
-              </div>
-              <div className="font-medium text-[#FAF8F5] text-base font-jost">
-                <span className="d">Friday & Saturday</span> -
-                <span className="ml-3">11 AM - 11 PM</span>
-              </div>
-            </div>
+            <OpeningsHours
+              data={[
+                { days: "Sunday to Thursday", time: "12 AM - 8 PM" },
+                { days: "Friday & Saturday", time: "11 AM - 11 PM" },
+              ]}
+              textClass="text-[#FAF8F5]"
+            />
           </div>
         </div>
       </div>

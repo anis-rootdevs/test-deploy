@@ -1,10 +1,12 @@
-import React from "react";
+import MenuSectionPage from "@/components/landing-page/menu-section/menu-section-page";
+
+import { MenuFilterProvider } from "@/contexts/menu-filter-context";
 
 const MenuHome = () => {
   return (
-    <>
-      <h1>menu page</h1>
-    </>
+    <MenuFilterProvider>
+      <MenuSectionPage />
+    </MenuFilterProvider>
   );
 };
 

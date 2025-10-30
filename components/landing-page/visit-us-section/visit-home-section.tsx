@@ -3,20 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import VisitUsCard from "./visit-us-card";
-
-const productData = {
-  name: "THE AROMA BLISS PLATTER",
-  description:
-    "Croissant, Chocolate Muffin, Buttery Cookies, and a Signature Latte — all in one perfect cozy platter.",
-  price: "$ 9.90",
-  link: "#visit",
-};
-const productDetails = {
-  title: "CRAVING SOMETHING NEW?",
-  description:
-    "Our latest cozy platter brings freshly baked treats and a steaming cup of signature coffee together. Every bite and sip is made to warm your day.",
-  image: "/images/visit-us/close-up-coffee-table.svg",
-};
+import {
+  visitProductData,
+  visitProductDetails,
+} from "@/public/sample-data/landing-page-data";
 
 const VisitHomeSection = () => {
   return (
@@ -25,10 +15,10 @@ const VisitHomeSection = () => {
         {/* Header Section */}
         <div className="mb-8 lg:mb-12">
           <h2 className="text-2xl  font-medium uppercase font-jost mb-3">
-            {productDetails?.title}
+            {visitProductDetails?.title}
           </h2>
           <p className="text-[15px] sm:text-base font-normal font-jost max-w-xl">
-            {productDetails?.description}
+            {visitProductDetails?.description}
           </p>
         </div>
 
@@ -39,8 +29,8 @@ const VisitHomeSection = () => {
             <Image
               width={100}
               height={100}
-              src={productDetails?.image}
-              alt={productDetails.title}
+              src={visitProductDetails?.image}
+              alt={visitProductDetails.title}
               className="w-full h-full object-cover"
             />
           </div>
@@ -48,7 +38,7 @@ const VisitHomeSection = () => {
           {/* Content Section */}
           {/* Content Section */}
           <div className="absolute -bottom-[130px] left-8 md:-bottom-20 md:left-24 lg:-top-8 lg:right-8 lg:left-auto lg:bottom-auto xl:-top-16 xl:right-24">
-            <VisitUsCard product={productData} />
+            <VisitUsCard product={visitProductData} />
           </div>
         </div>
 

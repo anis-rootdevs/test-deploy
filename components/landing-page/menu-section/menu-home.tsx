@@ -1,52 +1,7 @@
 import React from "react";
 import MenuItemCard from "./menu-items-card";
 import { CustomButton } from "@/components/custom/custom-button";
-
-const menuItems = [
-  {
-    id: 1,
-    name: "Caramel Latte",
-    price: 6.99,
-    description: "Espresso, steamed milk, caramel syrup, whipped cream",
-    image: "/images/menu-items/caramel-lattle.svg",
-  },
-  {
-    id: 2,
-    name: "Croissant",
-    price: 3.5,
-    description: "Buttery, flaky, baked fresh daily",
-    image: "/images/menu-items/croissant-menu.svg",
-  },
-  {
-    id: 3,
-    name: "The Aroma Bliss Platter",
-    price: 9.9,
-    description:
-      "Croissant, chocolate muffin, buttery cookies, signature latte",
-    image: "/images/menu-items/coffee-ice.svg",
-  },
-  {
-    id: 4,
-    name: "Cold Brew",
-    price: 2.25,
-    description: "Smooth, refreshing, and lightly sweetened",
-    image: "/images/menu-items/iced-coffee.svg",
-  },
-  {
-    id: 5,
-    name: "Cold Brew",
-    price: 5.5,
-    description: "Smooth, refreshing, and lightly sweetened",
-    image: "/images/menu-items/coffee-toast.svg",
-  },
-  {
-    id: 6,
-    name: "Morning Boost",
-    price: 4.5,
-    description: "Smooth, refreshing, and lightly sweetened",
-    image: "/images/menu-items/morning-bost.svg",
-  },
-];
+import { menuItems } from "@/public/sample-data/landing-page-data";
 
 const MenuHome = () => {
   return (

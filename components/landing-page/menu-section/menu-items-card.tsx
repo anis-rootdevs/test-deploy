@@ -8,6 +8,7 @@ interface MenuItemCardProps {
   className?: string;
   imageClassName?: string;
   onClickCard?: () => void;
+  priceClassName?: string;
 }
 
 const MenuItemCard: React.FC<MenuItemCardProps> = ({
@@ -18,6 +19,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
   className = "",
   imageClassName = "",
   onClickCard,
+  priceClassName,
 }) => {
   const formattedPrice =
     typeof price === "number" ? `$${price.toFixed(2)}` : price;
@@ -53,7 +55,9 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
               </p>
             </div>
 
-            <span className="font-jost font-semibold  text-base md:text-[20px] whitespace-nowrap">
+            <span
+              className={`font-jost font-semibold  text-base md:text-[20px] whitespace-nowrap ${priceClassName}`}
+            >
               {formattedPrice}
             </span>
           </div>

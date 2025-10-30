@@ -1,7 +1,9 @@
+import LandingPageSecond from "@/components/landing-page/landing-page-second/landing-page-second";
+
 const SecondHomepage = () => {
   return (
     <>
-      <h1 className="font-jost font-bold">Hom page 2</h1>
+      <LandingPageSecond />
     </>
   );
 };
