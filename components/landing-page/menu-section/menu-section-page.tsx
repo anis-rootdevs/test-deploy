@@ -19,7 +19,10 @@ const MenuSectionPage = () => {
   const isAllCategory = activeCategory.toLowerCase() === "all";
   return (
     <>
-      <MenuHeroSection />
+      <MenuHeroSection
+        imageSrc="/images/menu-items/mushroom-chaga-coffee-fresh.svg"
+        title="Menu List"
+      />
       <CategoriesItemsSection />
 
       {/* Show loading skeletons or actual content */}

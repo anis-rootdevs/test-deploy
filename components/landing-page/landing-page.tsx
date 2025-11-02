@@ -6,6 +6,7 @@ import ChefShapeHome from "./chef-shape/chef-shape-home";
 import BookReserveHome from "./book-reserve-section/book-reserve-home";
 
 import VisitHomeSection from "./visit-us-section/visit-home-section";
+import ImageGalleryLanding from "../gallery/image-gallery-landing";
 
 const LandingPage = () => {
   return (
@@ -15,6 +16,7 @@ const LandingPage = () => {
       <MenuHome />
       <VisitHomeSection />
       <ChefShapeHome />
+      <ImageGalleryLanding />
       <BookReserveHome />
     </div>
   );

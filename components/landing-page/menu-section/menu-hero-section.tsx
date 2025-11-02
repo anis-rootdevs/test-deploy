@@ -1,20 +1,24 @@
 import Image from "next/image";
 import React from "react";
+interface MHeroSection {
+  imageSrc: string;
+  title: string;
+}
 
-const MenuHeroSection = () => {
+const MenuHeroSection = ({ imageSrc, title }: MHeroSection) => {
   return (
-    <div className="relative w-full h-[450px] md:h-[600px] overflow-hidden">
+    <div className="relative w-full h-[450px] md:h-[500px] overflow-hidden">
       {/* Full Background Image */}
       <Image
-        src="/images/menu-items/mushroom-chaga-coffee-fresh.svg" // corrected ".svgg" to ".svg"
-        alt="menu hero"
+        src={imageSrc || "/images/menu-items/mushroom-chaga-coffee-fresh.svg"} // corrected ".svgg" to ".svg"
+        alt={title}
         fill
         className="object-cover"
         priority
       />
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-        <h1 className="text-[#FEFEFF] h1-text">Menu List</h1>
+        <h1 className="text-[#FEFEFF] h1-text capitalize">{title}</h1>
       </div>
     </div>
   );

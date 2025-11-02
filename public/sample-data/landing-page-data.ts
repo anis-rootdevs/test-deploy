@@ -19,8 +19,12 @@ export const navItems = [
     href: "/menu",
   },
   {
+    label: "Locations",
+    href: "/locations",
+  },
+  {
     label: "Gallery",
-    href: "/all-blogs",
+    href: "/gallery",
   },
   {
     label: "Reserve Table",
@@ -134,3 +138,57 @@ export const visitProductDetails2 = {
   image: "/images/visit-us/high-angle-view-coffee-table.svg",
   price: "$ 9.90",
 };
+
+// cafes location
+export const cafesLocationData = [
+  {
+    id: 1,
+    title: "Brew & Bite Café – Dhanmondi",
+    address: "House 27, Road 16 (New), Dhanmondi, Dhaka",
+    phone: "+880 1712 345 678",
+    image: "/images/locations/doughnut-pastry-bar-coffee-location.svg",
+    openingHours: [
+      { days: "Sunday to Thursday", hours: "10 AM - 9 PM" },
+      { days: "Friday & Saturday", hours: "11 AM - 11 PM" },
+    ],
+  },
+  {
+    id: 2,
+    title: "Brew & Bite Café – Gulshan",
+    address: "House 45, Road 11, Gulshan-1, Dhaka",
+    phone: "+880 1712 345 679",
+    image: "/images/locations/doughnut-pastry-bar-coffee-location.svg",
+    openingHours: [
+      { days: "Sunday to Thursday", hours: "9 AM - 10 PM" },
+      { days: "Friday & Saturday", hours: "10 AM - 12 AM" },
+    ],
+  },
+];
+
+export const galleryItems = [
+  {
+    src: "/images/gallery/close-up-iced-coffee-glass-table-restaurant.svg",
+    quote: "Delicious coffee and freshly baked treats.",
+    author: "– Rafiul H.",
+  },
+  {
+    src: "/images/gallery/group-people-counter-shop.svg",
+    quote: "Nice service and warm vibes!",
+    author: "– Aisha R.",
+  },
+  {
+    src: "/images/gallery/cropped-hands-people-gesturing-cappuccino-table.svg",
+    quote: "Perfect spot to catch up with friends.",
+    author: "– Nabila K.",
+  },
+  {
+    src: "/images/gallery/midsection-woman-holding-coffee-cup-table.svg",
+    quote: "Perfect self-love time with a cup of coffee.",
+    author: "– Maya S.",
+  },
+  {
+    src: "/images/gallery/coffee-cup.svg",
+    quote: "Love the ambiance and friendly staff!",
+    author: "– Sohana T.",
+  },
+];
