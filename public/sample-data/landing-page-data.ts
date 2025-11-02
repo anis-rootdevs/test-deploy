@@ -24,7 +24,7 @@ export const navItems = [
   },
   {
     label: "Reserve Table",
-    href: "/reviews",
+    href: "/reserve-table",
   },
 ];
 // feature products

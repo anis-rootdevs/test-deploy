@@ -101,13 +101,13 @@
   --card: #181c20;
   --card-foreground: #ffffff;
 
-  --popover: #2a2a2a;
+  --popover: #0f141b;
   --popover-foreground: #ffffff;
 
   --secondary: #ffbfa8;
-  --secondary-foreground: #ff642b;
+  --secondary-foreground: #e6b17e;
 
-  --muted: #333333;
+  --muted: #e6b17e;
   --muted-foreground: #bbbbbb;
 
   --accent: #ff642b99;

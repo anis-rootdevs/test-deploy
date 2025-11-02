@@ -33,7 +33,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`w-full bg-black h-[100px] flex items-center`}>
+    <header className={`w-full bg-[#101020] h-[100px] flex items-center`}>
       <div className="max-w-[1320px] mx-auto w-full px-4">
         <div className="flex items-center justify-between w-full">
           {/* Mobile View */}
