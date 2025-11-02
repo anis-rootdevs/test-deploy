@@ -48,6 +48,7 @@ const MenuSectionHome2 = () => {
         </div>
         <div className="md:mt-[50px] mt-[36px] text-center">
           <CustomButton
+            href="/menu"
             variant="outline"
             className="border-primary text-primary dark:text-primary dark:border-primary dark:hover:border-primary dark:hover:text-black"
           >

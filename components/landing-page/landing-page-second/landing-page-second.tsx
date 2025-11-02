@@ -6,6 +6,7 @@ import MenuSectionHome2 from "../menu-section/menu-section-home2";
 import VisitHomeSection2 from "../visit-us-section/visit-home-section2";
 import BookReservationHome2 from "../book-reserve-section/book-reservation-home2";
 import ImageGalleryLanding from "@/components/gallery/image-gallery-landing";
+import PopularItemsCard from "../populat-items/popular-items-card";
 
 const LandingPageSecond = () => {
   return (
@@ -13,6 +14,7 @@ const LandingPageSecond = () => {
       <HeroSectionHome />
       <StorySectionHome />
       <VisitHomeSection2 />
+      <PopularItemsCard />
       <MenuSectionHome2 />
       <ChefShapeHome />
       <ImageGalleryLanding />

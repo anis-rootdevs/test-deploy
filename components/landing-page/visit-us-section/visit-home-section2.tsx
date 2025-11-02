@@ -41,7 +41,7 @@ const VisitHomeSection2 = () => {
               </p>
 
               <Link
-                href={`#`}
+                href={`/menu`}
                 className="inline-flex items-center gap-2 text-sm sm:text-base font-medium hover:text-primary  group"
               >
                 Explore More Menu

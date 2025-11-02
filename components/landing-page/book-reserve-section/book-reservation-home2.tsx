@@ -31,12 +31,12 @@ const BookReservationHome2 = () => {
 
             {/* CTA Buttons */}
             <div className="flex items-center gap-4 mb-8 md:mb-24">
-              <CustomButton variant="filled" href="/reserve">
+              <CustomButton variant="filled" href="/reserve-table">
                 Reserve Table
               </CustomButton>
               <CustomButton
                 variant="outline"
-                href="/directions"
+                href="/locations"
                 className="text-primary border-primary"
               >
                 Our direction

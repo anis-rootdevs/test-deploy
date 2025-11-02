@@ -45,7 +45,7 @@ const VisitHomeSection = () => {
         {/* Visit Us Link */}
         <div className=" flex justify-center lg:justify-end md:mt-[110px] lg:mt-0 mt-[160px]">
           <Link
-            href={`#`}
+            href={`/locations`}
             className="inline-flex items-center gap-2 text-sm sm:text-base font-medium hover:text-primary  group"
           >
             Visit Us

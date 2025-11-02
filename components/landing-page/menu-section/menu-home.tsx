@@ -30,6 +30,7 @@ const MenuHome = () => {
         </div>
         <div className="md:mt-[50px] mt-[36px] text-center">
           <CustomButton
+            href={`/menu`}
             variant="outline"
             className="border-[#1B2A41] text-[#1B2A41] dark:text-[#FEFEFF] dark:border-[#FEFEFF] dark:hover:border-primary dark:hover:text-black"
           >

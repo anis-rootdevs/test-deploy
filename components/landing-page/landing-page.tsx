@@ -7,12 +7,14 @@ import BookReserveHome from "./book-reserve-section/book-reserve-home";
 
 import VisitHomeSection from "./visit-us-section/visit-home-section";
 import ImageGalleryLanding from "../gallery/image-gallery-landing";
+import PopularItemsCard from "./populat-items/popular-items-card";
 
 const LandingPage = () => {
   return (
     <div>
       <HeroSectionHome />
       <StorySectionHome />
+      <PopularItemsCard />
       <MenuHome />
       <VisitHomeSection />
       <ChefShapeHome />

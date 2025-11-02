@@ -69,9 +69,12 @@ const StorySectionHome = () => {
                 <p className="font-jost text-sm uppercase leading-7 font-semibold mt-1">
                   Coffee Lovers
                 </p>
-                <p className=" font-jost text-base mt-1 absolute font-normal italic bottom-12 right-6 leading-7">
+                <Link
+                  href={`/locations`}
+                  className=" font-jost text-base mt-1 absolute font-normal italic bottom-12 right-6 leading-7"
+                >
                   Visit us
-                </p>
+                </Link>
               </div>
             </div>
             {/* Bottom Text */}

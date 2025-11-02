@@ -16,7 +16,7 @@ const quickMenu = [
   { name: "Our Story", href: "/our-story" },
   { name: "Menu", href: "/menu" },
   { name: "Gallery", href: "/gallery" },
-  { name: "Reserve Table", href: "/reserve" },
+  { name: "Reserve Table", href: "/reserve-table" },
 ];
 
 const locations = [
@@ -140,7 +140,7 @@ const FooterSection = () => {
                   {/* See more link */}
                   <div className="">
                     <Link
-                      href="#"
+                      href="/gallery"
                       className="text-[13px] font-jost font-normal hover:text-primary "
                     >
                       See more

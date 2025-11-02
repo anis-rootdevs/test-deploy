@@ -69,12 +69,12 @@ const HeroAromaCare = () => {
               transition={{ delay: 1.0, duration: 0.8, ease: "easeOut" }}
               className="flex items-center md:gap-6 gap-4"
             >
-              <CustomButton variant="filled" href="/reserve">
+              <CustomButton variant="filled" href="/menu">
                 Explore Menu
               </CustomButton>
               <CustomButton
                 variant="outline"
-                href="/menu"
+                href="/reserve-table"
                 className="border-primary text-primary"
               >
                 Reserve Table

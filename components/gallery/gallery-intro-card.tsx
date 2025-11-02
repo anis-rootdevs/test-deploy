@@ -1,6 +1,7 @@
 // components/gallery/gallery-intro-card.tsx
 import { MoveRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const GalleryIntroCard = () => {
@@ -25,12 +26,14 @@ const GalleryIntroCard = () => {
       </div>
 
       {/* Button */}
-      <button className="absolute bottom-6 flex items-center gap-2 left-7 text-left font-jost text-sm font-normal md:text-base text-primary hover:underline underline-offset-4 opacity-100 transition-all duration-500 z-20">
-        View full gallery{" "}
-        <span>
-          <MoveRight className="text-primary w-5 h-5" />
-        </span>
-      </button>
+      <Link href={`/gallery`} className="cursor-pointer">
+        <button className="absolute bottom-6 flex items-center gap-2 left-7 text-left font-jost text-sm font-normal md:text-base text-primary hover:underline underline-offset-4 opacity-100 transition-all duration-500 z-20">
+          View full gallery{" "}
+          <span>
+            <MoveRight className="text-primary w-5 h-5" />
+          </span>
+        </button>
+      </Link>
     </div>
   );
 };

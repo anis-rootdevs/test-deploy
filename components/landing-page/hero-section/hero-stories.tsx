@@ -68,7 +68,7 @@ const HeroStories = () => {
               </CustomButton>
               <CustomButton
                 variant="outline"
-                href="/reserve"
+                href="/reserve-table"
                 className="border-primary text-primary"
               >
                 Reserve Table
