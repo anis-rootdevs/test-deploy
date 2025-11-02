@@ -1,7 +1,7 @@
 const OutletsHomePage = () => {
   return (
-    <div>
-      <h1>Outlet home page</h1>
+    <div className="max-w-[1320px] mx-auto py-10">
+      <h1> Our Story is comeing.......</h1>
     </div>
   );
 };

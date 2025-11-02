@@ -39,9 +39,9 @@ const PopularItemsHome = ({
   return (
     <section className="relative w-full pt-12 md:pt-20 overflow-hidden">
       <div className="mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[600px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[700px]">
           {/* Left Side - Text Content */}
-          <div className="lg:ml-[250px] flex flex-col justify-between min-h-[500px] lg:min-h-[600px]">
+          <div className="lg:ml-[100px] xl:ml-[250px] md:ml-[200px] flex flex-col justify-between min-h-[500px] lg:min-h-[680px] lg:order-1 order-2 ">
             {/* Top Section: Badge + Animated Content (Centered) */}
             <div className="flex-grow flex flex-col justify-center">
               {/* Badge - Fixed (Not Animated) */}
@@ -60,7 +60,7 @@ const PopularItemsHome = ({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 50 }}
                   transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="space-y-6"
+                  className="space-y-4"
                 >
                   {/* Title */}
                   <h2 className="text-2xl md:text-[28px] lg:text-[36px] font-semibold font-jost uppercase">
@@ -103,7 +103,7 @@ const PopularItemsHome = ({
           </div>
 
           {/* Right Side - Images */}
-          <div className="bg-[#FAF8F5] dark:bg-[#181C20] flex items-center justify-center min-h-[500px] lg:min-h-[600px]">
+          <div className="bg-[#FAF8F5] dark:bg-[#181C20] flex items-center justify-center min-h-[500px] lg:min-h-[680px] lg:order-2 order-1">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`images-${currentIndex}`}
