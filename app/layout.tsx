@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
+import AuthSessionProvider from "@/provider/auth-session-provider";
 
 // Load fonts with unique variable names
 const jost = Jost({
@@ -27,17 +28,19 @@ export default function RootLayout({
         className={`${jost.className} ${jost.variable} bg-[#FEFEFC] dark:bg-[#0F141B] dark:text-[#FEFEFF]  text-[#101020]`}
         suppressHydrationWarning
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
+        <AuthSessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
 
-          {/* ✅ Add the global toaster here */}
-          <CustomToaster />
-        </ThemeProvider>
+            {/* ✅ Add the global toaster here */}
+            <CustomToaster />
+          </ThemeProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   );
