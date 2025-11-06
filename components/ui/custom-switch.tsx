@@ -3,7 +3,8 @@
 import * as SwitchPrimitive from "@radix-ui/react-switch";
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { MoonIcon, SunIcon, SunMediumIcon } from "lucide-react";
+import { SunIcon } from "lucide-react";
+import { IoMoonOutline } from "react-icons/io5";
 
 interface CustomSwitchProps
   extends React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root> {
@@ -37,7 +38,7 @@ const CustomSwitch = React.forwardRef<
           !checked ? "opacity-0" : "opacity-100"
         )}
       >
-        <MoonIcon className="h-6 w-6 text-gray-400" strokeWidth={2} />
+        <SunIcon className="h-6 w-6 text-gray-400" strokeWidth={2} />
       </div>
 
       {/* Moving Thumb - shows active icon */}
@@ -48,9 +49,12 @@ const CustomSwitch = React.forwardRef<
         )}
       >
         {checked ? (
-          <SunIcon className="h-6 w-6 text-[#3E3B3F] top-0" strokeWidth={2.5} />
+          <IoMoonOutline
+            className="h-6 w-6 text-[#3E3B3F] top-0"
+            strokeWidth={2.5}
+          />
         ) : (
-          <MoonIcon
+          <SunIcon
             className="h-6 w-6 text-[#3E3B3F] bottom-0"
             strokeWidth={2.5}
           />
@@ -64,7 +68,7 @@ const CustomSwitch = React.forwardRef<
           checked ? "opacity-0" : "opacity-100"
         )}
       >
-        <SunIcon className="h-6 w-6 text-gray-400" strokeWidth={2} />
+        <IoMoonOutline className="h-6 w-6 text-gray-400" strokeWidth={2} />
       </div>
     </SwitchPrimitive.Root>
   );
