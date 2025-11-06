@@ -1,8 +1,8 @@
+import CustomToaster from "@/components/custom/custom-toaster";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import CustomToaster from "@/components/custom/custom-toaster";
 
 // Load fonts with unique variable names
 const jost = Jost({
@@ -25,6 +25,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${jost.className} ${jost.variable} bg-[#FEFEFC] dark:bg-[#0F141B] dark:text-[#FEFEFF]  text-[#101020]`}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
