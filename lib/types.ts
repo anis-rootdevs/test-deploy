@@ -1,4 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import z from "zod";
+import { newsletterSchema } from "./validation-schema";
+
 export interface Category {
   id: string;
   name: string;
@@ -6,4 +8,9 @@ export interface Category {
   count?: number;
 }
 
-// bakery types start here
+export type NewsletterFormData = z.infer<typeof newsletterSchema>;
+
+export interface NewsletterSubscribeProps {
+  onSubscribe?: (email: string) => void;
+  className?: string;
+}
