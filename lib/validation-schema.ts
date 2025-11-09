@@ -6,9 +6,10 @@ export const newsletterSchema = z.object({
     .min(5, "Email must be at least 5 characters"),
 });
 
-export type NewsletterFormData = z.infer<typeof newsletterSchema>;
-
-export interface NewsletterSubscribeProps {
-  onSubscribe?: (email: string) => void;
-  className?: string;
-}
+export const loginSchema = z.object({
+  email: z
+    .string("Required!")
+    .email("Valid email is required!")
+    .min(1, "Required!"),
+  password: z.string("Required!").min(1, "Required!"),
+});

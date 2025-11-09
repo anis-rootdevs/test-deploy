@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 type LoginInputs = {
   email: string;
@@ -20,7 +20,7 @@ type LoginInputs = {
 const LoginForm = () => {
   const [isEyeOpen, setIsEyeOpen] = useState(false);
   const [error, setError] = useState("");
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   // ✅ Redirect if already logged in

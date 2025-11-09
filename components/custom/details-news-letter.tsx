@@ -1,18 +1,11 @@
 "use client";
-import {
-  NewsletterFormData,
-  newsletterSchema,
-  NewsletterSubscribeProps,
-} from "@/lib/validation-schema";
+import { NewsletterFormData, NewsletterSubscribeProps } from "@/lib/types";
+import { newsletterSchema } from "@/lib/validation-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-const DetailsNewsLetter = ({
-  onSubscribe,
-  className = "",
-}: NewsletterSubscribeProps) => {
+const DetailsNewsLetter = ({ className = "" }: NewsletterSubscribeProps) => {
   const {
     register,
     handleSubmit,
