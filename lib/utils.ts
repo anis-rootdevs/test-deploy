@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { twMerge } from "tailwind-merge";
 
@@ -22,4 +23,11 @@ export function apiResponse<T = undefined>(
     },
     { status: statusCode }
   );
+}
+
+export function generateSignature<T extends object>(
+  payload: T,
+  expiresIn: number
+) {
+  return jwt.sign(payload, process.env.NEXTAUTH_SECRET!, { expiresIn });
 }
