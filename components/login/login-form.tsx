@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { routes } from "@/config/routes";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -26,7 +27,7 @@ const LoginForm = () => {
   // ✅ Redirect if already logged in
   useEffect(() => {
     if (status === "authenticated") {
-      router.replace("/dashboard");
+      router.replace(routes.privateRoutes.admin.dashboard);
     }
   }, [status, router]);
 
@@ -51,7 +52,7 @@ const LoginForm = () => {
       setError("Invalid email or password");
     } else {
       toast.success("Login Successfully!");
-      router.push("/dashboard");
+      router.push(routes.privateRoutes.admin.dashboard);
     }
   };
 
