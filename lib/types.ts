@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
 import { newsletterSchema } from "./validation-schema";
+import { FieldValues, Path } from "react-hook-form";
+import { ReactNode } from "react";
 
 export type ApiHandler<T> = (
   req: NextRequest,
@@ -46,4 +48,30 @@ export interface OurValueItem {
 
 export interface OurValueCardProps {
   item: OurValueItem;
+}
+
+// form password field
+
+export interface FormPasswordInputProps<TFieldValues extends FieldValues> {
+  name: Path<TFieldValues>;
+  label?: string;
+  id?: string;
+  placeholder?: string;
+  rules?: Record<string, any>;
+  className?: string;
+  prefix?: ReactNode;
+}
+
+// form input field
+
+export interface FormInputProps<TFieldValues extends FieldValues> {
+  name: Path<TFieldValues>;
+  label?: string;
+  type?: string;
+  id?: string;
+  placeholder?: string;
+  rules?: Record<string, any>;
+  className?: string;
+  prefix?: ReactNode;
+  postfix?: ReactNode;
 }

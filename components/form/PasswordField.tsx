@@ -1,0 +1,75 @@
+"use client";
+import { useState } from "react";
+import { FieldValues, useFormContext, FieldError } from "react-hook-form";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { cn } from "@/lib/utils";
+import { FormPasswordInputProps } from "@/lib/types";
+
+export default function PasswordField<TFieldValues extends FieldValues>({
+  id,
+  label = "Password",
+  placeholder = "Enter your password",
+  name,
+  rules = {},
+  className = "",
+  prefix,
+}: FormPasswordInputProps<TFieldValues>) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<TFieldValues>();
+  const fieldError = errors?.[name] as FieldError | undefined;
+
+  return (
+    <div className="w-full">
+      {label && (
+        <Label
+          htmlFor={id || name}
+          className="text-sm font-jost font-medium mb-1 block"
+        >
+          {label}
+        </Label>
+      )}
+
+      <div className="relative flex items-center">
+        {prefix && (
+          <div className="absolute left-3 text-gray-500 pointer-events-none">
+            {prefix}
+          </div>
+        )}
+        <Input
+          id={id || name}
+          type={showPassword ? "text" : "password"}
+          placeholder={placeholder}
+          {...register(name, rules)}
+          className={cn(
+            "h-11 rounded-[4px] text-[16px] font-semibold tracking-[0.5px] font-mono focus-visible:ring-2 focus-visible:ring-blue-500 transition-all w-full pr-9",
+            prefix ? "pl-9" : "",
+            className
+          )}
+        />
+
+        {/* Password visibility toggle */}
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute right-3 text-gray-500 hover:text-gray-700 cursor-pointer"
+        >
+          {showPassword ? (
+            <IoEyeOutline className="h-5 w-5" />
+          ) : (
+            <IoEyeOffOutline className="h-5 w-5" />
+          )}
+        </button>
+      </div>
+
+      {fieldError && (
+        <p className="text-red-500 text-xs mt-1.5">{fieldError.message}</p>
+      )}
+    </div>
+  );
+}

@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { routes } from "./config/routes";
+import { routes } from "@/config/routes";
 
 // Helper to safely read environment variables
 const getEnvVar = (key: string): string => {
