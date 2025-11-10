@@ -1,8 +1,12 @@
+import OurStory from "@/components/our-stories/OurStory";
+import StoryHeroSection from "@/components/our-stories/StoryHeroSection";
+
 const OutletsHomePage = () => {
   return (
-    <div className="max-w-[1320px] mx-auto py-10">
-      <h1> Our Story is comeing.......</h1>
-    </div>
+    <>
+      <StoryHeroSection />
+      <OurStory />
+    </>
   );
 };
 
