@@ -1,3 +1,4 @@
+import { routes } from "@/config/routes";
 import {
   AudioWaveform,
   BookOpen,
@@ -362,3 +363,48 @@ export const adminDashboardMenu = {
     },
   ],
 };
+
+export const chefs = [
+  {
+    id: 1,
+    image: "/images/chef-shape/chef-arif.svg",
+    name: "CHEF ARIF RAHMAN",
+    tagline: "CRAFTING COMFORT WITH EVERY CREATION.",
+  },
+  {
+    id: 2,
+    image: "/images/chef-shape/chef-rafiul.svg",
+    name: "CHEF SARAH MITCHELL",
+    tagline: "PASSION MEETS PERFECTION IN EVERY DISH.",
+  },
+];
+
+// footer section link
+export const quickMenu = [
+  { name: "Home", href: routes.publicRoutes.home },
+  { name: "Our Story", href: routes.publicRoutes.ourStory },
+  { name: "Menu", href: routes.publicRoutes.menu },
+  { name: "Gallery", href: routes.publicRoutes.gallery },
+  { name: "Reserve Table", href: routes.publicRoutes.reserveTable },
+];
+
+export const locations = [
+  { name: "San Francisco", href: routes.publicRoutes.locations },
+  { name: "Newport Beach", href: routes.publicRoutes.locations },
+  { name: "Sun City", href: routes.publicRoutes.locations },
+];
+
+export const policy = [
+  { name: "Reserve Policy", href: routes.publicRoutes.policy },
+  { name: "Privacy Policy", href: routes.publicRoutes.policy },
+  { name: "Image Used Policy", href: routes.publicRoutes.policy },
+];
+
+export const galleryImages = [
+  "/images/gallery/coffee-cup-with-chocolate-cake.svg",
+  "/images/gallery/counter-with-espresso-machine-cafe.svg",
+  "/images/gallery/hot-coffee-with-girl.svg",
+  "/images/gallery/hot-coffee-with-girl.svg",
+  "/images/gallery/hot-coffee-with-girl.svg",
+  "/images/gallery/shop-process-making-coffee-is-shown.svg",
+];

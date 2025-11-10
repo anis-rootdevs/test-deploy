@@ -10,35 +10,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-
-const quickMenu = [
-  { name: "Home", href: "/" },
-  { name: "Our Story", href: "/our-story" },
-  { name: "Menu", href: "/menu" },
-  { name: "Gallery", href: "/gallery" },
-  { name: "Reserve Table", href: "/reserve-table" },
-];
-
-const locations = [
-  { name: "San Francisco", href: "#" },
-  { name: "Newport Beach", href: "#" },
-  { name: "Sun City", href: "#" },
-];
-
-const policy = [
-  { name: "Reserve Policy", href: "#" },
-  { name: "Privacy Policy", href: "#" },
-  { name: "Image Used Policy", href: "#" },
-];
-
-const galleryImages = [
-  "/images/gallery/coffee-cup-with-chocolate-cake.svg",
-  "/images/gallery/counter-with-espresso-machine-cafe.svg",
-  "/images/gallery/hot-coffee-with-girl.svg",
-  "/images/gallery/hot-coffee-with-girl.svg",
-  "/images/gallery/hot-coffee-with-girl.svg",
-  "/images/gallery/shop-process-making-coffee-is-shown.svg",
-];
+import { routes } from "@/config/routes";
+import {
+  galleryImages,
+  locations,
+  policy,
+  quickMenu,
+} from "@/public/sample-data/landing-page-data";
 
 const FooterSection = () => {
   return (

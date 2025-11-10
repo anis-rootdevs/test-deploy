@@ -7,6 +7,7 @@ import React from "react";
 import VisitUsCard from "./visit-us-card";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { routes } from "@/config/routes";
 
 const VisitHomeSection2 = () => {
   return (
@@ -41,7 +42,7 @@ const VisitHomeSection2 = () => {
               </p>
 
               <Link
-                href={`/menu`}
+                href={routes.publicRoutes.menu}
                 className="inline-flex items-center gap-2 text-sm sm:text-base font-medium hover:text-primary  group"
               >
                 Explore More Menu

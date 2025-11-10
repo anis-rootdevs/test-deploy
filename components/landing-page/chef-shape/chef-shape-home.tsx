@@ -1,19 +1,6 @@
 import React from "react";
 import ChefCard from "./chef-card";
-const chefs = [
-  {
-    id: 1,
-    image: "/images/chef-shape/chef-arif.svg",
-    name: "CHEF ARIF RAHMAN",
-    tagline: "CRAFTING COMFORT WITH EVERY CREATION.",
-  },
-  {
-    id: 2,
-    image: "/images/chef-shape/chef-rafiul.svg",
-    name: "CHEF SARAH MITCHELL",
-    tagline: "PASSION MEETS PERFECTION IN EVERY DISH.",
-  },
-];
+import { chefs } from "@/public/sample-data/landing-page-data";
 
 const ChefShapeHome = () => {
   return (

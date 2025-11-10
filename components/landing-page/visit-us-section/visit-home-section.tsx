@@ -7,6 +7,7 @@ import {
   visitProductData,
   visitProductDetails,
 } from "@/public/sample-data/landing-page-data";
+import { routes } from "@/config/routes";
 
 const VisitHomeSection = () => {
   return (
@@ -45,7 +46,7 @@ const VisitHomeSection = () => {
         {/* Visit Us Link */}
         <div className=" flex justify-center lg:justify-end md:mt-[110px] lg:mt-0 mt-[160px]">
           <Link
-            href={`/locations`}
+            href={routes.publicRoutes.locations}
             className="inline-flex items-center gap-2 text-sm sm:text-base font-medium hover:text-primary  group"
           >
             Visit Us

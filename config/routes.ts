@@ -1,10 +1,13 @@
 export const routes = {
   publicRoutes: {
     home: "/",
-    faqs: "/faqs",
-    pricing: "/pricing",
-    contactUs: "/contact-us",
+    menu: "/menu",
+    gallery: "/gallery",
+    locations: "/locations",
+    reserveTable: "/reserve-table",
+    ourStory: "/our-story",
     adminLogin: "/admin/login",
+    policy: "/policy",
   },
   privateRoutes: {
     admin: {

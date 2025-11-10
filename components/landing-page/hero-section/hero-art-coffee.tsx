@@ -4,6 +4,7 @@ import { CustomButton } from "@/components/custom/custom-button";
 import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
+import { routes } from "@/config/routes";
 
 const HeroArtCoffee = () => {
   return (
@@ -61,12 +62,12 @@ const HeroArtCoffee = () => {
               transition={{ delay: 0.9, duration: 0.7, ease: "easeOut" }}
               className="flex items-center justify-center md:gap-6 gap-4 pt-4"
             >
-              <CustomButton variant="filled" href="/menu">
+              <CustomButton variant="filled" href={routes.publicRoutes.menu}>
                 Explore Menu
               </CustomButton>
               <CustomButton
                 variant="outline"
-                href="/reserve-table"
+                href={routes.publicRoutes.reserveTable}
                 className="border-primary text-primary"
               >
                 Reserve Table
