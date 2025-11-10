@@ -31,7 +31,7 @@ export default function OurStory() {
               Every cup tells a story of passion and care.
             </h4>
           </div>
-          <div className="aspect-[8/5] mt-7">
+          <div className="aspect-[8/5] mt-10">
             <Image
               src="/images/story/make-coffee.svg"
               alt="story"

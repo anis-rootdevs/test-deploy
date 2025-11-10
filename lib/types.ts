@@ -37,3 +37,13 @@ export interface CafeInfoCardProps {
   onReserveClick?: () => void;
   className?: string;
 }
+
+export interface OurValueItem {
+  title: string;
+  description: string;
+  image: string;
+}
+
+export interface OurValueCardProps {
+  item: OurValueItem;
+}

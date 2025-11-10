@@ -408,3 +408,27 @@ export const galleryImages = [
   "/images/gallery/hot-coffee-with-girl.svg",
   "/images/gallery/shop-process-making-coffee-is-shown.svg",
 ];
+
+// our story value
+export const valueItems = [
+  {
+    title: "Quality Beans",
+    description: "Ethically sourced and freshly roasted for a richer taste.",
+    image: "/images/story/beans.svg",
+  },
+  {
+    title: "Warm Atmosphere",
+    description: "A cozy space for comfort, connection, and calm.",
+    image: "/images/story/atmosphere.svg",
+  },
+  {
+    title: "Crafted with Care",
+    description: "Every drink and bite is made by hand, with love.",
+    image: "/images/story/care.svg",
+  },
+  {
+    title: "Sustainable Choice",
+    description: "We believe good coffee should be kind to the planet.",
+    image: "/images/story/boiledCup.svg",
+  },
+];

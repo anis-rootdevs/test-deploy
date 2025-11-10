@@ -4,7 +4,7 @@ import { routes } from "@/config/routes";
 
 export default function StoryHeroSection() {
   return (
-    <section className="w-full  bg-[#FAF8F5]">
+    <section className="w-full  bg-[#FAF8F5] dark:bg-[#222831]">
       <div className="max-w-[1320px] mx-auto px-4 py-10 lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 items-center">
           {/* Text Content */}
