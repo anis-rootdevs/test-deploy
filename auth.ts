@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { routes } from "./config/routes";
 
 // Helper to safely read environment variables
 const getEnvVar = (key: string): string => {
@@ -40,7 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: getEnvVar("NEXTAUTH_SECRET"),
 
   pages: {
-    signIn: "/admin/login",
+    signIn: routes.publicRoutes.adminLogin,
   },
 
   callbacks: {

@@ -4,10 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { navItems } from "@/public/sample-data/landing-page-data";
 import { usePathname } from "next/navigation";
-import SocialLinks from "@/components/shared/socials-links";
-import { Icons } from "@/components/custom/icons";
 import MobileMenuSection from "./mobile-menu";
-import Image from "next/image";
 
 // Navigation items configuration
 
