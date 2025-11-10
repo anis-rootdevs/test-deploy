@@ -118,7 +118,7 @@ const FooterSection = () => {
                   {/* See more link */}
                   <div className="">
                     <Link
-                      href="/gallery"
+                      href={routes.publicRoutes.gallery}
                       className="text-[13px] font-jost font-normal hover:text-primary "
                     >
                       See more
