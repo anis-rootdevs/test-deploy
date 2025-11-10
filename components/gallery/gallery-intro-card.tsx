@@ -1,4 +1,5 @@
 // components/gallery/gallery-intro-card.tsx
+import { routes } from "@/config/routes";
 import { MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,8 +27,8 @@ const GalleryIntroCard = () => {
       </div>
 
       {/* Button */}
-      <Link href={`/gallery`} className="cursor-pointer">
-        <button className="absolute bottom-6 flex items-center gap-2 left-7 text-left font-jost text-sm font-normal md:text-base text-primary hover:underline underline-offset-4 opacity-100 transition-all duration-500 z-20">
+      <Link href={routes.publicRoutes.gallery} className="">
+        <button className="absolute bottom-6 cursor-pointer flex items-center gap-2 left-7 text-left font-jost text-sm font-normal md:text-base text-primary hover:underline underline-offset-4 opacity-100 transition-all duration-500 z-20">
           View full gallery{" "}
           <span>
             <MoveRight className="text-primary w-5 h-5" />

@@ -2,21 +2,8 @@
 import { CustomButton } from "../custom/custom-button";
 import Link from "next/link";
 import { Icons } from "../custom/icons";
-
-interface OpeningHours {
-  days: string;
-  hours: string;
-}
-
-export interface CafeInfoCardProps {
-  title: string;
-  address: string;
-  phone: string;
-  openingHours: OpeningHours[];
-  buttonText?: string;
-  onReserveClick?: () => void;
-  className?: string;
-}
+import { routes } from "@/config/routes";
+import { CafeInfoCardProps } from "@/lib/types";
 
 const CafeInfoCard = ({
   title,
@@ -73,7 +60,11 @@ const CafeInfoCard = ({
         </div>
 
         {/* Reserve Button */}
-        <CustomButton onClick={onReserveClick} className="mt-[30px]">
+        <CustomButton
+          onClick={onReserveClick}
+          className="mt-[30px]"
+          href={routes.publicRoutes.reserveTable}
+        >
           {buttonText}
         </CustomButton>
       </div>

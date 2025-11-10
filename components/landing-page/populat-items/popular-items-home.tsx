@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
+import { routes } from "@/config/routes";
 
 export interface MenuItem {
   id: number;
@@ -90,7 +91,7 @@ const PopularItemsHome = ({
               <span className="text-lg font-jost font-medium">
                 {currentIndex + 1}/{items.length}
               </span>
-              <Link href={`/menu`}>
+              <Link href={routes.publicRoutes.menu}>
                 <button
                   onClick={onExploreClick}
                   className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-jost text-base group cursor-pointer"

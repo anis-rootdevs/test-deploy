@@ -1,3 +1,4 @@
+import { routes } from "@/config/routes";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -70,7 +71,7 @@ const StorySectionHome = () => {
                   Coffee Lovers
                 </p>
                 <Link
-                  href={`/locations`}
+                  href={routes.publicRoutes.locations}
                   className=" font-jost text-base mt-1 absolute font-normal italic bottom-12 right-6 leading-7"
                 >
                   Visit us

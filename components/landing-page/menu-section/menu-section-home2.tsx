@@ -1,8 +1,8 @@
 import { CustomButton } from "@/components/custom/custom-button";
 import { menuItems } from "@/public/sample-data/landing-page-data";
-import React from "react";
 import MenuItemCard from "./menu-items-card";
 import Image from "next/image";
+import { routes } from "@/config/routes";
 
 const MenuSectionHome2 = () => {
   return (
@@ -48,7 +48,7 @@ const MenuSectionHome2 = () => {
         </div>
         <div className="md:mt-[50px] mt-[36px] text-center">
           <CustomButton
-            href="/menu"
+            href={routes.publicRoutes.menu}
             variant="outline"
             className="border-primary text-primary dark:text-primary dark:border-primary dark:hover:border-primary dark:hover:text-black"
           >

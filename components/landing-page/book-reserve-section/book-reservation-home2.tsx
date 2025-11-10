@@ -1,8 +1,8 @@
 import { CustomButton } from "@/components/custom/custom-button";
 import OpeningsHours from "@/components/custom/openings-hours";
 import { Separator } from "@/components/ui/separator";
+import { routes } from "@/config/routes";
 import Image from "next/image";
-import React from "react";
 
 const BookReservationHome2 = () => {
   return (
@@ -31,12 +31,15 @@ const BookReservationHome2 = () => {
 
             {/* CTA Buttons */}
             <div className="flex items-center gap-4 mb-8 md:mb-24">
-              <CustomButton variant="filled" href="/reserve-table">
+              <CustomButton
+                variant="filled"
+                href={routes.publicRoutes.reserveTable}
+              >
                 Reserve Table
               </CustomButton>
               <CustomButton
                 variant="outline"
-                href="/locations"
+                href={routes.publicRoutes.locations}
                 className="text-primary border-primary"
               >
                 Our direction

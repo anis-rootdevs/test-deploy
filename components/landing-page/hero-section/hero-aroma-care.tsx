@@ -3,6 +3,7 @@ import { CustomButton } from "@/components/custom/custom-button";
 import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
+import { routes } from "@/config/routes";
 
 const HeroAromaCare = () => {
   return (
@@ -69,12 +70,12 @@ const HeroAromaCare = () => {
               transition={{ delay: 1.0, duration: 0.8, ease: "easeOut" }}
               className="flex items-center md:gap-6 gap-4"
             >
-              <CustomButton variant="filled" href="/menu">
+              <CustomButton variant="filled" href={routes.publicRoutes.menu}>
                 Explore Menu
               </CustomButton>
               <CustomButton
                 variant="outline"
-                href="/reserve-table"
+                href={routes.publicRoutes.reserveTable}
                 className="border-primary text-primary"
               >
                 Reserve Table
