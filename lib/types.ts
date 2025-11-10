@@ -1,6 +1,13 @@
+import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
 import { newsletterSchema } from "./validation-schema";
 
+export type ApiHandler<T> = (
+  req: NextRequest,
+  data: T
+) => Promise<NextResponse>;
+
+export type SimpleHandler = (req: NextRequest) => Promise<NextResponse>;
 export interface Category {
   id: string;
   name: string;
