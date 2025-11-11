@@ -6,12 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/config/routes";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Mail, Lock } from "lucide-react";
-import PasswordField from "../form/PasswordField";
-import InputField from "../form/InputField";
+import PasswordField from "@/components/form/PasswordField";
+import InputField from "@/components/form/InputField";
+import { handleLogin } from "@/app/(auth)/login/actions";
 
 type LoginInputs = {
   email: string;
@@ -19,7 +20,6 @@ type LoginInputs = {
 };
 
 const LoginForm = () => {
-  const [error, setError] = useState("");
   const { status } = useSession();
   const router = useRouter();
 
@@ -30,28 +30,42 @@ const LoginForm = () => {
     formState: { isSubmitting },
   } = methods;
 
-  // ✅ Redirect if already logged in
   useEffect(() => {
     if (status === "authenticated") {
-      router.replace(routes.privateRoutes.admin.dashboard);
+      router.push(routes.privateRoutes.admin.dashboard);
     }
-  }, [status, router]);
+  }, [status]);
 
   // ✅ Handle login
   const onSubmit = async (data: LoginInputs) => {
-    setError("");
+    try {
+      const formData = new FormData();
+      formData.append("email", data.email);
+      formData.append("password", data.password);
 
-    const result = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    });
+      const result = await handleLogin(formData);
+      console.log("result", result);
 
-    if (result?.error) {
-      setError("Invalid email or password");
-    } else {
-      toast.success("Login Successful!");
+      if (result?.error) {
+        toast.error(result.error);
+        return;
+      }
+      // Trigger NextAuth sign-in on client
+      const nextAuthRes = await signIn("credentials", {
+        email: data.email,
+        token: result.token,
+        redirect: false, // don’t auto-redirect
+      });
+
+      if (nextAuthRes?.error) {
+        toast.error(nextAuthRes.error);
+        return;
+      }
+
+      toast.success("Login successful!");
       router.push(routes.privateRoutes.admin.dashboard);
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -92,13 +106,6 @@ const LoginForm = () => {
                 prefix={<Lock size={18} />}
                 rules={{ required: "Required!" }}
               />
-
-              {/* Error Message */}
-              {error && (
-                <p className="text-red-500 text-sm font-medium text-left">
-                  {error}
-                </p>
-              )}
 
               {/* Submit */}
               <Button

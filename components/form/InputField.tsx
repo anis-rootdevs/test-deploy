@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { FieldError, FieldValues, useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { FormInputProps } from "@/lib/types";
+import { BadgeAlert } from "lucide-react";
 
 export default function InputField<TFieldValues extends FieldValues>({
   id,
@@ -47,7 +48,11 @@ export default function InputField<TFieldValues extends FieldValues>({
           placeholder={placeholder}
           {...register(name, rules)}
           className={cn(
-            "h-11 rounded-[4px] text-[16px] font-semibold tracking-[0.5px] font-mono focus-visible:ring-2 focus-visible:ring-blue-500 transition-all w-full",
+            `h-11 rounded-[4px] text-[16px] font-semibold tracking-[0.5px] font-mono focus-visible:ring-2 ${
+              fieldError
+                ? "focus-visible:ring-red-500 "
+                : "focus-visible:ring-blue-500"
+            } transition-all w-full`,
             prefix ? "pl-9" : "",
             postfix,
             className
@@ -62,7 +67,10 @@ export default function InputField<TFieldValues extends FieldValues>({
       </div>
 
       {fieldError && (
-        <p className="text-red-500 text-xs mt-1.5">{fieldError.message}</p>
+        <div className="flex items-center mt-2 gap-1">
+          <BadgeAlert className="text-red-500 h-4 w-4" />
+          <p className="text-red-500 text-xs">{fieldError.message}</p>
+        </div>
       )}
     </div>
   );

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
 import AuthSessionProvider from "@/provider/auth-session-provider";
+import { auth } from "./api/auth/[...nextauth]/auth";
 
 // Load fonts with unique variable names
 const jost = Jost({

@@ -6,11 +6,12 @@ import { Input } from "../ui/input";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { cn } from "@/lib/utils";
 import { FormPasswordInputProps } from "@/lib/types";
+import { BadgeAlert, ShieldAlert } from "lucide-react";
 
 export default function PasswordField<TFieldValues extends FieldValues>({
   id,
   label = "Password",
-  placeholder = "Enter your password",
+  placeholder = "********",
   name,
   rules = {},
   className = "",
@@ -37,9 +38,7 @@ export default function PasswordField<TFieldValues extends FieldValues>({
 
       <div className="relative flex items-center">
         {prefix && (
-          <div className="absolute left-3 text-gray-500 pointer-events-none">
-            {prefix}
-          </div>
+          <div className={`absolute left-3  pointer-events-none`}>{prefix}</div>
         )}
         <Input
           id={id || name}
@@ -47,7 +46,11 @@ export default function PasswordField<TFieldValues extends FieldValues>({
           placeholder={placeholder}
           {...register(name, rules)}
           className={cn(
-            "h-11 rounded-[4px] text-[16px] font-semibold tracking-[0.5px] font-mono focus-visible:ring-2 focus-visible:ring-blue-500 transition-all w-full pr-9",
+            `h-11 rounded-[4px] text-[16px] font-semibold tracking-[0.5px] font-mono focus-visible:ring-2  ${
+              fieldError
+                ? "focus-visible:ring-red-500 "
+                : "focus-visible:ring-blue-500"
+            } transition-all w-full pr-9`,
             prefix ? "pl-9" : "",
             className
           )}
@@ -68,7 +71,10 @@ export default function PasswordField<TFieldValues extends FieldValues>({
       </div>
 
       {fieldError && (
-        <p className="text-red-500 text-xs mt-1.5">{fieldError.message}</p>
+        <div className="flex items-center mt-2 gap-1">
+          <BadgeAlert className="text-red-500 h-4 w-4" />
+          <p className="text-red-500 text-xs">{fieldError.message}</p>
+        </div>
       )}
     </div>
   );
