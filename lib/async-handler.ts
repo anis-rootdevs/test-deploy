@@ -3,7 +3,7 @@ import { JsonWebTokenError } from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { authenticate } from "./authenticate";
-import { ApiHandler, AuthUser, SimpleHandler } from "./types";
+import { ApiHandler, SimpleHandler } from "./types";
 import { apiResponse } from "./utils";
 
 // Overload 1: With validation
@@ -40,17 +40,16 @@ export function asyncHandler<T>(
         await dbConnect();
 
         // Authenticate if required
-        let authUser: AuthUser | undefined;
         if (shouldCheckAuth) {
           const { error, data } = await authenticate(req);
           if (error) return error;
-          authUser = data;
+          req.user = data;
         }
 
         const body = await req.json();
         const data = schema.parse(body);
 
-        return await handler(req, data, authUser);
+        return await handler(req, data);
       } catch (error) {
         if (error instanceof z.ZodError) {
           const details = error.issues.reduce((acc, issue) => {
@@ -82,14 +81,13 @@ export function asyncHandler<T>(
       await dbConnect();
 
       // Authenticate if required
-      let authUser: AuthUser | undefined;
       if (shouldCheckAuth) {
         const { error, data } = await authenticate(req);
         if (error) return error;
-        authUser = data;
+        req.user = data;
       }
 
-      return await simpleHandler(req, authUser);
+      return await simpleHandler(req);
     } catch (err) {
       if (err instanceof JsonWebTokenError) {
         return apiResponse(false, 401, "Unauthorized Token!");

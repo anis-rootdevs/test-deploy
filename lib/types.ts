@@ -8,14 +8,10 @@ export type AuthUser = {
 
 export type ApiHandler<T> = (
   req: NextRequest,
-  data: T,
-  auth?: AuthUser
+  data: T
 ) => Promise<NextResponse>;
 
-export type SimpleHandler = (
-  req: NextRequest,
-  auth?: AuthUser
-) => Promise<NextResponse>;
+export type SimpleHandler = (req: NextRequest) => Promise<NextResponse>;
 
 export type DecodedToken = {
   email: string;
