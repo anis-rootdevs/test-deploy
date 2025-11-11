@@ -1,14 +1,14 @@
 import { ROLE } from "@/config/constant";
 import { asyncHandler } from "@/lib/async-handler";
 import { apiResponse, generateSignature } from "@/lib/utils";
-import { loginSchema } from "@/lib/validation-schema";
+import { adminLoginSchema } from "@/lib/validation-schema";
 import User from "@/model/User";
 import bcrypt from "bcrypt";
 import z from "zod";
 
 export const POST = asyncHandler(
-  loginSchema,
-  async (_, data: z.infer<typeof loginSchema>) => {
+  adminLoginSchema,
+  async (_, data: z.infer<typeof adminLoginSchema>) => {
     const { email, password } = data;
 
     const admin = await User.findOne({ email: email });
