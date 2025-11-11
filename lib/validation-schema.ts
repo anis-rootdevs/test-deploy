@@ -15,7 +15,13 @@ export const adminProfileSchema = z.object({
   name: z.string().nullable(),
 });
 
-export const passwordChangeSchema = z.object({
-  email: z.email("Valid email is required!").min(1, "Required!"),
-  password: z.string("Required!").min(1, "Required!"),
-});
+export const passwordChangeSchema = z
+  .object({
+    oldPassword: z.string("Required").min(1, "Required!"),
+    newPassword: z.string("Required").min(1, "Required!"),
+    confirmPassword: z.string("Required").min(1, "Required!"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match!",
+    path: ["confirmPassword"], // 👈 attaches the error to confirmPassword field
+  });
