@@ -2,12 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
 import { newsletterSchema } from "./validation-schema";
 
+export type AuthUser = {
+  _id: string;
+};
+
 export type ApiHandler<T> = (
   req: NextRequest,
-  data: T
+  data: T,
+  auth?: AuthUser
 ) => Promise<NextResponse>;
 
-export type SimpleHandler = (req: NextRequest) => Promise<NextResponse>;
+export type SimpleHandler = (
+  req: NextRequest,
+  auth?: AuthUser
+) => Promise<NextResponse>;
+
+export type DecodedToken = {
+  email: string;
+  role: "admin" | "user";
+};
 export interface Category {
   id: string;
   name: string;
@@ -22,7 +35,6 @@ export interface NewsletterSubscribeProps {
   className?: string;
 }
 
-// cafe location
 interface OpeningHours {
   days: string;
   hours: string;

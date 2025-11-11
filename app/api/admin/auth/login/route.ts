@@ -4,20 +4,20 @@ import { apiResponse, generateSignature } from "@/lib/utils";
 import { loginSchema } from "@/lib/validation-schema";
 import User from "@/model/User";
 import bcrypt from "bcrypt";
-import { NextRequest } from "next/server";
 import z from "zod";
 
 export const POST = asyncHandler(
   loginSchema,
-  async (req: NextRequest, data: z.infer<typeof loginSchema>) => {
+  async (_, data: z.infer<typeof loginSchema>) => {
     const { email, password } = data;
 
     const admin = await User.findOne({ email: email });
     if (!admin) return apiResponse(false, 401, "Invalid Credentials!");
 
     const isPasswordValid = await bcrypt.compare(password, admin.password);
-    if (!isPasswordValid)
+    if (!isPasswordValid) {
       return apiResponse(false, 401, "Invalid Credentials!");
+    }
 
     const token = generateSignature(
       { email: admin.email, role: ROLE.ADMIN },
