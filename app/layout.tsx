@@ -1,10 +1,10 @@
 import CustomToaster from "@/components/custom/custom-toaster";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
 import AuthSessionProvider from "@/provider/auth-session-provider";
-import { auth } from "./api/auth/[...nextauth]/auth";
+import { ThemeProvider } from "@/provider/theme-provider";
 
 // Load fonts with unique variable names
 const jost = Jost({

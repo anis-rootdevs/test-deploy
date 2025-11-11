@@ -1,8 +1,5 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
-import { useSession } from "next-auth/react";
-
 export default function DashboardPage() {
   return (
     <div className="">

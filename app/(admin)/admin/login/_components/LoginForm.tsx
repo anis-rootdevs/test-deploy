@@ -44,7 +44,6 @@ const LoginForm = () => {
       formData.append("password", data.password);
 
       const result = await handleLogin(formData);
-      console.log("result", result);
 
       if (result?.error) {
         toast.error(result.error);
@@ -54,7 +53,7 @@ const LoginForm = () => {
       const nextAuthRes = await signIn("credentials", {
         email: data.email,
         token: result.token,
-        redirect: false, // don’t auto-redirect
+        redirect: false,
       });
 
       if (nextAuthRes?.error) {

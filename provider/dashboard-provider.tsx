@@ -11,7 +11,6 @@ export default function DashboardProvider({
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState(null);
   const { data: session, status } = useSession();
-  console.log("session", session);
 
   const token = session?.token;
 
