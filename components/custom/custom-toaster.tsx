@@ -7,7 +7,7 @@ import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 const CustomToaster = () => {
   return (
     <Toaster
-      position="top-right"
+      position="top-center"
       toastOptions={{
         duration: 3000,
         style: {
