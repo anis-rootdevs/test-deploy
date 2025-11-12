@@ -23,5 +23,11 @@ export const passwordChangeSchema = z
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords do not match!",
-    path: ["confirmPassword"], // 👈 attaches the error to confirmPassword field
+    path: ["confirmPassword"],
   });
+
+export const bannerSchema = z.object({
+  tagline: z.string("Required").min(1, "Required!"),
+  heading: z.string("Required").min(1, "Required!"),
+  shortDesc: z.string("Required").min(1, "Required!"),
+});
