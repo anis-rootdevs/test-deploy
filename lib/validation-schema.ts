@@ -26,6 +26,23 @@ export const passwordChangeSchema = z
     path: ["confirmPassword"],
   });
 
+export const passwordSchema = z
+  .object({
+    oldPassword: z.string().min(1, "Current password is required"),
+    newPassword: z
+      .string()
+      .min(6, "Password must be at least 6 characters long"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.newPassword !== data.oldPassword, {
+    message: "New password must be different from current password",
+    path: ["newPassword"],
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
 export const bannerSchema = z.object({
   tagline: z.string("Required").min(1, "Required!"),
   heading: z.string("Required").min(1, "Required!"),
