@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { routes } from "@/config/routes";
+import useUserProfile from "@/store/useUserProfile";
 import { ChevronDown, LogOut, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -19,6 +20,8 @@ import toast from "react-hot-toast";
 
 export default function UserMenu() {
   const { data: session } = useSession();
+  const { isLoading, userData, clearUserData } = useUserProfile();
+  console.log("userdata page", userData);
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -28,6 +31,7 @@ export default function UserMenu() {
       redirect: false,
     });
     toast.success("Logout Successfully!");
+    clearUserData();
     router.push(routes.publicRoutes.adminLogin);
   };
 
@@ -39,7 +43,7 @@ export default function UserMenu() {
             <AvatarImage src="https://github.com/shadcn.png" alt="admin" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
-          <span> {session?.user?.name}</span>
+          <span> {userData?.data?.name}</span>
           <ChevronDown
             className={`h-5 w-5 transform transition-transform duration-200 cursor-pointer ${
               open ? "rotate-180" : ""
@@ -54,10 +58,10 @@ export default function UserMenu() {
       >
         <div className="px-3 py-2">
           <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-            {session?.user?.name}
+            {userData?.data?.name}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            {session?.user?.email}
+            {userData?.data?.email}
           </p>
         </div>
 

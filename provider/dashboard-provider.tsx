@@ -1,45 +1,24 @@
 "use client";
+import { useEffect } from "react";
+import useUserProfile from "@/store/useUserProfile";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
 
 export default function DashboardProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
+  const { isLoading, fetchUserData, userData } = useUserProfile();
 
   const token = session?.token;
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetch("/api/admin/auth/me", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          cache: "no-store",
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch user data");
-        const data = await res.json();
-        setUserData(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if (token) {
-      fetchUserData();
+    if (token && !userData) {
+      fetchUserData(token);
     }
-  }, [status, session]);
+  }, [token, userData]);
 
   console.log("userData", userData);
 
