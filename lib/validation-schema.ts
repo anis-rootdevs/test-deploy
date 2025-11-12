@@ -23,10 +23,9 @@ export const passwordChangeSchema = z
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords do not match!",
-    path: ["confirmPassword"], // 👈 attaches the error to confirmPassword field
+    path: ["confirmPassword"],
   });
 
-// frontend Password validation schema
 export const passwordSchema = z
   .object({
     oldPassword: z.string().min(1, "Current password is required"),
@@ -43,3 +42,9 @@ export const passwordSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const bannerSchema = z.object({
+  tagline: z.string("Required").min(1, "Required!"),
+  heading: z.string("Required").min(1, "Required!"),
+  shortDesc: z.string("Required").min(1, "Required!"),
+});
