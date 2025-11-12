@@ -31,3 +31,23 @@ export function generateSignature<T extends object>(
 ) {
   return jwt.sign(payload, process.env.NEXTAUTH_SECRET!, { expiresIn });
 }
+
+// Checks if a JWT token is expired.
+export function isTokenExpired(exp?: number): boolean {
+  if (!exp) return false;
+  const now = Date.now() / 1000;
+  return now >= exp;
+}
+
+// match extract route
+export function extractRoutes(obj: Record<string, any>): string[] {
+  const links: string[] = [];
+  for (const value of Object.values(obj)) {
+    if (typeof value === "string") {
+      links.push(value);
+    } else if (typeof value === "object" && value !== null) {
+      links.push(...extractRoutes(value));
+    }
+  }
+  return links;
+}

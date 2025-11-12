@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/config/routes";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Mail, Lock } from "lucide-react";
@@ -29,12 +28,6 @@ const LoginForm = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push(routes.privateRoutes.admin.dashboard);
-    }
-  }, [status]);
 
   // ✅ Handle login
   const onSubmit = async (data: LoginInputs) => {
