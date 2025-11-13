@@ -260,14 +260,14 @@ export const adminDashboardMenu = {
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Banner",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Banner List",
+          url: routes.privateRoutes.admin.banner,
         },
         {
           title: "Starred",
