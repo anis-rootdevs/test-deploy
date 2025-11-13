@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -19,9 +18,11 @@ import PasswordField from "@/components/form/PasswordField";
 import { Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
-import { passwordSchema } from "@/lib/validation-schema";
+import { passwordChangeSchema } from "@/lib/validation-schema";
+import { CustomButton } from "@/components/custom/custom-button";
+import { ImSpinner9 } from "react-icons/im";
 
-type PasswordFormValues = z.infer<typeof passwordSchema>;
+type PasswordFormValues = z.infer<typeof passwordChangeSchema>;
 
 interface PasswordChangeModalProps {
   open: boolean;
@@ -38,7 +39,7 @@ export default function PasswordChangeModal({
   const token = session?.token;
 
   const form = useForm<PasswordFormValues>({
-    resolver: zodResolver(passwordSchema),
+    resolver: zodResolver(passwordChangeSchema),
     defaultValues: {
       oldPassword: "",
       newPassword: "",
@@ -75,10 +76,12 @@ export default function PasswordChangeModal({
       toast.success(result.message || "Password changed successfully!");
       form.reset();
       setOpen(false);
-    } catch (error: any) {
-      toast.error(error.message || "An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An error occurred. Please try again."
+      );
     }
   };
 
@@ -118,22 +121,32 @@ export default function PasswordChangeModal({
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button
+              <CustomButton
                 type="button"
                 variant="outline"
                 onClick={handleCancel}
                 disabled={loading}
+                className="border-red-500 text-red-500 rounded-[4px] hover:bg-transparent hover:border-red-500 hover:text-red-500"
               >
                 Cancel
-              </Button>
+              </CustomButton>
             </DialogClose>
-            <Button
+            <CustomButton
               type="button"
               onClick={form.handleSubmit(onSubmit)}
               disabled={loading}
+              className="rounded-[4px]"
+              loadingIcon={true}
             >
-              {loading ? "Changing..." : "Change Password"}
-            </Button>
+              {loading ? (
+                <span className="flex items-center">
+                  Updating
+                  <ImSpinner9 className="ml-2 transition-all animate-spin duration-300" />
+                </span>
+              ) : (
+                "Update"
+              )}
+            </CustomButton>
           </DialogFooter>
         </Form>
       </DialogContent>

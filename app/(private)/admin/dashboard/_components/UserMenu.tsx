@@ -18,12 +18,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import PasswordChangeModal from "./PasswordChangeModal";
+import EditProfileModal from "./EditProfileModal";
 
 export default function UserMenu() {
   const { data: session } = useSession();
   const { isLoading, userData, clearUserData } = useUserProfile();
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const router = useRouter();
 
   //   logout function
@@ -40,6 +42,10 @@ export default function UserMenu() {
     <>
       {/* Password Modal */}
       <PasswordChangeModal open={modalOpen} setOpen={setModalOpen} />
+      <EditProfileModal
+        editModalOpen={editModalOpen}
+        setEditModalOpen={setEditModalOpen}
+      />
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <button className="flex items-center gap-1.5 rounded-md text-sm font-medium focus:outline-none cursor-pointer ">
@@ -70,16 +76,17 @@ export default function UserMenu() {
           </div>
 
           <DropdownMenuSeparator />
-
-          <DropdownMenuItem asChild>
-            <Link
-              href="#"
-              className="flex items-center gap-2 cursor-pointer rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
-            >
-              <User className="h-4 w-4" />
-              Edit Profile
-            </Link>
+          <DropdownMenuItem
+            onClick={() => {
+              setEditModalOpen(true);
+              setOpen(false);
+            }}
+            className="flex items-center gap-2 cursor-pointer rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+          >
+            <Lock className="h-4 w-4" />
+            Edit Profile
           </DropdownMenuItem>
+
           <DropdownMenuSeparator />
           {/* ✅ Change Password */}
           <DropdownMenuItem
