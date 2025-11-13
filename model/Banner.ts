@@ -5,6 +5,7 @@ export interface IBanner extends Document {
   heading: string;
   shortDesc: string;
   image: string;
+  position: number;
 }
 
 const BannerSchema: Schema = new mongoose.Schema(
@@ -13,6 +14,7 @@ const BannerSchema: Schema = new mongoose.Schema(
     heading: { type: String, required: true },
     shortDesc: { type: String, required: true },
     image: { type: String, required: true },
+    position: { type: Number, required: true, default: 0 },
   },
   {
     timestamps: true,
