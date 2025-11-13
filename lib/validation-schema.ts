@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { email, z } from "zod";
 
 export const newsletterSchema = z.object({
   email: z
@@ -14,32 +14,25 @@ export const adminLoginSchema = z.object({
 export const adminProfileSchema = z.object({
   name: z.string().nullable(),
 });
+export const adminFrontendProfileSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().nullable(),
+});
 
 export const passwordChangeSchema = z
   .object({
     oldPassword: z.string("Required").min(1, "Required!"),
-    newPassword: z.string("Required").min(1, "Required!"),
-    confirmPassword: z.string("Required").min(1, "Required!"),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords do not match!",
-    path: ["confirmPassword"],
-  });
-
-export const passwordSchema = z
-  .object({
-    oldPassword: z.string().min(1, "Current password is required"),
     newPassword: z
-      .string()
-      .min(6, "Password must be at least 6 characters long"),
-    confirmPassword: z.string().min(1, "Please confirm your password"),
+      .string("Required")
+      .min(6, "Password must be at least 6 characters long!"),
+    confirmPassword: z.string("Required").min(1, "Required!"),
   })
   .refine((data) => data.newPassword !== data.oldPassword, {
     message: "New password must be different from current password",
     path: ["newPassword"],
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "Passwords do not match!",
     path: ["confirmPassword"],
   });
 

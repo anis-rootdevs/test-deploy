@@ -1,10 +1,9 @@
 "use client";
 import CategoriesButton from "@/components/custom/categories-button";
-import { useMenuFilter } from "@/contexts/menu-filter-context";
+import { useMenuFilterStore } from "@/store/useMenuFilterStore";
 
 const CategoriesItemsSection = () => {
-  const { activeCategory, filteredItems, handleCategoryChange, isLoading } =
-    useMenuFilter();
+  const { activeCategory, handleCategoryChange } = useMenuFilterStore();
   const categories = ["all", "sweets", "coffee", "snacks", "drinks"];
 
   return (

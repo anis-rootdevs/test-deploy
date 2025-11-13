@@ -1,7 +1,9 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
+import { Loader2 } from "lucide-react";
+import { ImSpinner9 } from "react-icons/im";
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -11,6 +13,7 @@ interface ButtonProps {
   className?: string;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
+  loadingIcon?: boolean;
 }
 
 export const CustomButton: React.FC<ButtonProps> = ({
@@ -21,6 +24,7 @@ export const CustomButton: React.FC<ButtonProps> = ({
   className = "",
   disabled = false,
   type = "button",
+  loadingIcon = false,
 }) => {
   const baseStyles =
     "inline-flex items-center justify-center gap-2 font-jost font-semibold px-3 leading-[35px] md:px-8 py-2 md:py-2.5 text-sm md:text-base transition-all duration-300 group";
@@ -58,7 +62,9 @@ export const CustomButton: React.FC<ButtonProps> = ({
   const content = (
     <>
       <span>{children}</span>
-      <Icons.arrowMoveRight className="w-0 opacity-0 -ml-2 transition-all duration-300 group-hover:w-4 group-hover:opacity-100 group-hover:ml-0" />
+      {!loadingIcon && (
+        <Icons.arrowMoveRight className="w-0 opacity-0 -ml-2 transition-all duration-300 group-hover:w-4 group-hover:opacity-100 group-hover:ml-0" />
+      )}
     </>
   );
 
