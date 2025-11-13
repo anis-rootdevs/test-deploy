@@ -24,7 +24,7 @@ export function fileValidator(
   // Check if file exists
   if (!file) {
     if (required) {
-      return { valid: false, error: "File is required!" };
+      return { valid: false, error: "Image is required!" };
     }
     return { valid: true };
   }
