@@ -1,6 +1,5 @@
 "use client";
-
-import { useMenuFilter } from "@/contexts/menu-filter-context";
+import { useMenuFilterStore } from "@/store/useMenuFilterStore";
 import BookReserveHome from "../book-reserve-section/book-reserve-home";
 import CategoriesItemsSection from "./categories-items-section";
 import CoffeeSection from "./coffee-section";
@@ -9,14 +8,21 @@ import MenuHeroSection from "./menu-hero-section";
 import OffersSection from "./offers-section";
 import ShowFilteredItems from "./show-filtered-items";
 import SweetsSection from "./sweets-section";
+
 import {
   CategorySectionSkeleton,
   MenuItemsGridSkeleton,
 } from "./menu-items-card-loader";
+import { useEffect } from "react";
 
 const MenuSectionPage = () => {
-  const { activeCategory, isLoading } = useMenuFilter();
+  const { activeCategory, isLoading, initializeMenu } = useMenuFilterStore();
+  useEffect(() => {
+    initializeMenu();
+  }, [initializeMenu]);
+
   const isAllCategory = activeCategory.toLowerCase() === "all";
+
   return (
     <>
       <MenuHeroSection

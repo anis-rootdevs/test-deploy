@@ -2,25 +2,20 @@
 import OffersSection from "./offers-section";
 import VisitHomeSection from "../visit-us-section/visit-home-section";
 import MenuItemCard from "./menu-items-card";
-import { useMenuFilter } from "@/contexts/menu-filter-context";
 import ToppingsSection from "./toppings-section";
+import { useMenuFilterStore } from "@/store/useMenuFilterStore";
 
 const ShowFilteredItems = () => {
-  const { filteredItems } = useMenuFilter();
+  const { filteredItems } = useMenuFilterStore();
+
   let toppings = filteredItems[0]?.category === "coffee" || false;
-  console.log("toppings", toppings);
 
-  const handleToppingChange = (toppingIds: number[]) => {
-    console.log("Selected toppings:", toppingIds);
-  };
+  const handleToppingChange = (toppingIds: number[]) => {};
 
-  const handleIceLevelChange = (level: number) => {
-    console.log("Ice level:", level);
-  };
+  const handleIceLevelChange = (level: number) => {};
 
-  const handleSugarLevelChange = (level: number) => {
-    console.log("Sugar level:", level);
-  };
+  const handleSugarLevelChange = (level: number) => {};
+
   return (
     <div>
       <div className="max-w-[1320px] mx-auto py-4 px-4">

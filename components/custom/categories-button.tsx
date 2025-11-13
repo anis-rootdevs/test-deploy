@@ -1,5 +1,3 @@
-import React from "react";
-
 // Reusable Category Filter Component
 interface CategoryFilterProps {
   categories: string[];
