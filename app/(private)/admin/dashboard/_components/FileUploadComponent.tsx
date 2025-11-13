@@ -19,7 +19,13 @@ interface UploadedFile {
   id: string;
 }
 
-const IMAGE_TYPES = ["image/png", "image/jpg", "image/jpeg", "image/svg+xml"];
+const IMAGE_TYPES = [
+  "image/png",
+  "image/jpg",
+  "image/jpeg",
+  "image/svg+xml",
+  "image/webp",
+];
 
 // Utility functions
 const formatFileSize = (bytes: number): string => {

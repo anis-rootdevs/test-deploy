@@ -1,8 +1,10 @@
 "use client";
+
+import { columns } from "@/components/custom/columns";
+import DataTable from "@/components/custom/DataTable";
+import { taskData } from "@/public/sample-data/task";
 import useUserProfile from "@/store/useUserProfile";
-import Link from "next/link";
 import { useState } from "react";
-import FileUploadComponent from "./_components/FileUploadComponent";
 
 export default function DashboardPage() {
   const { userData } = useUserProfile();
@@ -16,27 +18,15 @@ export default function DashboardPage() {
       </h1>
       <p className="mb-6 text-gray-600">You’re logged in successfully!</p>
 
-      <Link
-        href={`/test`}
-        className="border py-2 px-3 rounded-[5px] border-primary text-primary"
-      >
-        Go To Test
-      </Link>
+      <div className="my-4">
+        <h1 className="text-lg font-jost my-3">Show all task list</h1>
 
-      <div className="mt-5">
-        <div className="max-w-4xl mx-auto space-y-8">
-          {/* Image Only Upload */}
-          <div className="bg-white p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Image Upload Only
-            </h2>
-            <FileUploadComponent
-              accept="image"
-              maxSize={5}
-              maxFiles={1}
-              onFilesChange={setImageFiles}
-            />
-          </div>
+        <div>
+          <DataTable
+            data={taskData}
+            columns={columns}
+            getRowId={(row) => row.id}
+          />
         </div>
       </div>
     </div>

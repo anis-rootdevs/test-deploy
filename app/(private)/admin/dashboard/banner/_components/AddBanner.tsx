@@ -1,23 +1,36 @@
 "use client";
 
 import InputField from "@/components/form/InputField";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import FileUploadComponent from "../../_components/FileUploadComponent";
+
+// ✅ Declare form data type
+interface BannerFormData {
+  tagline: string;
+  heading: string;
+  shortDesc: string;
+}
 
 export default function AddBanner() {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const methods = useForm();
+  const methods = useForm<BannerFormData>();
+  const { data: session } = useSession();
+  const token = session?.token;
   const {
     handleSubmit,
     register,
     formState: { isSubmitting },
   } = methods;
 
+  console.log("sahfkshfhsagh", imageFiles[0]);
+
   // ✅ Form Submit
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: BannerFormData) => {
     if (imageFiles.length === 0) {
-      alert("Please upload an image!");
+      toast.error("Please upload an image!");
       return;
     }
     console.log("data", data);
@@ -31,17 +44,20 @@ export default function AddBanner() {
 
       console.log("formData", formData);
 
-      //   const res = await fetch("/api/admin/banner", {
-      //     method: "POST",
-      //     body: formData,
-      //   });
+      const res = await fetch("/api/admin/banner", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-      //   if (!res.ok) {
-      //     throw new Error("Failed to upload banner");
-      //   }
+      if (!res.ok) {
+        throw new Error("Failed to upload banner");
+      }
 
-      //   const result = await res.json();
-      //   console.log("✅ Banner Added:", result);
+      const result = await res.json();
+      console.log("✅ Banner Added:", result);
       alert("Banner added successfully!");
     } catch (error: any) {
       console.error(error);
