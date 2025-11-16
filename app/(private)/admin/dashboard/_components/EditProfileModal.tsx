@@ -2,7 +2,6 @@
 
 import { CustomButton } from "@/components/custom/custom-button";
 import InputField from "@/components/form/InputField";
-import z from "zod";
 import {
   Dialog,
   DialogClose,
@@ -21,6 +20,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
+import z from "zod";
 
 type AdminProfilesFormValues = z.infer<typeof adminFrontendProfileSchema>;
 
@@ -121,7 +121,7 @@ export default function EditProfileModal({
                 name="email"
                 label="Email"
                 prefix={<Mail size={16} />}
-                className=" cursor-not-allowed"
+                className="cursor-not-allowed"
                 rules={{ disabled: true }}
               />
             </div>
@@ -133,7 +133,7 @@ export default function EditProfileModal({
                   variant="outline"
                   onClick={handleCancel}
                   disabled={loading}
-                  className="border-red-500 text-red-500 rounded-[4px] hover:bg-transparent hover:border-red-500 hover:text-red-500"
+                  className="border-red-500 text-red-500 rounded-lg hover:bg-transparent hover:border-red-500 hover:text-red-500"
                 >
                   Cancel
                 </CustomButton>
@@ -142,7 +142,7 @@ export default function EditProfileModal({
                 type="button"
                 onClick={form.handleSubmit(onSubmit)}
                 disabled={loading}
-                className="rounded-[4px]"
+                className="rounded-lg"
                 loadingIcon={true}
               >
                 {loading ? (

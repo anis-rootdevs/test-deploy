@@ -1,17 +1,17 @@
 "use client";
 
-import Image from "next/image";
+import { handleLogin } from "@/app/(auth)/login/actions";
+import InputField from "@/components/form/InputField";
+import PasswordField from "@/components/form/PasswordField";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { routes } from "@/config/routes";
+import { Lock, Mail } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Mail, Lock } from "lucide-react";
-import PasswordField from "@/components/form/PasswordField";
-import InputField from "@/components/form/InputField";
-import { handleLogin } from "@/app/(auth)/login/actions";
 
 type LoginInputs = {
   email: string;
@@ -68,7 +68,7 @@ const LoginForm = () => {
 
   return (
     <div className="flex w-full">
-      <Card className="w-full max-w-lg rounded-l-[8px] md:rounded-r-none md:border-none shadow-none md:p-6 p-3">
+      <Card className="w-full max-w-lg rounded-l-xl md:rounded-r-none md:border-none shadow-none md:p-6 p-3">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-semibold font-jost text-foreground">
             Admin Login
@@ -103,7 +103,7 @@ const LoginForm = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg transition-colors h-11 rounded-[4px] cursor-pointer"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg transition-colors h-11 rounded-lg cursor-pointer"
               >
                 {isSubmitting ? "Signing in..." : "Sign In"}
               </Button>
@@ -123,7 +123,7 @@ const LoginForm = () => {
           width={100}
           src="/images/locations/doughnut-pastry-bar-coffee-location.svg"
           alt="Login illustration"
-          className="absolute inset-0 h-full w-full object-cover md:rounded-r-[8px]"
+          className="absolute inset-0 h-full w-full object-cover md:rounded-r-xl"
         />
       </div>
     </div>

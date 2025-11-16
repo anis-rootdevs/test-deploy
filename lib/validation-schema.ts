@@ -41,3 +41,14 @@ export const bannerSchema = z.object({
   heading: z.string("Required").min(1, "Required!"),
   shortDesc: z.string("Required").min(1, "Required!"),
 });
+
+// data table scheme
+export const dataTableSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  status: z.string(),
+  label: z.string(),
+  priority: z.string(),
+});
+
+export type DataTable = z.infer<typeof dataTableSchema>;

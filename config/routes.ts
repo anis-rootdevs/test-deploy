@@ -12,6 +12,7 @@ export const routes = {
   privateRoutes: {
     admin: {
       dashboard: "/admin/dashboard",
+      banner: "/admin/dashboard/banner",
       faq: {
         home: `/admin/faqs`,
       },

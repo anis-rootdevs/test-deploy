@@ -1,12 +1,12 @@
 "use client";
-import { useState } from "react";
-import { FieldValues, useFormContext, FieldError } from "react-hook-form";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { cn } from "@/lib/utils";
 import { FormPasswordInputProps } from "@/lib/types";
-import { BadgeAlert, ShieldAlert } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { BadgeAlert } from "lucide-react";
+import { useState } from "react";
+import { FieldError, FieldValues, useFormContext } from "react-hook-form";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 export default function PasswordField<TFieldValues extends FieldValues>({
   id,
@@ -46,7 +46,7 @@ export default function PasswordField<TFieldValues extends FieldValues>({
           placeholder={placeholder}
           {...register(name, rules)}
           className={cn(
-            `h-11 rounded-[4px] text-[16px] font-semibold tracking-[0.5px] font-mono focus-visible:ring-2  ${
+            `h-11 rounded-lg text-[16px] font-semibold tracking-[0.5px] font-mono focus-visible:ring-2  ${
               fieldError
                 ? "focus-visible:ring-red-500 "
                 : "focus-visible:ring-blue-500"
