@@ -50,5 +50,15 @@ export const dataTableSchema = z.object({
   label: z.string(),
   priority: z.string(),
 });
-
+// data table scheme
+export const bannerTableSchema = z.object({
+  id: z.string(),
+  tagline: z.string(),
+  shortDesc: z.string(),
+  heading: z.string(),
+  position: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
 export type DataTable = z.infer<typeof dataTableSchema>;
+export type BannerDataTable = z.infer<typeof bannerTableSchema>;

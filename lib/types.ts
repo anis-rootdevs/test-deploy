@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ReactNode } from "react";
+import { FieldValues, Path } from "react-hook-form";
 import z from "zod";
 import { newsletterSchema } from "./validation-schema";
-import { FieldValues, Path } from "react-hook-form";
-import { ReactNode } from "react";
 
 export type AuthUser = {
   _id: string;
@@ -85,3 +85,15 @@ export interface FormInputProps<TFieldValues extends FieldValues> {
 }
 
 // change password
+
+//banner types
+export type Banner = {
+  _id: string;
+  tagline: string;
+  heading: string;
+  shortDesc: string;
+  image: string;
+  position: number;
+  createdAt: string;
+  updatedAt: string;
+};

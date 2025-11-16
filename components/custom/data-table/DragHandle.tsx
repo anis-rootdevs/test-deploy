@@ -1,7 +1,7 @@
 "use client";
 import { useSortable } from "@dnd-kit/sortable";
 import { LuGrip } from "react-icons/lu";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 export default function DragHandle({ id }: { id: string }) {
   const { attributes, listeners } = useSortable({

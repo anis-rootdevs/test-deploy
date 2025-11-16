@@ -1,9 +1,9 @@
 "use client";
 import { DataTable } from "@/lib/validation-schema";
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "../ui/badge";
-import { Checkbox } from "../ui/checkbox";
-import { labels, priorities, statuses } from "./data";
+import { Badge } from "../../ui/badge";
+import { Checkbox } from "../../ui/checkbox";
+import { labels, priorities, statuses } from "../data";
 import DataTableColumnHeader from "./DataTableColumnHeader";
 import DataTableRowActions from "./DataTableRowActions";
 import DragHandle from "./DragHandle";

@@ -3,7 +3,7 @@
 import { dataTableSchema } from "@/lib/validation-schema";
 import { Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,8 +16,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { labels } from "./data";
+} from "../../ui/dropdown-menu";
+import { labels } from "../data";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;

@@ -2,10 +2,10 @@
 
 import { Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
+import { priorities, statuses } from "../data";
 import DataTableFacetedFilter from "./DataTableFacetedFilter";
-import { priorities, statuses } from "./data";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -20,11 +20,11 @@ export default function DataTableToolbar<TData>({
       <div className="flex flex-1 items-center gap-2">
         <Input
           placeholder="Filter tasks..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("tagline")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("tagline")?.setFilterValue(event.target.value)
           }
-          className="h-8 w-[150px] lg:w-[250px]"
+          className="h-10 w-[150px] lg:w-[250px]"
         />
         {table.getColumn("status") && (
           <DataTableFacetedFilter
