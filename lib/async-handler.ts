@@ -3,28 +3,42 @@ import { JsonWebTokenError } from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { authenticate } from "./authenticate";
-import { ApiHandler, SimpleHandler } from "./types";
 import { apiResponse } from "./utils";
 
+// Updated handler types with params
+export type ApiHandler<T, P = Record<string, string>> = (
+  req: NextRequest,
+  data: T,
+  params: P
+) => Promise<NextResponse>;
+
+export type SimpleHandler<P = Record<string, string>> = (
+  req: NextRequest,
+  params: P
+) => Promise<NextResponse>;
+
 // Overload 1: With validation
-export function asyncHandler<T>(
+export function asyncHandler<T, P = Record<string, string>>(
   schema: z.ZodSchema<T>,
-  handler: ApiHandler<T>,
+  handler: ApiHandler<T, P>,
   checkAuth?: boolean
-): (req: NextRequest) => Promise<NextResponse>;
+): (req: NextRequest, context: { params: Promise<P> }) => Promise<NextResponse>;
 
 // Overload 2: Without validation
-export function asyncHandler(
-  handler: SimpleHandler,
+export function asyncHandler<P = Record<string, string>>(
+  handler: SimpleHandler<P>,
   checkAuth?: boolean
-): (req: NextRequest) => Promise<NextResponse>;
+): (req: NextRequest, context: { params: Promise<P> }) => Promise<NextResponse>;
 
 // Implementation
-export function asyncHandler<T>(
-  schemaOrHandler: z.ZodSchema<T> | SimpleHandler,
-  handlerOrCheckAuth?: ApiHandler<T> | boolean,
+export function asyncHandler<T, P = Record<string, string>>(
+  schemaOrHandler: z.ZodSchema<T> | SimpleHandler<P>,
+  handlerOrCheckAuth?: ApiHandler<T, P> | boolean,
   checkAuth?: boolean
-): (req: NextRequest) => Promise<NextResponse> {
+): (
+  req: NextRequest,
+  context: { params: Promise<P> }
+) => Promise<NextResponse> {
   // Determine which overload is being used
   const isValidationCase =
     handlerOrCheckAuth !== undefined && typeof handlerOrCheckAuth !== "boolean";
@@ -32,10 +46,10 @@ export function asyncHandler<T>(
   // Case 1: With validation (schema + handler + optional checkAuth)
   if (isValidationCase && schemaOrHandler instanceof z.ZodType) {
     const schema = schemaOrHandler;
-    const handler = handlerOrCheckAuth as ApiHandler<T>;
+    const handler = handlerOrCheckAuth as ApiHandler<T, P>;
     const shouldCheckAuth = checkAuth ?? false;
 
-    return async (req: NextRequest) => {
+    return async (req: NextRequest, context: { params: Promise<P> }) => {
       try {
         await dbConnect();
 
@@ -46,10 +60,13 @@ export function asyncHandler<T>(
           req.user = data;
         }
 
+        // Await params from context
+        const params = await context.params;
+
         const body = await req.json();
         const data = schema.parse(body);
 
-        return await handler(req, data);
+        return await handler(req, data, params);
       } catch (error) {
         if (error instanceof z.ZodError) {
           const details = error.issues.reduce((acc, issue) => {
@@ -72,11 +89,11 @@ export function asyncHandler<T>(
   }
 
   // Case 2: Without validation (just handler + optional checkAuth)
-  const simpleHandler = schemaOrHandler as SimpleHandler;
+  const simpleHandler = schemaOrHandler as SimpleHandler<P>;
   const shouldCheckAuth =
     typeof handlerOrCheckAuth === "boolean" ? handlerOrCheckAuth : false;
 
-  return async (req: NextRequest) => {
+  return async (req: NextRequest, context: { params: Promise<P> }) => {
     try {
       await dbConnect();
 
@@ -87,7 +104,10 @@ export function asyncHandler<T>(
         req.user = data;
       }
 
-      return await simpleHandler(req);
+      // Await params from context
+      const params = await context.params;
+
+      return await simpleHandler(req, params);
     } catch (err) {
       if (err instanceof JsonWebTokenError) {
         return apiResponse(false, 401, "Unauthorized Token!");

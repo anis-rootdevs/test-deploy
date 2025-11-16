@@ -22,6 +22,8 @@ const BannerSchema: Schema = new mongoose.Schema(
   }
 );
 
+BannerSchema.index({ position: 1 });
+
 const Banner =
   mongoose.models.Banner ||
   mongoose.model<IBanner>("Banner", BannerSchema, "banners");

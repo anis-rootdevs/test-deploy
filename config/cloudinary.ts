@@ -45,3 +45,50 @@ export const uploadToCloudinary = async (
       .end(buffer);
   });
 };
+
+export const deleteFromCloudinary = async (
+  publicId: string,
+  resourceType: "image" | "video" | "raw" = "image"
+): Promise<{ result: string }> => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId, {
+      resource_type: resourceType,
+    });
+    return result;
+  } catch (error) {
+    console.error("Cloudinary deletion error:", error);
+    throw new Error(`Failed to delete asset: ${publicId}`);
+  }
+};
+
+export const deleteMultipleFromCloudinary = async (
+  publicIds: string[],
+  resourceType: "image" | "video" | "raw" = "image"
+): Promise<{ deleted: Record<string, string> }> => {
+  try {
+    const result = await cloudinary.api.delete_resources(publicIds, {
+      resource_type: resourceType,
+    });
+    return result;
+  } catch (error) {
+    console.error("Cloudinary bulk deletion error:", error);
+    throw new Error("Failed to delete multiple assets");
+  }
+};
+
+export const deleteFolderFromCloudinary = async (
+  folderPath: string
+): Promise<{ deleted: Record<string, string> }> => {
+  try {
+    // Delete all resources in the folder
+    const result = await cloudinary.api.delete_resources_by_prefix(folderPath);
+
+    // Then delete the folder itself
+    await cloudinary.api.delete_folder(folderPath);
+
+    return result;
+  } catch (error) {
+    console.error("Cloudinary folder deletion error:", error);
+    throw new Error(`Failed to delete folder: ${folderPath}`);
+  }
+};

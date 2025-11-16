@@ -1,0 +1,24 @@
+import { asyncHandler } from "@/lib/async-handler";
+import { apiResponse } from "@/lib/utils";
+import { bannerSortSchema } from "@/lib/validation-schema";
+import Banner from "@/model/Banner";
+
+// Banner Sorting
+export const PUT = asyncHandler(
+  bannerSortSchema,
+  async (req, data) => {
+    const { sortedIds } = data;
+
+    const bulkOps = sortedIds.map((item, index) => ({
+      updateOne: {
+        filter: { _id: item },
+        update: { position: index + 1 },
+      },
+    }));
+
+    await Banner.bulkWrite(bulkOps, { ordered: false });
+
+    return apiResponse(true, 200, "Banner has been sorted successfully!", data);
+  },
+  true
+);
