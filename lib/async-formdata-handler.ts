@@ -5,19 +5,22 @@ import { z } from "zod";
 import { authenticate } from "./authenticate";
 import { apiResponse } from "./utils";
 
-export type FormDataApiHandler<T> = (
+export type FormDataApiHandler<T, P = Record<string, string>> = (
   req: NextRequest,
   data: T,
-  formData: FormData
+  formData: FormData,
+  params: P
 ) => Promise<NextResponse>;
 
-// Main asyncFormDataHandler
-export function asyncFormDataHandler<T>(
+export function asyncFormDataHandler<T, P = Record<string, string>>(
   schema: z.ZodSchema<T>,
-  handler: FormDataApiHandler<T>,
+  handler: FormDataApiHandler<T, P>,
   checkAuth: boolean = false
-): (req: NextRequest) => Promise<NextResponse> {
-  return async (req: NextRequest) => {
+): (
+  req: NextRequest,
+  context: { params: Promise<P> }
+) => Promise<NextResponse> {
+  return async (req: NextRequest, context: { params: Promise<P> }) => {
     try {
       await dbConnect();
 
@@ -26,6 +29,9 @@ export function asyncFormDataHandler<T>(
         if (error) return error;
         req.user = data;
       }
+
+      // Await params from context
+      const params = await context.params;
 
       // Parse FormData
       const formData = await req.formData();
@@ -42,7 +48,8 @@ export function asyncFormDataHandler<T>(
       // Validate text data with Zod schema
       const validatedData = schema.parse(textData);
 
-      return await handler(req, validatedData, formData);
+      // Pass params to handler
+      return await handler(req, validatedData, formData, params);
     } catch (error) {
       if (error instanceof z.ZodError) {
         const details = error.issues.reduce((acc, issue) => {

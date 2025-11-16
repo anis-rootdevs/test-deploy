@@ -42,7 +42,16 @@ export const bannerSchema = z.object({
   shortDesc: z.string("Required").min(1, "Required!"),
 });
 
-// data table scheme
+export const bannerUpdateSchema = z.object({
+  tagline: z.string("Value must be string!"),
+  heading: z.string("Value must be string!"),
+  shortDesc: z.string("Value must be string!"),
+});
+
+export const bannerSortSchema = z.object({
+  sortedIds: z.array(z.string()).min(1, "Required!"),
+});
+
 export const dataTableSchema = z.object({
   id: z.string(),
   title: z.string(),
