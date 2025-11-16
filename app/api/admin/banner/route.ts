@@ -39,7 +39,28 @@ export const POST = asyncFormDataHandler(
 
 // Get all banners
 export const GET = asyncHandler(async () => {
-  const banners = await Banner.find().sort({ position: 1 });
+  const banners = await Banner.aggregate([
+    {
+      $sort: { position: 1 },
+    },
+    {
+      $addFields: {
+        image: {
+          $cond: {
+            if: { $ne: ["$image", null] }, // Check if image exists
+            then: {
+              $concat: [
+                process.env.CLOUDINARY_SECURE_URL_BASE || "",
+                "/",
+                "$image",
+              ],
+            },
+            else: null, // or a default image URL
+          },
+        },
+      },
+    },
+  ]);
 
   return apiResponse(
     true,
