@@ -52,6 +52,10 @@ export const bannerSortSchema = z.object({
   sortedIds: z.array(z.string()).min(1, "Required!"),
 });
 
+export const bannerStatusSchema = z.object({
+  status: z.boolean("Value must be boolean!"),
+});
+
 export const dataTableSchema = z.object({
   id: z.string(),
   title: z.string(),

@@ -18,7 +18,7 @@ export const PUT = asyncHandler(
 
     await Banner.bulkWrite(bulkOps, { ordered: false });
 
-    return apiResponse(true, 200, "Banner has been sorted successfully!", data);
+    return apiResponse(true, 200, "Banner has been sorted successfully!");
   },
   true
 );
