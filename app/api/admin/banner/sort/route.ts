@@ -1,11 +1,11 @@
 import { asyncHandler } from "@/lib/async-handler";
 import { apiResponse } from "@/lib/utils";
-import { bannerSortSchema } from "@/lib/validation-schema";
+import { sortSchema } from "@/lib/validation-schema";
 import Banner from "@/model/Banner";
 
 // Banner Sorting
 export const PUT = asyncHandler(
-  bannerSortSchema,
+  sortSchema,
   async (req, data) => {
     const { sortedIds } = data;
 

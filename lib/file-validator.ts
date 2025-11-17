@@ -17,7 +17,13 @@ export function fileValidator(
 ): FileValidationResult {
   const {
     maxSize = 5 * 1024 * 1024, // 5MB default
-    allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"],
+    allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/webp",
+      "image/svg+xml",
+    ],
     required = true,
   } = options;
 

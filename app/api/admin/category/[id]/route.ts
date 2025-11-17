@@ -1,11 +1,11 @@
 import { asyncHandler } from "@/lib/async-handler";
 import { apiResponse } from "@/lib/utils";
-import { categoryUpdateSchema } from "@/lib/validation-schema";
+import { categorySchema } from "@/lib/validation-schema";
 import Category from "@/model/Category";
 
 // Update a category
 export const PUT = asyncHandler(
-  categoryUpdateSchema,
+  categorySchema.partial(),
   async (req, data, params) => {
     const category = await Category.findOne({ _id: params.id });
     if (!category) return apiResponse(false, 404, "Category not found!");
