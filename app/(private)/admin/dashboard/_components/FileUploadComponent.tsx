@@ -2,7 +2,7 @@
 
 import { Check, File, Upload, X } from "lucide-react";
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // types
 interface FileUploadProps {
   accept?: "image" | "file" | string;
@@ -11,6 +11,8 @@ interface FileUploadProps {
   onFilesChange?: (files: File[]) => void;
   className?: string;
   disabled?: boolean;
+  existingImageUrl?: string; // For edit mode
+  onRemoveExisting?: () => void; // Callback when existing image is removed
 }
 
 interface UploadedFile {
@@ -54,11 +56,19 @@ const FileUploadComponent = ({
   onFilesChange,
   className = "",
   disabled = false,
+  existingImageUrl,
+  onRemoveExisting,
 }: FileUploadProps) => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [dragActive, setDragActive] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
+  const [showExistingImage, setShowExistingImage] = useState(true);
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  // Reset existing image display when existingImageUrl changes
+  useEffect(() => {
+    setShowExistingImage(!!existingImageUrl);
+  }, [existingImageUrl]);
 
   const isUploadDisabled = disabled || uploadedFiles.length >= maxFiles;
 
@@ -119,6 +129,8 @@ const FileUploadComponent = ({
       }
 
       if (validUploads.length > 0) {
+        // Hide existing image when new file is uploaded
+        setShowExistingImage(false);
         setUploadedFiles((prev) => {
           const updated = [...prev, ...validUploads];
           onFilesChange?.(updated.map((f) => f.file));
@@ -163,9 +175,16 @@ const FileUploadComponent = ({
     const newFiles = uploadedFiles.filter((f) => f.id !== id);
     setUploadedFiles(newFiles);
     setErrors([]);
-    if (onFilesChange) {
-      onFilesChange(newFiles.map((f) => f.file));
+    onFilesChange?.(newFiles.map((f) => f.file));
+
+    // Show existing image again if no new files
+    if (newFiles.length === 0 && existingImageUrl) {
+      setShowExistingImage(true);
     }
+  };
+  const removeExistingImage = () => {
+    setShowExistingImage(false);
+    onRemoveExisting?.();
   };
 
   const openFileDialog = () => {
@@ -173,7 +192,70 @@ const FileUploadComponent = ({
       inputRef.current?.click();
     }
   };
-  // Single file mode with image preview
+  // Show existing image (edit mode)
+  if (
+    maxFiles === 1 &&
+    showExistingImage &&
+    existingImageUrl &&
+    uploadedFiles.length === 0
+  ) {
+    return (
+      <div className={`w-full ${className}`}>
+        <div className="relative rounded-lg overflow-hidden border-2 border-gray-200">
+          <Image
+            src={existingImageUrl}
+            alt="Current image"
+            width={100}
+            height={100}
+            className="w-full h-48 object-cover"
+          />
+
+          {/* Overlay with delete button */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-4">
+            <div className="flex items-end justify-between">
+              <div className="text-white">
+                <p className="font-medium text-sm">Current Image</p>
+                <p className="text-xs opacity-90">Click to replace</p>
+              </div>
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeExistingImage();
+                }}
+                disabled={disabled}
+                className="bg-red-500 cursor-pointer hover:bg-red-600 text-white p-2 rounded-full transition-colors disabled:opacity-50 shrink-0"
+                type="button"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Replace button */}
+        {/* <button
+          type="button"
+          onClick={openFileDialog}
+          disabled={disabled}
+          className="mt-2 w-full py-2 px-4 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50"
+        >
+          Replace Image
+        </button> */}
+
+        <input
+          ref={inputRef}
+          type="file"
+          className="hidden"
+          accept={getAcceptString(accept)}
+          onChange={handleChange}
+          disabled={disabled}
+        />
+      </div>
+    );
+  }
+
+  // Single file mode with NEW image preview
   if (maxFiles === 1 && uploadedFiles.length > 0 && uploadedFiles[0].preview) {
     return (
       <div className={`w-full ${className}`}>
@@ -187,7 +269,7 @@ const FileUploadComponent = ({
           />
 
           {/* Overlay with file info and delete button */}
-          <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent flex flex-col justify-end p-4">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-4">
             <div className="flex items-end justify-between">
               <div className="text-white">
                 <p className="font-medium text-sm truncate">
@@ -204,6 +286,7 @@ const FileUploadComponent = ({
                   removeFile(uploadedFiles[0].id);
                 }}
                 disabled={disabled}
+                type="button"
                 className="bg-red-500 cursor-pointer hover:bg-red-600 text-white p-2 rounded-full transition-colors disabled:opacity-50 shrink-0"
               >
                 <X className="w-5 h-5" />

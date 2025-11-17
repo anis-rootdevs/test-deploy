@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table } from "@tanstack/react-table";
+import BannerFormModal from "./BannerFormModal";
 
 interface BannerTableToolbarProps<TData> {
   table: Table<TData>;
@@ -24,8 +24,7 @@ export default function BannerTableToolbar<TData>({
         />
       </div>
       <div className="flex items-center gap-2">
-        {/* <DataTableViewOptions table={table} /> */}
-        <Button size="sm">Add Task</Button>
+        <BannerFormModal isEditMode={false} />
       </div>
     </div>
   );

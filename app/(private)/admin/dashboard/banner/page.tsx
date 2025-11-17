@@ -1,10 +1,11 @@
+import { getBanners } from "@/actions/banner/getBanners";
 import BannerLists from "./_components/BannerList";
 
-export default function BannerPage() {
+export default async function BannerPage() {
+  const banners = await getBanners();
   return (
-    <div>
-      <BannerLists />
-      {/* <AddBanner /> */}
-    </div>
+    <>
+      <BannerLists data={banners?.data} />
+    </>
   );
 }

@@ -2,9 +2,8 @@
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { TableCell, TableRow } from "../../ui/table";
-import DragHandle from "./DragHandle";
 
 interface SortableRowProps<TData, TValue = unknown> {
   row: TData;
@@ -28,26 +27,26 @@ export function SortableRow<TData, TValue = unknown>({
       }}
     >
       {columns.map((col) => {
-        if (col.id === "drag") {
-          return (
-            <TableCell key={col.id}>
-              <DragHandle id={dragId} />
-            </TableCell>
-          );
-        }
+        // Check if column has a custom cell renderer
+        const cellContent = col.cell
+          ? flexRender(col.cell, {
+              row: { original: row } as any,
+              getValue: () =>
+                "accessorKey" in col && col.accessorKey
+                  ? (row as any)[col.accessorKey]
+                  : undefined,
+            } as any)
+          : "accessorKey" in col && col.accessorKey
+          ? (row as any)[col.accessorKey]
+          : null;
 
-        // Render other cell values
-        const value =
-          "accessorKey" in col && col.accessorKey
-            ? (row as any)[col.accessorKey]
-            : null;
         return (
           <TableCell
             key={
               col.id || ("accessorKey" in col ? String(col.accessorKey) : "")
             }
           >
-            {value}
+            {cellContent}
           </TableCell>
         );
       })}

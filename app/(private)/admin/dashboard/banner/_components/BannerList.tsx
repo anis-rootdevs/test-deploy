@@ -1,6 +1,6 @@
 "use client";
+import { revalidateBanners } from "@/actions/revalidateTag";
 import DataTable from "@/components/custom/data-table/DataTable";
-import DataTablePagination from "@/components/custom/data-table/DataTablePagination";
 import { Banner } from "@/lib/types";
 import {
   ColumnFiltersState,
@@ -15,17 +15,12 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { useSession } from "next-auth/react";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import BannerTableToolbar from "./BannerTableToolbar";
 import { columns } from "./columns";
 
-type ApiResponse = {
-  status: boolean;
-  message: string;
-  data: Banner[];
-};
-
-export default function BannerLists() {
+export default function BannerLists({ data }: { data: Banner[] }) {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -37,45 +32,11 @@ export default function BannerLists() {
 
   const { data: session } = useSession();
   const token = session?.token;
-
-  useEffect(() => {
-    const fetchBanners = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch("/api/admin/banner", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
-        }
-
-        const result: ApiResponse = await response.json();
-        setBanners(result.data);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to fetch banners"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (token) {
-      fetchBanners();
-    }
-  }, [token]);
-
-  // Memoize table data to prevent unnecessary re-renders
-  const tableData = useMemo(() => banners, [banners]);
+  console.log("data", data);
 
   // Create table instance
   const table = useReactTable({
-    data: tableData,
+    data: data,
     columns: columns as any,
     initialState: {
       pagination: {
@@ -94,17 +55,46 @@ export default function BannerLists() {
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-  }) as any;
+  });
 
   // Handle drag and drop position changes
-  const handleDataChange = (newData: Banner[]) => {
-    console.log("New order:", newData);
-    // Here you can make an API call to update positions
+  const handleDataChange = async (newData: Banner[]) => {
+    // Extract only the IDs in the new order
+    const sortedIds = newData.map((banner) => banner._id);
+
+    setBanners(newData);
+
+    try {
+      const response = await fetch("/api/admin/banner/sort", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          sortedIds: sortedIds,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        toast.error(result.message || "Failed to update banner order");
+        return;
+      }
+
+      toast.success(result.message || "Banner order updated successfully!");
+      // ✅ Revalidate banners cache after successful update
+      await revalidateBanners();
+    } catch (error) {
+      console.error("Error updating banner order:", error);
+      toast.error("Failed to update banner order");
+    }
   };
 
-  if (loading) {
-    return <div className="p-4">Loading banners...</div>;
-  }
+  // if (loading) {
+  //   return <div className="p-4">Loading banners...</div>;
+  // }
 
   if (error) {
     return <div className="p-4 text-red-500">Error: {error}</div>;
@@ -112,15 +102,14 @@ export default function BannerLists() {
 
   return (
     <div className="flex flex-col gap-4">
-      <BannerTableToolbar table={table} />
+      <BannerTableToolbar table={table as any} />
       <DataTable
-        data={tableData}
+        data={data}
         columns={columns as any}
         getRowId={(row) => row._id}
         table={table}
         onDataChange={handleDataChange}
       />
-      <DataTablePagination table={table} />
     </div>
   );
 }
