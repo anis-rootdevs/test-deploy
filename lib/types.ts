@@ -58,7 +58,9 @@ export interface OurValueCardProps {
   item: OurValueItem;
 }
 
-// form password field
+export type NestedRoutes = {
+  [key: string]: string | NestedRoutes;
+};
 
 export interface FormPasswordInputProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -69,8 +71,6 @@ export interface FormPasswordInputProps<TFieldValues extends FieldValues> {
   className?: string;
   prefix?: ReactNode;
 }
-
-// form input field
 
 export interface FormInputProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;

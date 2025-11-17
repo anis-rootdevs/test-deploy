@@ -1,9 +1,9 @@
 import { asyncHandler } from "@/lib/async-handler";
 import { apiResponse } from "@/lib/utils";
 import { sortSchema } from "@/lib/validation-schema";
-import Banner from "@/model/Banner";
+import Category from "@/model/Category";
 
-// Banner Sorting
+// Category Sorting
 export const PUT = asyncHandler(
   sortSchema,
   async (req, data) => {
@@ -16,9 +16,9 @@ export const PUT = asyncHandler(
       },
     }));
 
-    await Banner.bulkWrite(bulkOps, { ordered: false });
+    await Category.bulkWrite(bulkOps, { ordered: false });
 
-    return apiResponse(true, 200, "Banner has been sorted successfully!");
+    return apiResponse(true, 200, "Category has been sorted successfully!");
   },
   true
 );
