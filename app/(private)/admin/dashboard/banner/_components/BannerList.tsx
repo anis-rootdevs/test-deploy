@@ -1,5 +1,5 @@
 "use client";
-import { revalidateBanners } from "@/actions/revalidateTag";
+import { shortsTable } from "@/actions/banner/bannerActions";
 import DataTable from "@/components/custom/data-table/DataTable";
 import { Banner } from "@/lib/types";
 import {
@@ -14,25 +14,16 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import BannerTableToolbar from "./BannerTableToolbar";
 import { columns } from "./columns";
 
 export default function BannerLists({ data }: { data: Banner[] }) {
-  const [banners, setBanners] = useState<Banner[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  const { data: session } = useSession();
-  const token = session?.token;
-  console.log("data", data);
 
   // Create table instance
   const table = useReactTable({
@@ -59,46 +50,21 @@ export default function BannerLists({ data }: { data: Banner[] }) {
 
   // Handle drag and drop position changes
   const handleDataChange = async (newData: Banner[]) => {
-    // Extract only the IDs in the new order
     const sortedIds = newData.map((banner) => banner._id);
 
-    setBanners(newData);
-
     try {
-      const response = await fetch("/api/admin/banner/sort", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          sortedIds: sortedIds,
-        }),
-      });
+      const response = await shortsTable({ sortedIds });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        toast.error(result.message || "Failed to update banner order");
+      if (!response.status) {
+        toast.error(response.message || "Failed to update banner order");
         return;
       }
 
-      toast.success(result.message || "Banner order updated successfully!");
-      // ✅ Revalidate banners cache after successful update
-      await revalidateBanners();
+      toast.success(response.message || "Banner order updated successfully!");
     } catch (error) {
-      console.error("Error updating banner order:", error);
       toast.error("Failed to update banner order");
     }
   };
-
-  // if (loading) {
-  //   return <div className="p-4">Loading banners...</div>;
-  // }
-
-  if (error) {
-    return <div className="p-4 text-red-500">Error: {error}</div>;
-  }
 
   return (
     <div className="flex flex-col gap-4">

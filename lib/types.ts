@@ -96,4 +96,5 @@ export type Banner = {
   position: number;
   createdAt: string;
   updatedAt: string;
+  status?: boolean;
 };

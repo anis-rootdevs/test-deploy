@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteBanner } from "@/actions/banner/deleteBanner";
+import { deleteBanner } from "@/actions/banner/bannerActions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +12,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { ReactNode, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -33,7 +32,6 @@ export default function BannerDeleteModal({
 }: BannerDeleteModalProps) {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const { data: session } = useSession();
 
   const defaultDescription = itemName
     ? `This action cannot be undone. This will permanently delete`
@@ -46,7 +44,6 @@ export default function BannerDeleteModal({
       const loadingToast = toast.loading("Deleting banner...");
 
       const response = await deleteBanner(bannerId);
-      console.log("response", response);
 
       toast.dismiss(loadingToast);
 
@@ -60,6 +57,7 @@ export default function BannerDeleteModal({
       toast.success(response?.message || "Banner deleted successfully!");
 
       // Close modal on success
+      setIsDeleting(false);
       setOpen(false);
     } catch (error) {
       console.error("Delete error:", error);
@@ -67,9 +65,6 @@ export default function BannerDeleteModal({
         error instanceof Error ? error.message : "Failed to delete banner"
       );
       setIsDeleting(false);
-    } finally {
-      setIsDeleting(false);
-      setOpen(false);
     }
   };
 

@@ -8,8 +8,14 @@ import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import BannerDeleteModal from "./BannerDeleteModal";
 import BannerFormModal from "./BannerFormModal";
+import ToggleSwitch from "./ToggleSwitch";
 
 export const columns: ColumnDef<Banner>[] = [
+  {
+    id: "drag",
+    header: () => null,
+    cell: ({ row }) => <DragHandle id={row.original._id} />,
+  },
   {
     id: "image",
     header: "Image",
@@ -17,19 +23,18 @@ export const columns: ColumnDef<Banner>[] = [
       const imageUrl = row.original.image;
 
       return (
-        <div className="relative w-20 h-20 overflow-hidden rounded">
+        <div className="relative w-[50px] h-[50px] overflow-hidden rounded">
           <Image
             src={imageUrl}
             alt={row.original.heading}
-            width={80}
-            height={80}
+            width={50}
+            height={50}
             className="object-cover h-full w-full"
           />
         </div>
       );
     },
   },
-
   {
     accessorKey: "tagline",
     header: "Tagline",
@@ -40,9 +45,25 @@ export const columns: ColumnDef<Banner>[] = [
   },
   {
     accessorKey: "shortDesc",
-    header: "ShortDesc",
+    header: "Short Description",
   },
-
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const banner = row.original;
+      return (
+        <ToggleSwitch
+          bannerId={banner._id}
+          initialStatus={banner.status || false}
+          onStatusChange={(newStatus) => {
+            // Optional: Handle status change (e.g., update cache, show toast)
+            console.log(`Banner ${banner._id} status changed to ${newStatus}`);
+          }}
+        />
+      );
+    },
+  },
   {
     id: "actions",
     header: "Actions",
@@ -60,15 +81,9 @@ export const columns: ColumnDef<Banner>[] = [
                 <Trash2 className="h-4 w-4" />
               </Button>
             }
-            onSuccess={() => {}}
           />
         </div>
       );
     },
-  },
-  {
-    id: "drag",
-    header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original._id} />,
   },
 ];
