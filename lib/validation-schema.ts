@@ -56,6 +56,22 @@ export const bannerStatusSchema = z.object({
   status: z.boolean("Value must be boolean!"),
 });
 
+export const categorySchema = z.object({
+  name: z.string("Required!").min(1, "Required!"),
+  slug: z.string("Required!").min(1, "Required!").toLowerCase(),
+  status: z.boolean("Status must be boolean!").optional(),
+});
+
+export const categoryUpdateSchema = z.object({
+  name: z.string("Name must be string!").optional(),
+  slug: z.string("Slug must be string!").toLowerCase().optional(),
+  status: z.boolean("Status must be boolean!").optional(),
+});
+
+export const categorySortSchema = z.object({
+  sortedIds: z.array(z.string()).min(1, "Required!"),
+});
+
 export const dataTableSchema = z.object({
   id: z.string(),
   title: z.string(),
