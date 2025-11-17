@@ -1,9 +1,11 @@
-import AddBanner from "./_components/AddBanner";
+import { getBanners } from "@/actions/banner/getBanners";
+import BannerLists from "./_components/BannerList";
 
-export default function BannerPage() {
+export default async function BannerPage() {
+  const banners = await getBanners();
   return (
-    <div>
-      <AddBanner />
-    </div>
+    <>
+      <BannerLists data={banners?.data} />
+    </>
   );
 }
