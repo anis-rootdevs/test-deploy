@@ -67,7 +67,7 @@ export default function BannerLists({ data }: { data: Banner[] }) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <BannerTableToolbar table={table as any} />
       <DataTable
         data={data}

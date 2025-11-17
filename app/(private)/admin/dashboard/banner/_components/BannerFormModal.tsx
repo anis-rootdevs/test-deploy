@@ -120,8 +120,11 @@ export default function BannerFormModal({
             <SquarePen className="h-4 w-4" />
           </Button>
         ) : (
-          <Button size="sm">
-            <Plus className="mr-2 h-4 w-4" />
+          <Button
+            size="sm"
+            className="font-jost font-medium rounded-sm h-9 cursor-pointer"
+          >
+            <Plus className="h-4 w-4" />
             Add New Banner
           </Button>
         )}
