@@ -1,11 +1,11 @@
 import { asyncHandler } from "@/lib/async-handler";
 import { apiResponse } from "@/lib/utils";
-import { categorySortSchema } from "@/lib/validation-schema";
+import { sortSchema } from "@/lib/validation-schema";
 import Category from "@/model/Category";
 
 // Category Sorting
 export const PUT = asyncHandler(
-  categorySortSchema,
+  sortSchema,
   async (req, data) => {
     const { sortedIds } = data;
 

@@ -3,12 +3,12 @@ import { asyncFormDataHandler } from "@/lib/async-formdata-handler";
 import { asyncHandler } from "@/lib/async-handler";
 import { fileValidator } from "@/lib/file-validator";
 import { apiResponse } from "@/lib/utils";
-import { bannerUpdateSchema } from "@/lib/validation-schema";
+import { bannerSchema } from "@/lib/validation-schema";
 import Banner from "@/model/Banner";
 
 // Update a banner
 export const PUT = asyncFormDataHandler(
-  bannerUpdateSchema,
+  bannerSchema.partial(),
   async (req, data, formData, params) => {
     const { id } = params;
 
