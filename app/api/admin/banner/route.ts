@@ -65,7 +65,7 @@ export const GET = asyncHandler(async () => {
   return apiResponse(
     true,
     200,
-    "Banner has been fetched successfully!",
+    "Banners has been fetched successfully!",
     banners
   );
 }, true);
