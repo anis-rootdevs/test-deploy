@@ -44,7 +44,7 @@ export const bannerSchema = z.object({
   shortDesc: z.string("Required").min(1, "Required!").trim(),
 });
 
-export const bannerStatusSchema = z.object({
+export const statusSchema = z.object({
   status: z.boolean("Value must be boolean!"),
 });
 
