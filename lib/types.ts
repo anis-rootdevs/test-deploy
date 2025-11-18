@@ -32,8 +32,9 @@ export interface Products {
   name: string;
   shortDesc?: string;
   price?: number;
-  category?: boolean;
-  image: string;
+  category?: string;
+  image?: string;
+  status?: boolean;
 }
 
 export type NewsletterFormData = z.infer<typeof newsletterSchema>;

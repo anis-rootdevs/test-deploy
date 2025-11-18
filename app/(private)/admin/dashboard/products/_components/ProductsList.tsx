@@ -2,8 +2,10 @@
 
 import DataTable from "@/components/custom/data-table/DataTable";
 import DataTablePagination from "@/components/custom/data-table/DataTablePagination";
-import { Products } from "@/lib/types";
+import { Button } from "@/components/ui/button";
+import { Category, Products } from "@/lib/types";
 import {
+  ColumnDef,
   ColumnFiltersState,
   getCoreRowModel,
   getFilteredRowModel,
@@ -13,15 +15,113 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
+import { Trash2 } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
-import { columns } from "./columns";
+import ProductDeleteModal from "./ProductDeleteModal";
+import ProductsFormModal from "./ProductsFormModal";
+import ProductsStatusChange from "./ProductsStatusChange";
 import ProductTableToolbar from "./ProductTableToolbar";
 
-export default function ProductsList({ products }: { products: Products[] }) {
+export default function ProductsList({
+  products,
+  categories,
+}: {
+  products: Products[];
+  categories: Category[];
+}) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const columns: ColumnDef<Products>[] = [
+    {
+      id: "image",
+      header: "Image",
+      cell: ({ row }) => {
+        const imageUrl = row.original.image || "/images/placeholder.jpg";
+
+        return (
+          <div className="relative w-[50px] h-[50px] overflow-hidden rounded">
+            <Image
+              src={imageUrl}
+              alt={row.original.name}
+              width={50}
+              height={50}
+              className="object-cover h-full w-full"
+            />
+          </div>
+        );
+      },
+    },
+
+    {
+      accessorKey: "name",
+      header: "Name",
+    },
+    {
+      accessorKey: "shortDesc",
+      header: "Short Description",
+    },
+    {
+      accessorKey: "category",
+      header: "Category",
+    },
+    {
+      accessorKey: "price",
+      header: "Price ($)",
+    },
+
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        const product: Products = row.original;
+        return (
+          <ProductsStatusChange
+            productId={product._id}
+            initialStatus={product.status || false}
+            onStatusChange={(newStatus) => {
+              // Optional: Handle status change (e.g., update cache, show toast)
+              console.log(
+                `Banner ${product._id} status changed to ${newStatus}`
+              );
+            }}
+          />
+        );
+      },
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const product = row.original;
+
+        return (
+          <div className="flex items-center gap-2">
+            <ProductsFormModal
+              isEditMode={true}
+              product={product}
+              categories={categories}
+            />
+            <ProductDeleteModal
+              productId={product._id}
+              trigger={
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  className="cursor-pointer"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              }
+            />
+          </div>
+        );
+      },
+    },
+  ];
 
   // Create table instance
   const table = useReactTable<Products>({
@@ -44,32 +144,14 @@ export default function ProductsList({ products }: { products: Products[] }) {
     getSortedRowModel: getSortedRowModel(),
   });
 
-  // Handle drag and drop position changes
-  //   const handleDataChange = async (newData: Category[]) => {
-  //     const sortedIds = newData.map((category) => category._id);
-
-  //     try {
-  //       const response = await shortsCategoryTable({ sortedIds });
-
-  //       if (!response.status) {
-  //         toast.error(response.message || "Failed to update category order");
-  //         return;
-  //       }
-
-  //       toast.success(response.message || "Category order updated successfully!");
-  //     } catch (error) {
-  //       toast.error("Failed to update category order");
-  //     }
-  //   };
   return (
     <div className="flex flex-col gap-6">
-      <ProductTableToolbar table={table} />
+      <ProductTableToolbar table={table} categories={categories} />
       <DataTable
         data={products}
         columns={columns}
         getRowId={(row) => row._id}
         table={table}
-        // onDataChange={handleDataChange}
       />
 
       <DataTablePagination table={table} />

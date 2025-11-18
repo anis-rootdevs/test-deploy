@@ -26,9 +26,9 @@ export default function BannerLists({ data }: { data: Banner[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   // Create table instance
-  const table = useReactTable({
+  const table = useReactTable<Banner>({
     data: data,
-    columns: columns as any,
+    columns: columns,
     initialState: {
       pagination: {
         pageSize: 10,
@@ -68,10 +68,10 @@ export default function BannerLists({ data }: { data: Banner[] }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <BannerTableToolbar table={table as any} />
+      <BannerTableToolbar table={table} />
       <DataTable
         data={data}
-        columns={columns as any}
+        columns={columns}
         getRowId={(row) => row._id}
         table={table}
         onDataChange={handleDataChange}

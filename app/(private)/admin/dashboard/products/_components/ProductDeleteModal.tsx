@@ -5,12 +5,13 @@ import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
+  AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { AlertDialogContent } from "@radix-ui/react-alert-dialog";
+
 import { Loader2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import toast from "react-hot-toast";

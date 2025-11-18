@@ -1,7 +1,6 @@
 "use server";
 
 import { apiClient } from "@/lib/api-client";
-import { Category } from "@/lib/types";
 import { updateTag } from "next/cache";
 
 interface GetProductListParams {
@@ -46,21 +45,45 @@ export async function getProductList(params: GetProductListParams = {}) {
   }
 }
 
-export async function createCategory(data: Category) {
+export async function createProduct(data: FormData) {
   try {
-    const res = await apiClient("/api/admin/category", {
+    const res = await apiClient("/api/admin/product", {
       method: "POST",
       body: data,
+      isFormData: true,
     });
     if (res?.status) {
-      updateTag("categories");
+      updateTag("product");
     }
     return res;
   } catch (error) {
     return {
       ok: false,
       message:
-        error instanceof Error ? error.message : "Failed to create category",
+        error instanceof Error ? error.message : "Failed to create product",
+      data: null,
+    };
+  }
+}
+
+export async function updateProduct(id: string, formData: FormData) {
+  try {
+    const res = await apiClient(`/api/admin/product/${id}`, {
+      method: "PUT",
+      body: formData,
+      isFormData: true,
+    });
+
+    if (res?.status) {
+      updateTag("product");
+    }
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Failed to update product",
       data: null,
     };
   }
@@ -82,6 +105,52 @@ export async function deleteProduct(id: string) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to delete Product",
+      data: null,
+    };
+  }
+}
+
+export async function shortsProductTable(data: any) {
+  try {
+    const res = await apiClient("/api/admin/banner/sort", {
+      method: "PUT",
+      body: data,
+    });
+    if (res?.status) {
+      updateTag("product");
+    }
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Failed to shorts product",
+      data: null,
+    };
+  }
+}
+
+export async function changeProductStatus(id: string, status: boolean) {
+  try {
+    const res = await apiClient(`/api/admin/category/status/${id}`, {
+      method: "PUT",
+      body: { status },
+      cache: "no-store",
+    });
+
+    if (res?.status) {
+      updateTag("product");
+    }
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to update product status",
       data: null,
     };
   }
