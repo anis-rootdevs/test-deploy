@@ -17,6 +17,7 @@ import {
 } from "@tanstack/react-table";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
+
 import { useState } from "react";
 import ProductDeleteModal from "./ProductDeleteModal";
 import ProductsFormModal from "./ProductsFormModal";
@@ -147,6 +148,7 @@ export default function ProductsList({
   return (
     <div className="flex flex-col gap-6">
       <ProductTableToolbar table={table} categories={categories} />
+
       <DataTable
         data={products}
         columns={columns}

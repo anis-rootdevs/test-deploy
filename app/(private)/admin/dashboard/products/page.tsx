@@ -8,8 +8,8 @@ export default async function ProductsHome() {
 
   return (
     <ProductsList
-      products={products?.data?.docs}
-      categories={categories?.data}
+      products={products?.data?.docs || []}
+      categories={categories?.data || []}
     />
   );
 }

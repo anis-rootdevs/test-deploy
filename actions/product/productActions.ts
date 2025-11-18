@@ -133,7 +133,7 @@ export async function shortsProductTable(data: any) {
 
 export async function changeProductStatus(id: string, status: boolean) {
   try {
-    const res = await apiClient(`/api/admin/category/status/${id}`, {
+    const res = await apiClient(`/api/admin/product/status/${id}`, {
       method: "PUT",
       body: { status },
       cache: "no-store",

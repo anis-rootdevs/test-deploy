@@ -1,5 +1,5 @@
-import Header from "@/app/(private)/admin/dashboard/_components/Header";
 import AppSidebar from "@/app/(private)/admin/dashboard/_components/AppSidebar";
+import Header from "@/app/(private)/admin/dashboard/_components/Header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import DashboardProvider from "@/provider/dashboard-provider";
 

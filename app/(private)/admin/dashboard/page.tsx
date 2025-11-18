@@ -1,11 +1,9 @@
 "use client";
 
 import useUserProfile from "@/store/useUserProfile";
-import { useState } from "react";
 
 export default function DashboardPage() {
   const { userData } = useUserProfile();
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   return (
     <div className="">
