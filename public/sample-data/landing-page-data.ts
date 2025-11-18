@@ -7,7 +7,7 @@ import {
   PieChart,
   Settings2,
 } from "lucide-react";
-import { TbSlideshow } from "react-icons/tb";
+import { TbCategory, TbSlideshow } from "react-icons/tb";
 
 // nav items
 export const navItems = [
@@ -251,6 +251,11 @@ export const adminDashboardMenu = {
       title: "Banner",
       url: routes.privateRoutes.admin.banner,
       icon: TbSlideshow,
+    },
+    {
+      title: "Categories",
+      url: routes.privateRoutes.admin.categories,
+      icon: TbCategory,
     },
     {
       title: "Models",
