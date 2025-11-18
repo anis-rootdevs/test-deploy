@@ -1,23 +1,23 @@
 import { asyncHandler } from "@/lib/async-handler";
 import { apiResponse } from "@/lib/utils";
 import { statusSchema } from "@/lib/validation-schema";
-import Banner from "@/model/Banner";
+import Category from "@/model/Category";
 
-// Banner status update
+// Category status update
 export const PUT = asyncHandler(
   statusSchema,
   async (req, data, params) => {
     const { id } = params;
 
-    const banner = await Banner.findById(id);
-    if (!banner) return apiResponse(false, 404, "Banner not found!");
+    const category = await Category.findById(id);
+    if (!category) return apiResponse(false, 404, "Category not found!");
 
-    await Banner.findByIdAndUpdate(id, data);
+    await Category.findByIdAndUpdate(id, data);
 
     return apiResponse(
       true,
       200,
-      "Banner status has been updated successfully!"
+      "Category status has been updated successfully!"
     );
   },
   true
