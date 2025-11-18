@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteBanner } from "@/actions/banner/bannerActions";
+import { deleteCategory } from "@/actions/categories/categoriesActions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,27 +15,21 @@ import { Loader2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import toast from "react-hot-toast";
 
-interface BannerDeleteModalProps {
+interface CategoryDeleteModalProps {
   trigger: ReactNode;
-  bannerId: string;
+  categoryId: string;
   title?: string;
-  description?: string;
-  itemName?: string;
 }
 
-export default function BannerDeleteModal({
+const CategoryDeleteModal = ({
   trigger,
-  bannerId,
-  title = "Delete Banner?",
-  description,
-  itemName,
-}: BannerDeleteModalProps) {
+  categoryId,
+  title = "Delete Category?",
+}: CategoryDeleteModalProps) => {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const defaultDescription = itemName
-    ? `This action cannot be undone. This will permanently delete`
-    : "This action cannot be undone. This will permanently delete this banner.";
+  const defaultDescription = `This action cannot be undone. This will permanently delete`;
 
   const handleDelete = async () => {
     try {
@@ -43,7 +37,7 @@ export default function BannerDeleteModal({
 
       const loadingToast = toast.loading("Deleting banner...");
 
-      const response = await deleteBanner(bannerId);
+      const response = await deleteCategory(categoryId);
 
       toast.dismiss(loadingToast);
 
@@ -74,9 +68,7 @@ export default function BannerDeleteModal({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {description || defaultDescription}
-          </AlertDialogDescription>
+          <AlertDialogDescription>{defaultDescription}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
@@ -101,4 +93,6 @@ export default function BannerDeleteModal({
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+};
+
+export default CategoryDeleteModal;

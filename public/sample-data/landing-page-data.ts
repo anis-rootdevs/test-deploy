@@ -1,15 +1,13 @@
 import { routes } from "@/config/routes";
 import {
-  AudioWaveform,
   BookOpen,
   Bot,
-  Command,
   Frame,
   GalleryVerticalEnd,
   PieChart,
   Settings2,
-  SquareTerminal,
 } from "lucide-react";
+import { TbCategory, TbSlideshow } from "react-icons/tb";
 
 // nav items
 export const navItems = [
@@ -243,41 +241,21 @@ export const adminDashboardMenu = {
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "Cafe Shop",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
+      // plan: "Enterprise",
     },
   ],
   navMain: [
     {
       title: "Banner",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "Banner List",
-          url: routes.privateRoutes.admin.banner,
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+      url: routes.privateRoutes.admin.banner,
+      icon: TbSlideshow,
+    },
+    {
+      title: "Categories",
+      url: routes.privateRoutes.admin.categories,
+      icon: TbCategory,
     },
     {
       title: "Models",
@@ -325,24 +303,6 @@ export const adminDashboardMenu = {
       title: "Settings",
       url: "#",
       icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
     },
   ],
   projects: [

@@ -1,7 +1,15 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { Table } from "@tanstack/react-table";
+import Link from "next/link";
 import BannerFormModal from "./BannerFormModal";
 
 interface BannerTableToolbarProps<TData> {
@@ -13,15 +21,29 @@ export default function BannerTableToolbar<TData>({
 }: BannerTableToolbarProps<TData>) {
   return (
     <div className="flex items-center justify-between">
-      <div className="flex flex-1 items-center gap-2">
-        <Input
-          placeholder="Filter tasks..."
-          value={(table.getColumn("tagline")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("tagline")?.setFilterValue(event.target.value)
-          }
-          className="h-10 w-[150px] lg:w-[250px]"
-        />
+      <div className="flex flex-col flex-1 gap-2">
+        <h2 className="font-jost font-medium text-lg">Manage Banner</h2>
+        <div>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/">Home</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/admin/dashboard">Dashboard</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage className="text-primary">Banner</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
       </div>
       <div className="flex items-center gap-2">
         <BannerFormModal isEditMode={false} />

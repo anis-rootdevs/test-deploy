@@ -1,10 +1,10 @@
 "use client";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { FieldError, FieldValues, useFormContext } from "react-hook-form";
-import { cn } from "@/lib/utils";
 import { FormInputProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { BadgeAlert } from "lucide-react";
+import { FieldError, FieldValues, useFormContext } from "react-hook-form";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 export default function InputField<TFieldValues extends FieldValues>({
   id,

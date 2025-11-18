@@ -20,10 +20,12 @@ export type DecodedToken = {
   role: "admin" | "user";
 };
 export interface Category {
-  id: string;
+  _id: string;
   name: string;
   slug: string;
   count?: number;
+  status?: boolean;
+  position?: number;
 }
 
 export type NewsletterFormData = z.infer<typeof newsletterSchema>;
@@ -82,6 +84,7 @@ export interface FormInputProps<TFieldValues extends FieldValues> {
   className?: string;
   prefix?: ReactNode;
   postfix?: ReactNode;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 // change password
@@ -96,4 +99,5 @@ export type Banner = {
   position: number;
   createdAt: string;
   updatedAt: string;
+  status?: boolean;
 };

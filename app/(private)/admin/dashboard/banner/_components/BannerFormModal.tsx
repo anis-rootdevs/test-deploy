@@ -1,6 +1,6 @@
 "use client";
 
-import { revalidateBanners } from "@/actions/revalidateTag";
+import { createBanner, updateBanner } from "@/actions/banner/bannerActions";
 import InputField from "@/components/form/InputField";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import { Banner } from "@/lib/types";
 import { Loader2, Plus, SquarePen } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -28,19 +27,15 @@ interface BannerFormData {
 interface BannerFormModalProps {
   banner?: Banner | null;
   isEditMode?: boolean;
-  onSuccess?: () => void;
 }
 
 export default function BannerFormModal({
   banner,
   isEditMode = false,
-  onSuccess,
 }: BannerFormModalProps) {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const methods = useForm<BannerFormData>();
-  const { data: session } = useSession();
-  const token = session?.token;
 
   const {
     handleSubmit,
@@ -86,29 +81,17 @@ export default function BannerFormModal({
         formData.append("image", imageFiles[0]);
       }
 
-      const url = isEditMode
-        ? `/api/admin/banner/${banner?._id}`
-        : "/api/admin/banner";
-
-      const method = isEditMode ? "PUT" : "POST";
+      const result = isEditMode
+        ? await updateBanner(banner?._id || "", formData)
+        : await createBanner(formData);
 
       const loadingToast = toast.loading(
         isEditMode ? "Updating banner..." : "Adding banner..."
       );
 
-      const res = await fetch(url, {
-        method,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const result = await res.json();
-
       toast.dismiss(loadingToast);
 
-      if (!res.ok) {
+      if (!result.status) {
         toast.error(result.message || "Failed to save banner");
         return;
       }
@@ -123,8 +106,6 @@ export default function BannerFormModal({
       setIsDialogOpen(false);
       reset();
       setImageFiles([]);
-
-      await revalidateBanners();
     } catch (error: any) {
       console.error(error);
       toast.error("Error saving banner!");
@@ -139,9 +120,12 @@ export default function BannerFormModal({
             <SquarePen className="h-4 w-4" />
           </Button>
         ) : (
-          <Button size="sm">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Banner
+          <Button
+            size="sm"
+            className="font-jost font-medium rounded-sm h-9 cursor-pointer"
+          >
+            <Plus className="h-4 w-4" />
+            Add New Banner
           </Button>
         )}
       </DialogTrigger>

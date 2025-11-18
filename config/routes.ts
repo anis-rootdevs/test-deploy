@@ -13,6 +13,7 @@ export const routes = {
     admin: {
       dashboard: "/admin/dashboard",
       banner: "/admin/dashboard/banner",
+      categories: "/admin/dashboard/categories",
       faq: {
         home: `/admin/faqs`,
       },

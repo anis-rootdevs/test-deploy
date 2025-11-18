@@ -1,12 +1,11 @@
 "use client";
-import { shortsTable } from "@/actions/banner/bannerActions";
+
+import { shortsCategoryTable } from "@/actions/categories/categoriesActions";
 import DataTable from "@/components/custom/data-table/DataTable";
-import { Banner } from "@/lib/types";
+import { Category } from "@/lib/types";
 import {
   ColumnFiltersState,
   getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
@@ -16,19 +15,23 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import BannerTableToolbar from "./BannerTableToolbar";
+import CategoriesTableToolbar from "./CategoriesTableToolbar";
 import { columns } from "./columns";
 
-export default function BannerLists({ data }: { data: Banner[] }) {
+export default function CategoriesList({
+  categories,
+}: {
+  categories: Category[];
+}) {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
   // Create table instance
-  const table = useReactTable({
-    data: data,
-    columns: columns as any,
+  const table = useReactTable<Category>({
+    data: categories,
+    columns: columns,
     initialState: {
       pagination: {
         pageSize: 10,
@@ -44,34 +47,31 @@ export default function BannerLists({ data }: { data: Banner[] }) {
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
   // Handle drag and drop position changes
-  const handleDataChange = async (newData: Banner[]) => {
-    const sortedIds = newData.map((banner) => banner._id);
+  const handleDataChange = async (newData: Category[]) => {
+    const sortedIds = newData.map((category) => category._id);
 
     try {
-      const response = await shortsTable({ sortedIds });
+      const response = await shortsCategoryTable({ sortedIds });
 
       if (!response.status) {
-        toast.error(response.message || "Failed to update banner order");
+        toast.error(response.message || "Failed to update category order");
         return;
       }
 
-      toast.success(response.message || "Banner order updated successfully!");
+      toast.success(response.message || "Category order updated successfully!");
     } catch (error) {
-      toast.error("Failed to update banner order");
+      toast.error("Failed to update category order");
     }
   };
-
   return (
     <div className="flex flex-col gap-6">
-      <BannerTableToolbar table={table as any} />
+      <CategoriesTableToolbar table={table} />
       <DataTable
-        data={data}
-        columns={columns as any}
+        data={categories}
+        columns={columns}
         getRowId={(row) => row._id}
         table={table}
         onDataChange={handleDataChange}
