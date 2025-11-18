@@ -35,8 +35,31 @@ export default function CategoriesFormModal({
   const {
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { isSubmitting },
   } = methods;
+
+  // Watch the name field
+  const nameValue = watch("name");
+
+  // Function to generate slug from name
+  const generateSlug = (text: string): string => {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
+  };
+
+  // Auto-generate slug when name changes
+  useEffect(() => {
+    if (nameValue) {
+      const slug = generateSlug(nameValue);
+      setValue("slug", slug);
+    }
+  }, [nameValue, setValue]);
 
   // Reset form when dialog opens
   useEffect(() => {
@@ -91,79 +114,77 @@ export default function CategoriesFormModal({
   };
 
   return (
-    <div>
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogTrigger asChild>
-          {isEditMode ? (
-            <Button variant="outline" size="icon" className="cursor-pointer">
-              <SquarePen className="h-4 w-4" />
-            </Button>
-          ) : (
-            <Button
-              size="sm"
-              className="font-jost font-medium rounded-sm h-9 cursor-pointer"
-            >
-              <Plus className="h-4 w-4" />
-              Add New Category
-            </Button>
-          )}
-        </DialogTrigger>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>
-              {isEditMode ? "Edit category" : "Add New category"}
-            </DialogTitle>
-            <DialogDescription>
-              {isEditMode
-                ? "Update the category details below."
-                : "Fill in the details to create a new category."}
-            </DialogDescription>
-          </DialogHeader>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger asChild>
+        {isEditMode ? (
+          <Button variant="outline" size="icon" className="cursor-pointer">
+            <SquarePen className="h-4 w-4" />
+          </Button>
+        ) : (
+          <Button
+            size="sm"
+            className="font-jost font-medium rounded-sm h-9 cursor-pointer"
+          >
+            <Plus className="h-4 w-4" />
+            Add New Category
+          </Button>
+        )}
+      </DialogTrigger>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>
+            {isEditMode ? "Edit category" : "Add New category"}
+          </DialogTitle>
+          <DialogDescription>
+            {isEditMode
+              ? "Update the category details below."
+              : "Fill in the details to create a new category."}
+          </DialogDescription>
+        </DialogHeader>
 
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              {/* Tagline */}
-              <InputField
-                name="name"
-                label="Name"
-                placeholder="soft Drinks"
-                rules={{ required: "Name is required" }}
-              />
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Tagline */}
+            <InputField
+              name="name"
+              label="Name"
+              placeholder="soft Drinks"
+              rules={{ required: "Name is required" }}
+            />
 
-              {/* Heading */}
-              <InputField
-                name="slug"
-                label="Slug"
-                placeholder="soft-drinks"
-                rules={{ required: "Slug is required" }}
-              />
-              {/* Action Buttons */}
-              <div className="flex justify-end gap-3 pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
-                  disabled={isSubmitting}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      {isEditMode ? "Updating..." : "Adding..."}
-                    </>
-                  ) : isEditMode ? (
-                    "Update Category"
-                  ) : (
-                    "Add Category"
-                  )}
-                </Button>
-              </div>
-            </form>
-          </FormProvider>
-        </DialogContent>
-      </Dialog>
-    </div>
+            {/* Heading */}
+            <InputField
+              name="slug"
+              label="Slug"
+              placeholder="soft-drinks"
+              rules={{ required: "Slug is required" }}
+            />
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-3 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsDialogOpen(false)}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {isEditMode ? "Updating..." : "Adding..."}
+                  </>
+                ) : isEditMode ? (
+                  "Update Category"
+                ) : (
+                  "Add Category"
+                )}
+              </Button>
+            </div>
+          </form>
+        </FormProvider>
+      </DialogContent>
+    </Dialog>
   );
 }

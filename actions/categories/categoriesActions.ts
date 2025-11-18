@@ -109,13 +109,11 @@ export async function shortsCategoryTable(data: { sortedIds: string[] }) {
 
 export async function changeCategoryStatus(id: string, status: boolean) {
   try {
-    const res = await apiClient(`/api/admin/banner/status/${id}`, {
+    const res = await apiClient(`/api/admin/category/status/${id}`, {
       method: "PUT",
       body: { status },
       cache: "no-store",
     });
-
-    console.log("status", res);
 
     if (res?.status) {
       updateTag("categories");
