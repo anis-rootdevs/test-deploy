@@ -65,6 +65,20 @@ export const GET = asyncHandler(async (req: NextRequest) => {
         $limit: Number(limit),
       },
       {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "categoryInfo",
+        },
+      },
+      {
+        $unwind: {
+          path: "$categoryInfo",
+          preserveNullAndEmptyArrays: true, // Keep products without category
+        },
+      },
+      {
         $addFields: {
           image: {
             $cond: {
@@ -79,6 +93,12 @@ export const GET = asyncHandler(async (req: NextRequest) => {
               else: null, // or a default image URL
             },
           },
+          category: "$categoryInfo.name",
+        },
+      },
+      {
+        $project: {
+          categoryInfo: 0,
         },
       },
     ]),

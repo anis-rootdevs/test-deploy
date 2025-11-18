@@ -2,6 +2,7 @@ import { asyncHandler } from "@/lib/async-handler";
 import { apiResponse } from "@/lib/utils";
 import { categorySchema } from "@/lib/validation-schema";
 import Category from "@/model/Category";
+import Product from "@/model/Product";
 
 // Update a category
 export const PUT = asyncHandler(
@@ -29,7 +30,10 @@ export const DELETE = asyncHandler(async (req, params) => {
   const category = await Category.findOne({ _id: params.id });
   if (!category) return apiResponse(false, 404, "Category not found!");
 
-  await Category.findOneAndDelete({ _id: params.id });
+  await Promise.all([
+    Category.findOneAndDelete({ _id: params.id }),
+    Product.deleteMany({ category: params.id }),
+  ]);
 
-  return apiResponse(true, 201, "Category has been deleted successfully!");
+  return apiResponse(true, 200, "Category has been deleted successfully!");
 });
