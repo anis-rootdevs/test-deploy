@@ -17,7 +17,7 @@ export const adminProfileSchema = z.object({
 });
 
 export const adminFrontendProfileSchema = z.object({
-  name: z.string().min(1, "Name is required").trim(),
+  name: z.string("name must be string!").min(1, "Required!").trim(),
   email: z.string().nullable(),
 });
 
@@ -39,9 +39,17 @@ export const passwordChangeSchema = z
   });
 
 export const bannerSchema = z.object({
-  tagline: z.string("Required").min(1, "Required!").trim(),
-  heading: z.string("Required").min(1, "Required!").trim(),
-  shortDesc: z.string("Required").min(1, "Required!").trim(),
+  tagline: z.string("tagline must be string!").min(1, "Required!").trim(),
+  heading: z.string("heading must be string!").min(1, "Required!").trim(),
+  shortDesc: z.string("shortDesc must be string!").min(1, "Required!").trim(),
+});
+
+export const outletSchema = z.object({
+  name: z.string("name must be string!").min(1, "Required!").trim(),
+  location: z.string("location must be string!").min(1, "Required!").trim(),
+  dialCode: z.string("dialCode must be string!").min(1, "Required!").trim(),
+  phone: z.string("phone must be string!").min(1, "Required!").trim(),
+  status: z.boolean("status must be boolean!").optional(),
 });
 
 export const statusSchema = z.object({
@@ -60,7 +68,7 @@ export const sortSchema = z.object({
 
 export const productSchema = z.object({
   name: z
-    .string("Name must be string!")
+    .string("name must be string!")
     .min(1, "Required!")
     .max(200, "Name must be less than 200 characters!")
     .trim(),
@@ -70,14 +78,14 @@ export const productSchema = z.object({
     .max(500, "Short description must be less than 500 characters")
     .trim(),
   price: z
-    .string("Price must be number-string!")
-    .min(1, "Price is required")
+    .string("price must be number-string!")
+    .min(1, "Required!")
     .refine((val) => !isNaN(parseFloat(val)), {
-      message: "Price must be a valid number!",
+      message: "price must be a valid number!",
     })
     .transform((val) => parseFloat(val))
-    .refine((val) => val > 0, { message: "Price must be greater than 0!" })
-    .refine((val) => val <= 999999.99, { message: "Price is too high!" }),
+    .refine((val) => val > 0, { message: "price must be greater than 0!" })
+    .refine((val) => val <= 999999.99, { message: "price is too high!" }),
   category: z
     .string("category must be string!")
     .regex(/^[0-9a-fA-F]{24}$/, "Category must be a valid MongoDB ObjectId!")
