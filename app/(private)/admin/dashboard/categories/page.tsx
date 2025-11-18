@@ -7,7 +7,7 @@ export default async function CategoriesHome() {
 
   return (
     <>
-      <CategoriesList categories={categories?.data} />
+      <CategoriesList categories={categories?.data || []} />
     </>
   );
 }

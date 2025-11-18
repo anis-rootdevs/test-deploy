@@ -19,6 +19,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { useEffect, useState } from "react";
 
 interface NavItem {
   title: string;
@@ -29,6 +30,14 @@ interface NavItem {
 
 export default function NavMenuItems({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <SidebarGroup>

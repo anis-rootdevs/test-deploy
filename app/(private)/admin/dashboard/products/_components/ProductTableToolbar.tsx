@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Category } from "@/lib/types";
 import { Table } from "@tanstack/react-table";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import ProductsFormModal from "./ProductsFormModal";
 
 interface ProductsTableToolbarProps<TData> {
@@ -23,6 +24,17 @@ export default function ProductTableToolbar<TData>({
   table,
   categories,
 }: ProductsTableToolbarProps<TData>) {
+  const [search, setSearch] = useState("");
+
+  // ✅ Debounce logic
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      table.getColumn("name")?.setFilterValue(search);
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [search, table]);
+
   return (
     <div>
       {" "}
@@ -52,10 +64,8 @@ export default function ProductTableToolbar<TData>({
           </Breadcrumb>
           <Input
             placeholder="Filter products..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="h-10 w-[150px] lg:w-[250px]"
           />
         </div>
