@@ -14,6 +14,7 @@ export const routes = {
       dashboard: "/admin/dashboard",
       banner: "/admin/dashboard/banner",
       categories: "/admin/dashboard/categories",
+      products: "/admin/dashboard/products",
       faq: {
         home: `/admin/faqs`,
       },
