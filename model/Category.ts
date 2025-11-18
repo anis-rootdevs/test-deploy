@@ -7,8 +7,8 @@ export interface ICategory extends Document {
 
 const CategorySchema: Schema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    slug: { type: String, required: true, unique: true },
+    name: { type: String, required: true, trim: true },
+    slug: { type: String, required: true, unique: true, trim: true },
     status: { type: Boolean, default: true },
     position: { type: Number, default: 0 },
   },

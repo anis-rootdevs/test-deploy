@@ -11,9 +11,9 @@ export interface IBanner extends Document {
 
 const BannerSchema: Schema = new mongoose.Schema(
   {
-    tagline: { type: String, required: true },
-    heading: { type: String, required: true },
-    shortDesc: { type: String, required: true },
+    tagline: { type: String, required: true, trim: true },
+    heading: { type: String, required: true, trim: true },
+    shortDesc: { type: String, required: true, trim: true },
     image: { type: String, required: true },
     position: { type: Number, required: true, default: 0 },
     status: { type: Boolean, default: true },
