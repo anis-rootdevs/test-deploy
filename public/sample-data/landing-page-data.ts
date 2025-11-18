@@ -258,6 +258,11 @@ export const adminDashboardMenu = {
       icon: TbCategory,
     },
     {
+      title: "Products",
+      url: routes.privateRoutes.admin.products,
+      icon: TbCategory,
+    },
+    {
       title: "Models",
       url: "#",
       icon: Bot,

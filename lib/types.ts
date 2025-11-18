@@ -27,6 +27,15 @@ export interface Category {
   status?: boolean;
   position?: number;
 }
+export interface Products {
+  _id: string;
+  name: string;
+  shortDesc?: string;
+  price?: number;
+  category?: string;
+  image?: string;
+  status?: boolean;
+}
 
 export type NewsletterFormData = z.infer<typeof newsletterSchema>;
 
