@@ -23,7 +23,9 @@ export default function CategoriesTableToolbar<TData>({
       {" "}
       <div className="flex items-center justify-between">
         <div className="flex flex-col flex-1 gap-2">
-          <h2 className="font-jost font-medium text-lg">Manage Categories</h2>
+          <h2 className="font-jost font-medium text-lg">
+            Manage Food Categories
+          </h2>
           <div>
             <Breadcrumb>
               <BreadcrumbList>

@@ -37,6 +37,7 @@ export default function CategoriesFormModal({
     reset,
     watch,
     setValue,
+    clearErrors,
     formState: { isSubmitting },
   } = methods;
 
@@ -57,7 +58,11 @@ export default function CategoriesFormModal({
   useEffect(() => {
     if (nameValue) {
       const slug = generateSlug(nameValue);
-      setValue("slug", slug);
+      setValue("slug", slug, {
+        shouldValidate: true,
+        shouldTouch: true,
+      });
+      clearErrors("slug");
     }
   }, [nameValue, setValue]);
 
@@ -133,7 +138,7 @@ export default function CategoriesFormModal({
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {isEditMode ? "Edit category" : "Add New category"}
+            {isEditMode ? "Edit Category" : "Add New Category"}
           </DialogTitle>
           <DialogDescription>
             {isEditMode
@@ -149,7 +154,7 @@ export default function CategoriesFormModal({
               name="name"
               label="Name"
               placeholder="soft Drinks"
-              rules={{ required: "Name is required" }}
+              rules={{ required: "Required!" }}
             />
 
             {/* Heading */}
@@ -157,7 +162,7 @@ export default function CategoriesFormModal({
               name="slug"
               label="Slug"
               placeholder="soft-drinks"
-              rules={{ required: "Slug is required" }}
+              rules={{ required: "Required!" }}
             />
             {/* Action Buttons */}
             <div className="flex justify-end gap-3 pt-4">
