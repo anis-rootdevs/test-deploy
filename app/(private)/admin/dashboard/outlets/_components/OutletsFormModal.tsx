@@ -168,30 +168,22 @@ export default function OutletsFormModal({
                   <PhoneInput
                     country={"bd"}
                     value={field.value}
-                    onChange={(value, country: any) => {
+                    onChange={(value, country) => {
                       field.onChange(value);
-                      // Update dialCode separately
-                      methods.setValue("dialCode", `+${country.dialCode}`);
+                      if (country && "dialCode" in country) {
+                        methods.setValue("dialCode", `+${country.dialCode}`);
+                      }
                     }}
-                    inputStyle={{
-                      width: "100%",
-                      height: "48px",
-                      fontSize: "14px",
-                      borderRadius: "6px",
-                      boxShadow: "20px",
-                      border: errors.phone
-                        ? "1px solid #ef4444"
-                        : "1px solid #e5e7eb",
-                    }}
-                    buttonStyle={{
-                      border: errors.phone
-                        ? "1px solid #ef4444"
-                        : "1px solid #e5e7eb ",
-                      borderRadius: "6px 0 0 6px",
-                      backgroundColor: "#f9fafb",
-                      transition: "all 0.2s",
-                    }}
-                    containerClass="w-full "
+                    containerClass="w-full"
+                    inputClass={`!w-full !h-12 !text-sm !rounded-md !bg-input !text-foreground !border !border-border focus:!border-primary
+          ${errors.phone ? "!border-destructive" : ""}`}
+                    buttonClass={`!rounded-l-md !bg-muted !text-foreground !border !border-border ${
+                      errors.phone ? "!border-destructive" : ""
+                    }
+        `}
+                    dropdownClass="
+          !bg-popover !text-foreground !border !border-border
+        "
                   />
                 )}
               />

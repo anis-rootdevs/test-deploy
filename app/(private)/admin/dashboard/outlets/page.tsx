@@ -5,7 +5,6 @@ import OutletsList from "./_components/OutletsList";
 
 export default async function OutletsHome() {
   const outlets = await getOutletsList();
-  console.log(outlets);
   return (
     <Suspense
       fallback={

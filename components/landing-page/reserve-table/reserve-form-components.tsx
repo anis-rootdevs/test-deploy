@@ -1,20 +1,7 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { CustomButton } from "@/components/custom/custom-button";
+import DatePickerField from "@/components/custom/DatePickerFiled";
 import {
   Form,
   FormControl,
@@ -23,6 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -30,49 +18,79 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { CustomButton } from "@/components/custom/custom-button";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
-
-type ReservationFormValues = z.infer<typeof reservationSchema>;
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const reservationSchema = z.object({
+  outletName: z.string().min(1, "Please select an outlet"),
   reason: z.string().min(1, "Please select a reservation reason"),
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Enter a valid email"),
-  date: z.date({
-    message: "Please select a date",
-  }),
-  time: z.string().min(1, "Please choose a time"),
+  date: z.string().min(1, "Please select a date"),
   people: z.string().min(1, "Number of people is required"),
   message: z.string().optional(),
 });
 
-const ReserveFormComponents = () => {
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+type ReservationFormValues = z.infer<typeof reservationSchema>;
 
+const ReserveFormComponents = () => {
   const form = useForm<ReservationFormValues>({
     resolver: zodResolver(reservationSchema),
     defaultValues: {
+      outletName: "",
       reason: "",
       name: "",
       email: "",
-      date: undefined,
-      time: "",
+      date: "",
       people: "",
       message: "",
     },
   });
 
   const onSubmit = (values: ReservationFormValues) => {
-    console.log(values);
+    console.log("Form Values:", values);
+    // Handle form submission here
   };
 
   return (
     <div className="w-full bg-[#FAF8F5] dark:bg-[#222831] p-8 md:p-12 xl:max-w-3xl lg:max-w-[550px] mx-auto shadow-[0_0_10px_0_rgba(0,0,0,0.15)]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* Outlet Name */}
+          <FormField
+            control={form.control}
+            name="outletName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-jost text-base font-medium">
+                  Outlets Name
+                </FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-full min-h-[2.8rem] border border-[#E2E2E2] dark:border-[#0F141B] bg-transparent focus:ring-0 focus:ring-offset-0 focus:border-[#1B2A41] outline-none">
+                      <SelectValue placeholder="Select Outlet" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem
+                      value="outlet1"
+                      className="hover:bg-primary hover:text-black"
+                    >
+                      Outlet 1 - Dhaka
+                    </SelectItem>
+                    <SelectItem value="outlet2">
+                      Outlet 2 - Chittagong
+                    </SelectItem>
+                    <SelectItem value="outlet3">Outlet 3 - Sylhet</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* Reservation Reason */}
           <FormField
             control={form.control}
@@ -153,86 +171,21 @@ const ReserveFormComponents = () => {
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel className="font-jost text-base font-medium">
-                  Reservation Date
-                </FormLabel>
-                <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full h-11 pl-3 text-left font-normal border border-[#E2E2E2] dark:border-[#0F141B] bg-transparent hover:bg-transparent focus:ring-0 focus:ring-offset-0 focus:border-[#1B2A41] outline-none",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value
-                          ? format(field.value, "MM-dd-yyyy")
-                          : "mm/dd/yyyy"}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50 dark:text-[#FEFEFF]" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={(date) => {
-                        field.onChange(date);
-                        setIsCalendarOpen(false);
-                      }}
-                      disabled={(date) =>
-                        date < new Date(new Date().setHours(0, 0, 0, 0))
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Time */}
-          <FormField
-            control={form.control}
-            name="time"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-jost text-base font-medium">
-                  Reservation Time
-                </FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    className="flex flex-wrap gap-4"
-                  >
-                    {[
-                      "8:00 PM",
-                      "8:30 PM",
-                      "9:00 PM",
-                      "9:30 PM",
-                      "10:00 PM",
-                      "10:30 PM",
-                    ].map((time) => (
-                      <div key={time} className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value={time}
-                          id={time}
-                          className="border border-[#1B2A41] dark:border-[#FEFEFF]"
-                        />
-                        <Label
-                          htmlFor={time}
-                          className="text-base font-jost font-normal"
-                        >
-                          {time}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
+                <DatePickerField
+                  name="date"
+                  control={form.control}
+                  label="Reservation Date & Time"
+                  placeholder="Select reservation date and time"
+                  required
+                  enableTime
+                  time_24hr={false}
+                  minuteIncrement={15}
+                  dateFormat="Y-m-d h:i K"
+                  minDate="today"
+                  rules={{ required: "Required!" }}
+                  error={form.formState.errors.date}
+                  containerClassName="w-full "
+                />
               </FormItem>
             )}
           />
@@ -285,7 +238,7 @@ const ReserveFormComponents = () => {
           <CustomButton
             type="submit"
             variant="filled"
-            className="dark:bg-primary dark:text-[#181C20]"
+            className="dark:bg-primary dark:text-[#181C20] w-full"
           >
             Reserve Table
           </CustomButton>

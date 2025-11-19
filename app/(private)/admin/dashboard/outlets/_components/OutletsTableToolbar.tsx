@@ -1,21 +1,19 @@
 "use client";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
 import { Input } from "@/components/ui/input";
 import { Table } from "@tanstack/react-table";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import OutletsFormModal from "./OutletsFormModal";
 
 interface BannerTableToolbarProps<TData> {
   table: Table<TData>;
 }
+
+const breadcrumbItems = [
+  { label: "Home", href: "/" },
+  { label: "Dashboard", href: "/admin/dashboard" },
+  { label: "Outlets" },
+];
 
 export default function OutletsTableToolbar<TData>({
   table,
@@ -35,27 +33,7 @@ export default function OutletsTableToolbar<TData>({
       <div className="flex flex-col flex-1 gap-2">
         <h2 className="font-jost font-medium text-lg">Manage Outlets</h2>
         <div className="mb-1">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/">Home</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/admin/dashboard">Dashboard</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage className="text-primary">
-                  Outlets
-                </BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <DynamicBreadcrumb items={breadcrumbItems} />
         </div>
         <Input
           placeholder="Filter products..."
