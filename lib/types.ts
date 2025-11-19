@@ -36,6 +36,15 @@ export interface Products {
   image?: string;
   status?: boolean;
 }
+export interface Outlets {
+  _id: string;
+  name: string;
+  location?: string;
+  dialCode?: string;
+  phone?: string;
+  image?: string;
+  status?: boolean;
+}
 
 export type NewsletterFormData = z.infer<typeof newsletterSchema>;
 

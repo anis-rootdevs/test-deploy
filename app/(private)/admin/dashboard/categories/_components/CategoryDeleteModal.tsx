@@ -29,7 +29,7 @@ const CategoryDeleteModal = ({
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const defaultDescription = `This action cannot be undone. This will permanently delete`;
+  const defaultDescription = `This will permanently delete the category and all products under it. This action cannot be undone.`;
 
   const handleDelete = async () => {
     try {
