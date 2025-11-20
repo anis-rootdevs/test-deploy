@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { requiredNumberField, requiredStringField } from "./utils";
 
 export const newsletterSchema = z.object({
   email: z
@@ -39,9 +40,10 @@ export const passwordChangeSchema = z
   });
 
 export const bannerSchema = z.object({
-  tagline: z.string("tagline must be string!").min(1, "Required!").trim(),
-  heading: z.string("heading must be string!").min(1, "Required!").trim(),
-  shortDesc: z.string("shortDesc must be string!").min(1, "Required!").trim(),
+  tagline: requiredStringField("tagline"),
+  heading: requiredStringField("heading"),
+  shortDesc: requiredStringField("shortDesc"),
+  theme: requiredNumberField("theme", [1, 2, 3, 4]),
 });
 
 export const outletSchema = z.object({
