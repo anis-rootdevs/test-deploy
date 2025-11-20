@@ -2,7 +2,7 @@ import { deleteFromCloudinary, uploadToCloudinary } from "@/config/cloudinary";
 import { asyncFormDataHandler } from "@/lib/async-formdata-handler";
 import { asyncHandler } from "@/lib/async-handler";
 import { fileValidator } from "@/lib/file-validator";
-import { apiResponse } from "@/lib/utils";
+import { apiResponse, toObjectId } from "@/lib/utils";
 import { bannerSchema } from "@/lib/validation-schema";
 import Banner from "@/model/Banner";
 
@@ -53,4 +53,42 @@ export const DELETE = asyncHandler<{ id: string }>(async (req, params) => {
   await Banner.findByIdAndDelete(id);
 
   return apiResponse(true, 200, "Banner has been deleted successfully!");
+}, true);
+
+// Get a banner
+export const GET = asyncHandler<{ id: string }>(async (req, params) => {
+  const { id } = params;
+
+  const [banner] = await Banner.aggregate([
+    {
+      $match: {
+        _id: toObjectId(id),
+      },
+    },
+    {
+      $addFields: {
+        image: {
+          $cond: {
+            if: { $ne: ["$image", null] }, // Check if image exists
+            then: {
+              $concat: [
+                process.env.CLOUDINARY_SECURE_URL_BASE || "",
+                "/",
+                "$image",
+              ],
+            },
+            else: null, // or a default image URL
+          },
+        },
+      },
+    },
+  ]);
+  if (!banner) return apiResponse(false, 404, "Banner not found!");
+
+  return apiResponse(
+    true,
+    200,
+    "Single banner has been fetched successfully!",
+    banner
+  );
 }, true);
