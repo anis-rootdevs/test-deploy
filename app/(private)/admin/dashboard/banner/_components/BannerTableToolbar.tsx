@@ -1,7 +1,9 @@
 "use client";
 
 import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
+import { routes } from "@/config/routes";
 import { Table } from "@tanstack/react-table";
+import Link from "next/link";
 import BannerFormModal from "./BannerFormModal";
 
 interface BannerTableToolbarProps<TData> {
@@ -27,6 +29,13 @@ export default function BannerTableToolbar<TData>({
       </div>
       <div className="flex items-center gap-2">
         <BannerFormModal isEditMode={false} />
+        <Link
+          href={routes.privateRoutes.admin.banner.create}
+          className="border p-2"
+        >
+          {" "}
+          create
+        </Link>
       </div>
     </div>
   );

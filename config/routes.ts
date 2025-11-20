@@ -12,13 +12,15 @@ export const routes = {
   privateRoutes: {
     admin: {
       dashboard: "/admin/dashboard",
-      banner: "/admin/dashboard/banner",
+      banner: {
+        home: "/admin/dashboard/banner",
+        create: "/admin/dashboard/banner/create",
+        edit: (id: string | number) => `/admin/dashboard/banner/edit/${id}`,
+      },
+
       categories: "/admin/dashboard/categories",
       products: "/admin/dashboard/products",
       outlets: "/admin/dashboard/outlets",
-      faq: {
-        home: `/admin/faqs`,
-      },
       notification: `/admin/notification`,
       contact: `/admin/contact`,
       newsletter: `/admin/newsletter`,

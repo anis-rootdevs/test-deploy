@@ -44,10 +44,17 @@ export default function NavMenuItems({ items }: { items: NavItem[] }) {
       <SidebarMenu className="space-y-2">
         {items.map((item) => {
           const hasChildren = item.items && item.items.length > 0;
-          const isActive = item.url === pathname;
+          const isActive =
+            item.url &&
+            (pathname === item.url || pathname.startsWith(item.url + "/"));
 
           const isChildActive =
-            hasChildren && item.items!.some((child) => child.url === pathname);
+            hasChildren &&
+            item.items!.some(
+              (child) =>
+                child.url &&
+                (pathname === child.url || pathname.startsWith(child.url + "/"))
+            );
 
           return (
             <SidebarMenuItem key={item.title}>

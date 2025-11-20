@@ -251,7 +251,7 @@ export const adminDashboardMenu = {
   navMain: [
     {
       title: "Banner",
-      url: routes.privateRoutes.admin.banner,
+      url: routes.privateRoutes.admin.banner.home,
       icon: TbSlideshow,
     },
     {
