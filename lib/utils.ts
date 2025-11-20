@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import jwt from "jsonwebtoken";
+import { Types } from "mongoose";
 import { NextResponse } from "next/server";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
@@ -73,6 +74,9 @@ export const makePaginate = <T>(
     hasPrev,
   };
 };
+
+export const toObjectId = (id?: string | null) =>
+  id ? Types.ObjectId.createFromHexString(id) : undefined;
 
 export const requiredStringField = (fieldName: string) =>
   z
