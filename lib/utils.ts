@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { twMerge } from "tailwind-merge";
+import z from "zod";
 import { NestedRoutes } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -71,4 +72,160 @@ export const makePaginate = <T>(
     hasNext,
     hasPrev,
   };
+};
+
+export const requiredStringField = (fieldName: string) =>
+  z
+    .string({
+      error: (issue) => {
+        if (issue.input === undefined) {
+          return `${fieldName} is required!`;
+        }
+        return `${fieldName} must be string!`;
+      },
+    })
+    .transform((val) => val.trim())
+    .refine((str) => str.length > 0, {
+      message: `${fieldName} must not be empty!`,
+    });
+
+export const requiredStringFieldLowerCase = (fieldName: string) =>
+  z
+    .string({
+      error: (issue) => {
+        if (issue.input === undefined) {
+          return `${fieldName} is required!`;
+        }
+        return `${fieldName} must be string!`;
+      },
+    })
+    .transform((val) => val.trim().toLowerCase())
+    .refine((str) => str.length > 0, {
+      message: `${fieldName} must not be empty!`,
+    });
+
+export const optionalStringField = (fieldName: string) =>
+  z
+    .string({ error: () => `${fieldName} must be string!` })
+    .transform((val) => val.trim())
+    .refine((str) => str.length > 0, {
+      message: `${fieldName} must not be empty!`,
+    })
+    .optional();
+
+export const optionalStringFieldLowerCase = (fieldName: string) =>
+  z
+    .string({ error: () => `${fieldName} must be string!` })
+    .transform((val) => val.trim().toLowerCase())
+    .refine((str) => str.length > 0, {
+      message: `${fieldName} must not be empty!`,
+    })
+    .optional();
+
+export const requiredEnumField = <T extends readonly [string, ...string[]]>(
+  fieldName: string,
+  values: T
+) =>
+  z.enum(values, {
+    error: (issue) => {
+      const input = issue.input;
+
+      if (input === undefined) return `${fieldName} is required!`;
+
+      if (typeof input !== "string") {
+        return `${fieldName} must be a valid ${fieldName}!`;
+      }
+
+      return `${fieldName} must be one of: ${values.join(", ")}`;
+    },
+  });
+
+export const requiredObjectIdField = (fieldName: string) =>
+  z
+    .string({
+      error: (issue) => {
+        const input = issue.input;
+
+        if (input === undefined) return `${fieldName} is required!`;
+        if (typeof input !== "string") return `${fieldName} must be a string!`;
+
+        return `${fieldName} must be a valid ObjectId!`;
+      },
+    })
+    .refine((val) => /^[a-fA-F0-9]{24}$/.test(val), {
+      message: `${fieldName} must be a valid ObjectId!`,
+    });
+
+export const optionalEnumField = <T extends readonly [string, ...string[]]>(
+  fieldName: string,
+  values: T
+) =>
+  z
+    .enum(values, {
+      error: () => `${fieldName} must be one of: ${values.join(", ")}`,
+    })
+    .optional();
+
+export const optionalObjectIdField = (fieldName: string) =>
+  z
+    .string({ error: () => `${fieldName} must be a string!` })
+    .refine((val) => /^[a-fA-F0-9]{24}$/.test(val), {
+      message: `${fieldName} must be a valid ObjectId!`,
+    })
+    .optional();
+
+export const booleanField = (fieldName: string, defaultValue?: boolean) => {
+  const baseSchema = z
+    .boolean({
+      error: (issue) => {
+        if (issue.input === undefined) {
+          return `${fieldName} is required!`;
+        }
+        return `${fieldName} must be a boolean!`;
+      },
+    })
+    .optional();
+
+  return defaultValue !== undefined
+    ? baseSchema.default(defaultValue)
+    : baseSchema;
+};
+
+export const requiredNumberField = (
+  fieldName: string,
+  enumValues?: number[]
+) => {
+  let schema = z.coerce.number({
+    error: (issue) => {
+      if (issue.input === undefined) {
+        return `${fieldName} is required!`;
+      }
+      return `${fieldName} must be a number!`;
+    },
+  });
+
+  if (enumValues && enumValues.length > 0) {
+    schema = schema.refine((val) => enumValues.includes(val), {
+      message: `${fieldName} must be one of: ${enumValues.join(", ")}`,
+    });
+  }
+
+  return schema;
+};
+
+export const numberField = (fieldName: string, defaultValue?: number) => {
+  const baseSchema = z.coerce
+    .number({
+      error: (issue) => {
+        if (issue.input === undefined) {
+          return `${fieldName} is required!`;
+        }
+        return `${fieldName} must be a number!`;
+      },
+    })
+    .optional();
+
+  return defaultValue !== undefined
+    ? baseSchema.default(defaultValue)
+    : baseSchema;
 };
