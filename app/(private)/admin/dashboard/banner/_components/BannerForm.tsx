@@ -2,26 +2,30 @@
 
 import InputField from "@/components/form/InputField";
 import { Button } from "@/components/ui/button";
+import { BannerFormData } from "@/lib/types";
 import { Loader2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import FileUploadComponent from "../../_components/FileUploadComponent";
-import { BannerFormData } from "../create/page";
 
 interface BannerFormProps {
+  defaultValues?: BannerFormData;
   onFormChange: (data: BannerFormData) => void;
   onSubmit: (formData: FormData, theme: number) => Promise<void>;
   selectedTheme: number | null;
 }
 
 export default function BannerForm({
+  defaultValues,
   onFormChange,
   onSubmit,
   selectedTheme,
 }: BannerFormProps) {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [existingImage, setExistingImage] = useState<string | null>(null);
   const lastDataRef = useRef<string>("");
 
   const methods = useForm<BannerFormData>({
@@ -38,6 +42,16 @@ export default function BannerForm({
     watch,
     formState: { isSubmitting },
   } = methods;
+
+  // If defaultValues changed (edit mode), update form + image preview
+  useEffect(() => {
+    if (defaultValues) {
+      reset(defaultValues);
+      if (typeof defaultValues.image === "string") {
+        setExistingImage(defaultValues.image);
+      }
+    }
+  }, [defaultValues, reset]);
 
   // Debounced update function to prevent multiple renders
   const updatePreview = useCallback(
@@ -66,13 +80,13 @@ export default function BannerForm({
               tagline,
               heading,
               shortDesc,
-              image: image || undefined,
+              image: image || defaultValues?.image,
             });
           }
         }
       }, 800);
     },
-    [onFormChange]
+    [onFormChange, defaultValues]
   );
 
   // Watch form fields with manual update control
@@ -93,8 +107,8 @@ export default function BannerForm({
   }, [tagline, heading, shortDesc, imageFiles, updatePreview]);
 
   const handleFormSubmit = async (data: BannerFormData) => {
-    // Validate image
-    if (imageFiles.length === 0) {
+    // Validate image: either new file or existing image must exist
+    if (imageFiles.length === 0 && !existingImage) {
       toast.error("Please upload an image!");
       return;
     }
@@ -110,7 +124,11 @@ export default function BannerForm({
       formData.append("tagline", data.tagline);
       formData.append("heading", data.heading);
       formData.append("shortDesc", data.shortDesc);
-      formData.append("image", imageFiles[0]);
+
+      // Append only new image file, not existing image URL
+      if (imageFiles.length > 0) {
+        formData.append("image", imageFiles[0]);
+      }
 
       await onSubmit(formData, selectedTheme);
 
@@ -120,17 +138,24 @@ export default function BannerForm({
         shortDesc: "",
       });
       setImageFiles([]);
-    } catch (error) {
-      toast.error("Error creating banner!");
+      // Keep existingImage as null because update was successful
+      setExistingImage(null);
+    } catch (error: any) {
+      toast.error(error?.message || "Error updating banner!");
     }
   };
 
   return (
     <div className="w-full max-w-2xl mx-auto p-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-semibold">Add New Banner</h2>
+        <h2 className="text-2xl font-semibold font-jost">
+          {" "}
+          {defaultValues ? "Edit Banner" : "Add New Banner"}
+        </h2>
         <p className="text-sm text-gray-600 mt-1">
-          Fill in the details to create a new banner.
+          {defaultValues
+            ? "Update the banner details below."
+            : "Fill in the details to create a new banner."}
         </p>
       </div>
 
@@ -169,34 +194,55 @@ export default function BannerForm({
               accept="image"
               maxSize={5}
               maxFiles={1}
-              onFilesChange={setImageFiles}
+              onFilesChange={(files) => {
+                setImageFiles(files);
+
+                // Hide existing image when new file is selected
+                if (files.length > 0) {
+                  setExistingImage(null);
+                }
+              }}
+              existingImageUrl={existingImage || undefined}
+              onRemoveExisting={() => {
+                setExistingImage(null);
+                setImageFiles([]);
+              }}
             />
           </div>
 
           {/* Action Buttons */}
           <div className="flex justify-end gap-3 pt-4">
-            <Button
+            {/* <Button
               type="button"
               variant="outline"
               onClick={() => {
-                reset({
-                  tagline: "",
-                  heading: "",
-                  shortDesc: "",
-                });
+                reset(defaultValues || {});
+                if (
+                  defaultValues?.image &&
+                  typeof defaultValues.image === "string"
+                ) {
+                  setExistingImage(defaultValues.image);
+                } else {
+                  setExistingImage(null);
+                }
                 setImageFiles([]);
-                lastDataRef.current = "";
               }}
               disabled={isSubmitting}
             >
               Reset
-            </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            </Button> */}
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="rounded-[4px] cursor-pointer disabled:cursor-not-allowed"
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating...
+                  {defaultValues ? "Updating..." : "Creating..."}
                 </>
+              ) : defaultValues ? (
+                "Update Banner"
               ) : (
                 "Create Banner"
               )}

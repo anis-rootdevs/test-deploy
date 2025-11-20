@@ -8,7 +8,7 @@ import {
   Settings2,
 } from "lucide-react";
 import { BsShop } from "react-icons/bs";
-import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { PiHamburgerDuotone } from "react-icons/pi";
 import { TbCategory, TbSlideshow } from "react-icons/tb";
 
 // nav items
@@ -262,7 +262,7 @@ export const adminDashboardMenu = {
     {
       title: "Products",
       url: routes.privateRoutes.admin.products,
-      icon: MdOutlineProductionQuantityLimits,
+      icon: PiHamburgerDuotone,
     },
     {
       title: "Outlets",

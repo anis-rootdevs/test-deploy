@@ -3,22 +3,22 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { routes } from "@/config/routes";
 import useUserProfile from "@/store/useUserProfile";
-import { ChevronDown, Lock, LogOut, User } from "lucide-react";
+import { ChevronDown, Lock, LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import PasswordChangeModal from "./PasswordChangeModal";
 import EditProfileModal from "./EditProfileModal";
+import PasswordChangeModal from "./PasswordChangeModal";
 
 export default function UserMenu() {
   const { data: session } = useSession();
@@ -27,7 +27,7 @@ export default function UserMenu() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const router = useRouter();
-
+  console.log("userData", userData, session);
   //   logout function
   const handleLogout = async () => {
     await signOut({

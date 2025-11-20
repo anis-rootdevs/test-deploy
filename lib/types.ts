@@ -119,3 +119,10 @@ export type Banner = {
   updatedAt: string;
   status?: boolean;
 };
+
+export interface BannerFormData {
+  tagline: string;
+  heading: string;
+  shortDesc: string;
+  image?: File | string;
+}

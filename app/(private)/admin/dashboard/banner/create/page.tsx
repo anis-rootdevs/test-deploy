@@ -2,18 +2,12 @@
 
 import { createBanner } from "@/actions/banner/bannerActions";
 import { routes } from "@/config/routes";
+import { BannerFormData } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import BannerForm from "../_components/BannerForm";
 import BannerPreview from "../_components/BannerPreview";
-
-export interface BannerFormData {
-  tagline: string;
-  heading: string;
-  shortDesc: string;
-  image?: File | string;
-}
 
 export default function BannerCreate() {
   const [previewData, setPreviewData] = useState<BannerFormData | null>(null);
@@ -56,15 +50,20 @@ export default function BannerCreate() {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      <div className="col-span-1">
+    <div className="flex flex-col lg:flex-row gap-6 p-4">
+      {/* Form Section */}
+      <div className="lg:w-[400px] xl:w-[480px] flex-shrink-0">
         <BannerForm
           onFormChange={handleFormChange}
           onSubmit={handleSubmit}
           selectedTheme={selectedTheme}
         />
       </div>
-      <div className="col-span-2">
+
+      <div className="hidden lg:block w-px bg-gray-200 self-stretch"></div>
+
+      {/* Preview Section */}
+      <div className="flex-1 min-w-0">
         <BannerPreview
           data={previewData}
           onThemeSelect={handleThemeSelect}

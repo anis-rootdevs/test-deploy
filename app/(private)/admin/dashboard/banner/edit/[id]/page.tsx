@@ -1,9 +1,12 @@
 "use client";
-import { getBannerById } from "@/actions/banner/bannerActions";
+import { getBannerById, updateBanner } from "@/actions/banner/bannerActions";
+import DashboardLoader from "@/components/custom/DashboardLoader";
+import { BannerFormData } from "@/lib/types";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { BannerFormData } from "../../create/page";
+import BannerForm from "../../_components/BannerForm";
+import BannerPreview from "../../_components/BannerPreview";
 
 export default function BannerEditPage() {
   const [initialData, setInitialData] = useState<BannerFormData | null>(null);
@@ -20,15 +23,70 @@ export default function BannerEditPage() {
       if (result?.status) {
         setInitialData(result.data);
         setPreviewData(result.data);
-        setSelectedTheme(result.data.theme || 1);
+        setSelectedTheme(result.data.theme || "");
       } else {
         toast.error("Failed to load banner");
       }
     }
 
     fetchBanner();
-  }, []);
-  console.log("initialData", initialData);
-  console.log(id);
-  return <div>banner ?: {id}</div>;
+  }, [id]);
+
+  const handleFormChange = (data: BannerFormData) => {
+    setPreviewData(data);
+  };
+
+  const handleSubmit = async (formData: FormData, themeId: number) => {
+    const loadingToast = toast.loading("Updating banner...");
+
+    try {
+      formData.append("theme", String(themeId));
+      formData.append("_id", String(id as string));
+
+      const result = await updateBanner(id as string, formData);
+
+      if (result?.status) {
+        toast.success("Banner updated successfully!");
+        router.push("/admin/dashboard/banner");
+      } else {
+        toast.error(result?.message || "Failed to update banner");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      toast.dismiss(loadingToast);
+    }
+  };
+
+  // loading state
+  if (!initialData)
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <DashboardLoader />
+      </div>
+    );
+
+  return (
+    <div className="flex flex-col lg:flex-row gap-6 p-4">
+      <div className="lg:w-[400px] xl:w-[480px] flex-shrink-0">
+        <BannerForm
+          defaultValues={initialData}
+          onFormChange={handleFormChange}
+          onSubmit={handleSubmit}
+          selectedTheme={selectedTheme}
+        />
+      </div>
+
+      {/* Separator - visible only on large screens */}
+      <div className="hidden lg:block w-px bg-gray-200 self-stretch"></div>
+
+      <div className="flex-1 min-w-0">
+        <BannerPreview
+          data={previewData}
+          onThemeSelect={setSelectedTheme}
+          selectedTheme={selectedTheme}
+        />
+      </div>
+    </div>
+  );
 }
