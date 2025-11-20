@@ -1,20 +1,18 @@
 "use client";
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
 import { Table } from "@tanstack/react-table";
-import Link from "next/link";
 import BannerFormModal from "./BannerFormModal";
 
 interface BannerTableToolbarProps<TData> {
   table: Table<TData>;
 }
+
+const breadcrumbItems = [
+  { label: "Home", href: "/" },
+  { label: "Dashboard", href: "/admin/dashboard" },
+  { label: "Banner" },
+];
 
 export default function BannerTableToolbar<TData>({
   table,
@@ -24,25 +22,7 @@ export default function BannerTableToolbar<TData>({
       <div className="flex flex-col flex-1 gap-2">
         <h2 className="font-jost font-medium text-lg">Manage Banner</h2>
         <div>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/">Home</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/admin/dashboard">Dashboard</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage className="text-primary">Banner</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <DynamicBreadcrumb items={breadcrumbItems} />
         </div>
       </div>
       <div className="flex items-center gap-2">

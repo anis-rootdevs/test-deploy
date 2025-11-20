@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteProduct } from "@/actions/product/productActions";
+import { deleteOutlet } from "@/actions/outlets/outletsActions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,21 +11,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
 import { Loader2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import toast from "react-hot-toast";
 
 interface ProductDeleteModalProps {
   trigger: ReactNode;
-  productId: string;
+  outletId: string;
   title?: string;
 }
 
-export default function ProductDeleteModal({
+export default function OutletDeleteModal({
   trigger,
-  productId,
-  title = "Delete Product?",
+  outletId,
+  title = "Delete Outlet?",
 }: ProductDeleteModalProps) {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -36,27 +35,26 @@ export default function ProductDeleteModal({
     try {
       setIsDeleting(true);
 
-      const loadingToast = toast.loading("Deleting product...");
+      const loadingToast = toast.loading("Deleting Outlet...");
 
-      const response = await deleteProduct(productId);
+      const response = await deleteOutlet(outletId);
 
       toast.dismiss(loadingToast);
 
       // Check if response indicates success
       if (!response?.ok) {
-        toast.error(response?.message || "Failed to delete banner");
+        toast.error(response?.message || "Failed to delete outlet");
         setIsDeleting(false);
         return;
       }
 
-      toast.success(response?.message || "Banner deleted successfully!");
+      toast.success(response?.message || "Outlet deleted successfully!");
 
-      // Close modal on success
       setIsDeleting(false);
       setOpen(false);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete banner"
+        error instanceof Error ? error.message : "Failed to delete outlet"
       );
       setIsDeleting(false);
     }

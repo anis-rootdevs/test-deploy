@@ -1,7 +1,7 @@
 "use server";
 
 import { apiClient } from "@/lib/api-client";
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 export async function getBanners() {
   try {
@@ -29,7 +29,7 @@ export async function createBanner(formData: FormData) {
     });
 
     if (res?.status) {
-      revalidateTag("banners", "");
+      updateTag("banners");
     }
 
     return res;
@@ -52,7 +52,7 @@ export async function updateBanner(id: string, formData: FormData) {
     });
 
     if (res?.status) {
-      revalidateTag("banners", "");
+      updateTag("banners");
     }
 
     return res;
@@ -73,7 +73,7 @@ export async function shortsTable(data: any) {
       body: data,
     });
     if (res?.status) {
-      revalidateTag("banners", "");
+      updateTag("banners");
     }
 
     return res;
@@ -94,7 +94,7 @@ export async function deleteBanner(id: string) {
     });
 
     if (res?.status) {
-      revalidateTag("banners", "");
+      updateTag("banners");
     }
 
     return res;
@@ -116,10 +116,8 @@ export async function changeStatus(id: string, status: boolean) {
       cache: "no-store",
     });
 
-    console.log("status", res);
-
     if (res?.status) {
-      revalidateTag("banners", "");
+      updateTag("banners");
     }
 
     return res;

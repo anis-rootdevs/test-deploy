@@ -1,6 +1,6 @@
 "use client";
+import DashboardLoader from "@/components/custom/DashboardLoader";
 import useUserProfile from "@/store/useUserProfile";
-import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
@@ -23,8 +23,7 @@ export default function DashboardProvider({
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="animate-spin w-8 h-8 text-primary" />
-        <span className="ml-3 text-primary font-medium">Loading ...</span>
+        <DashboardLoader />
       </div>
     );
   }

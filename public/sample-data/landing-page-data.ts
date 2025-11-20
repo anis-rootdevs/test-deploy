@@ -7,6 +7,8 @@ import {
   PieChart,
   Settings2,
 } from "lucide-react";
+import { BsShop } from "react-icons/bs";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { TbCategory, TbSlideshow } from "react-icons/tb";
 
 // nav items
@@ -260,7 +262,12 @@ export const adminDashboardMenu = {
     {
       title: "Products",
       url: routes.privateRoutes.admin.products,
-      icon: TbCategory,
+      icon: MdOutlineProductionQuantityLimits,
+    },
+    {
+      title: "Outlets",
+      url: routes.privateRoutes.admin.outlets,
+      icon: BsShop,
     },
     {
       title: "Models",
