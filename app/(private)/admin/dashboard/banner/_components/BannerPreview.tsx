@@ -18,10 +18,8 @@ function BannerPreview({
   onThemeSelect,
   selectedTheme,
 }: BannerPreviewProps) {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(1);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-
-  console.log("data", data);
 
   // Convert File to URL for preview
   useEffect(() => {
@@ -41,8 +39,9 @@ function BannerPreview({
   }, [data?.image]);
 
   const handleTabClick = (index: number) => {
-    setActiveTab(index);
-    onThemeSelect(index);
+    const oneBased = index + 1;
+    setActiveTab(oneBased);
+    onThemeSelect(oneBased);
   };
 
   // Define heroes array inside render - React will handle optimization
@@ -112,48 +111,40 @@ function BannerPreview({
         <>
           {/* Tabs */}
           <div className="flex border-b border-gray-300 mb-6 overflow-x-auto">
-            {heroes.map((hero, index) => (
-              <button
-                key={index}
-                onClick={() => handleTabClick(index)}
-                className={`px-6 py-3 font-medium transition-colors duration-200 whitespace-nowrap ${
-                  activeTab === index
-                    ? "text-amber-700 border-b-2 border-amber-700 bg-amber-50"
-                    : "text-gray-600 hover:text-amber-600 hover:bg-gray-50"
-                } ${
-                  selectedTheme === index && activeTab !== index
-                    ? "bg-green-50 border-b-2 border-green-500"
-                    : ""
-                }`}
-              >
-                Theme {index + 1}: {hero.label}
-                {selectedTheme === index && (
-                  <span className="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded">
-                    Selected
-                  </span>
-                )}
-              </button>
-            ))}
+            {heroes.map((hero, index) => {
+              const tabNumber = index + 1;
+
+              return (
+                <button
+                  key={tabNumber}
+                  onClick={() => handleTabClick(index)}
+                  className={`px-6 py-3 font-medium transition-colors duration-200 whitespace-nowrap
+        ${
+          activeTab === tabNumber
+            ? "text-amber-700 border-b-2 border-amber-700 bg-amber-50"
+            : "text-gray-600"
+        }
+        ${
+          selectedTheme === tabNumber
+            ? "bg-green-50 border-b-2 border-green-500"
+            : ""
+        }
+      `}
+                >
+                  Theme {tabNumber}: {hero.label}
+                  {selectedTheme === tabNumber && (
+                    <span className="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded">
+                      Selected
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Tab Content */}
           <div className="transition-all duration-300 ease-in-out min-h-[400px]">
-            {heroes[activeTab].component}
-          </div>
-
-          {/* Tab Indicator */}
-          <div className="mt-4 text-center text-gray-600 border-t pt-4">
-            <p className="text-sm">
-              Currently viewing:{" "}
-              <span className="font-semibold">
-                Theme {activeTab + 1} - {heroes[activeTab].label}
-              </span>
-            </p>
-            {selectedTheme !== null && (
-              <p className="text-sm text-green-600 mt-1">
-                ✓ Theme {selectedTheme + 1} selected for submission
-              </p>
-            )}
+            {heroes[activeTab - 1].component}
           </div>
         </>
       )}

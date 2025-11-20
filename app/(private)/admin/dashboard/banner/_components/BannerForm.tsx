@@ -11,7 +11,7 @@ import { BannerFormData } from "../create/page";
 
 interface BannerFormProps {
   onFormChange: (data: BannerFormData) => void;
-  onSubmit: (formData: FormData, themeId: number) => Promise<void>;
+  onSubmit: (formData: FormData, theme: number) => Promise<void>;
   selectedTheme: number | null;
 }
 
@@ -21,7 +21,7 @@ export default function BannerForm({
   selectedTheme,
 }: BannerFormProps) {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const updateTimeoutRef = useRef<NodeJS.Timeout>();
+  const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastDataRef = useRef<string>("");
 
   const methods = useForm<BannerFormData>({
@@ -70,10 +70,11 @@ export default function BannerForm({
             });
           }
         }
-      }, 800); // 800ms debounce - longer delay
+      }, 800);
     },
     [onFormChange]
   );
+
   // Watch form fields with manual update control
   const tagline = watch("tagline");
   const heading = watch("heading");
@@ -111,12 +112,7 @@ export default function BannerForm({
       formData.append("shortDesc", data.shortDesc);
       formData.append("image", imageFiles[0]);
 
-      const loadingToast = toast.loading("Creating banner...");
-
       await onSubmit(formData, selectedTheme);
-
-      toast.dismiss(loadingToast);
-      toast.success("Banner created successfully!");
 
       reset({
         tagline: "",
@@ -124,8 +120,7 @@ export default function BannerForm({
         shortDesc: "",
       });
       setImageFiles([]);
-    } catch (error: any) {
-      console.error(error);
+    } catch (error) {
       toast.error("Error creating banner!");
     }
   };
@@ -177,16 +172,6 @@ export default function BannerForm({
               onFilesChange={setImageFiles}
             />
           </div>
-
-          {/* Selected Theme Info */}
-          {selectedTheme !== null && (
-            <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
-              <p className="text-sm text-blue-800">
-                <span className="font-semibold">Selected Theme:</span> Theme{" "}
-                {selectedTheme + 1}
-              </p>
-            </div>
-          )}
 
           {/* Action Buttons */}
           <div className="flex justify-end gap-3 pt-4">
