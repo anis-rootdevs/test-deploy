@@ -15,9 +15,8 @@ export const routes = {
       banner: {
         home: "/admin/dashboard/banner",
         create: "/admin/dashboard/banner/create",
-        edit: (id: string | number) => `/admin/dashboard/banner/edit/${id}`,
+        edit: (id: string) => `/admin/dashboard/banner/edit/${id}`,
       },
-
       categories: "/admin/dashboard/categories",
       products: "/admin/dashboard/products",
       outlets: "/admin/dashboard/outlets",

@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { requiredNumberField, requiredStringField } from "./utils";
+import {
+  booleanField,
+  requiredNumberField,
+  requiredObjectIdField,
+  requiredStringField,
+} from "./utils";
 
 export const newsletterSchema = z.object({
   email: z
@@ -69,16 +74,8 @@ export const sortSchema = z.object({
 });
 
 export const productSchema = z.object({
-  name: z
-    .string("name must be string!")
-    .min(1, "Required!")
-    .max(200, "Name must be less than 200 characters!")
-    .trim(),
-  shortDesc: z
-    .string("shortDesc must be string!")
-    .min(1, "Short description cannot be empty!")
-    .max(500, "Short description must be less than 500 characters")
-    .trim(),
+  name: requiredStringField("name"),
+  shortDesc: requiredStringField("shortDesc"),
   price: z
     .string("price must be number-string!")
     .min(1, "Required!")
@@ -88,10 +85,10 @@ export const productSchema = z.object({
     .transform((val) => parseFloat(val))
     .refine((val) => val > 0, { message: "price must be greater than 0!" })
     .refine((val) => val <= 999999.99, { message: "price is too high!" }),
-  category: z
-    .string("category must be string!")
-    .regex(/^[0-9a-fA-F]{24}$/, "Category must be a valid MongoDB ObjectId!")
-    .min(1, "Required!"),
+  category: requiredObjectIdField("category"),
+  status: booleanField("status", true),
+  mostLoved: booleanField("mostLoved", false),
+  featured: booleanField("featured", false),
 });
 
 export const dataTableSchema = z.object({
