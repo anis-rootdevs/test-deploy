@@ -44,9 +44,18 @@ export const GET = asyncHandler(async (req: NextRequest) => {
   const page = searchParams.get("page") || 1;
   const limit = searchParams.get("limit") || 10;
   const search = searchParams.get("search") || undefined;
+  const tag = searchParams.get("tag") || undefined;
 
   const skip: number = (Number(page) - 1) * Number(limit);
-  const query = search ? { name: { $regex: search, $options: "i" } } : {};
+  const query: Record<string, any> = search
+    ? {
+        name: { $regex: search, $options: "i" },
+        shortDesc: { $regex: search, $options: "i" },
+      }
+    : {};
+
+  if (tag === "featured") query.featured = true;
+  if (tag === "mostLoved") query.mostLoved = true;
 
   const [docs, total] = await Promise.all([
     Product.aggregate([
@@ -100,8 +109,6 @@ export const GET = asyncHandler(async (req: NextRequest) => {
         $project: {
           categoryInfo: 0,
           updatedAt: 0,
-          featured: 0,
-          mostLoved: 0,
         },
       },
     ]),
