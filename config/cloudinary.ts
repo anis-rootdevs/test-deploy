@@ -23,11 +23,11 @@ export const uploadToCloudinary = async (
         {
           resource_type: options?.resourceType || "image",
           folder: options?.folder || process.env.CLOUDINARY_FOLDER || "uploads",
-          transformation: options?.transformation || [
-            { width: 800, height: 800, crop: "limit" },
-            { quality: "auto" },
-            { fetch_format: "auto" },
-          ],
+          // transformation: options?.transformation || [
+          //   { width: 800, height: 800, crop: "limit" },
+          //   { quality: "auto" },
+          //   { fetch_format: "auto" },
+          // ],
         },
         (error, result) => {
           if (error) {
