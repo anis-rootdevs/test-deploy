@@ -47,7 +47,7 @@ export type NestedRoutes =
 export function extractRoutes(obj: NestedRoutes): string[] {
   const links: string[] = [];
 
-  for (const value of Object.values(obj as Record<string, any>)) {
+  for (const value of Object.values(obj as Record<string, NestedRoutes>)) {
     if (typeof value === "string") {
       links.push(value);
     } else if (typeof value === "function") {
@@ -187,13 +187,12 @@ export const optionalObjectIdField = (fieldName: string) =>
 
 export const booleanField = (fieldName: string, defaultValue?: boolean) => {
   const baseSchema = z
-    .boolean({
-      error: (issue) => {
-        if (issue.input === undefined) {
-          return `${fieldName} is required!`;
-        }
-        return `${fieldName} must be a boolean!`;
-      },
+    .union([z.boolean(), z.string()])
+    .transform((val) => {
+      if (typeof val === "boolean") return val;
+      if (val === "true") return true;
+      if (val === "false") return false;
+      throw new Error(`${fieldName} must be a boolean!`);
     })
     .optional();
 

@@ -99,6 +99,9 @@ export const GET = asyncHandler(async (req: NextRequest) => {
       {
         $project: {
           categoryInfo: 0,
+          updatedAt: 0,
+          featured: 0,
+          mostLoved: 0,
         },
       },
     ]),

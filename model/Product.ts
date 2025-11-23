@@ -6,6 +6,9 @@ export interface IProduct extends Document {
   price: number;
   image: string;
   status: boolean;
+  category: Schema.Types.ObjectId;
+  mostLoved: boolean;
+  featured: boolean;
 }
 
 const ProductSchema: Schema = new mongoose.Schema(
@@ -16,6 +19,8 @@ const ProductSchema: Schema = new mongoose.Schema(
     image: { type: String, required: true },
     status: { type: Boolean, default: true },
     category: { type: Schema.Types.ObjectId, ref: "Category" },
+    mostLoved: { type: Boolean, default: false },
+    featured: { type: Boolean, default: false },
   },
   {
     timestamps: true,
