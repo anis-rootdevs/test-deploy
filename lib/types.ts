@@ -126,3 +126,12 @@ export interface BannerFormData {
   shortDesc: string;
   image?: File | string;
 }
+
+export interface HeroProps {
+  tagline?: string;
+  heading?: string;
+  shortDesc?: string;
+  image?: string;
+  theme?: number;
+  _id?: string;
+}

@@ -2,27 +2,17 @@
 
 import { CustomButton } from "@/components/custom/custom-button";
 import { routes } from "@/config/routes";
+import { HeroProps } from "@/lib/types";
 import { motion } from "framer-motion";
 import Image from "next/image";
-interface HeroArtCoffeeProps {
-  tagline?: string;
-  heading?: string;
-  shortDesc?: string;
-  image?: string;
-}
 
-const HeroArtCoffee = ({
-  tagline,
-  heading,
-  shortDesc,
-  image,
-}: HeroArtCoffeeProps) => {
+const HeroArtCoffee = ({ tagline, heading, shortDesc, image }: HeroProps) => {
   return (
     <section className="relative w-full h-[500px] md:h-[700px] lg:h-[880px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 aspect-[1393/464] mt-[320px]">
         <Image
-          src={image || "/images/hero-section/art-of-coffee.svg"}
+          src={image || ""}
           alt="aroma coffee"
           fill
           className="object-cover"
@@ -41,7 +31,7 @@ const HeroArtCoffee = ({
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="text-primary font-jost font-normal text-lg md:text-[24px]"
             >
-              {tagline || "Sip. Savor. Smile."}
+              {tagline || ""}
             </motion.p>
 
             {/* Main Heading */}
@@ -51,7 +41,7 @@ const HeroArtCoffee = ({
               transition={{ delay: 0.3, duration: 0.9, ease: "easeOut" }}
               className="h1-text text-[#101020] dark:text-[#FAF8F5] uppercase leading-tight"
             >
-              {heading || "TASTE THE ART OF COFFEE"}
+              {heading || ""}
             </motion.h1>
 
             {/* Description */}
@@ -62,7 +52,7 @@ const HeroArtCoffee = ({
               className="font-jost text-[#101020] dark:text-[#FAF8F5] text-base md:text-[24px] md:leading-[35px]"
             >
               {shortDesc ||
-                "Welcome to Aroma Coffee, where every cup is a journey through the art of coffee. "}
+                ""}
             </motion.p>
 
             {/* Buttons */}

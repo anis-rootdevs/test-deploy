@@ -151,3 +151,22 @@ export async function changeStatus(id: string, status: boolean) {
     };
   }
 }
+
+export async function getBanner() {
+  try {
+    const res = await apiClient("/api/banner", {
+      method: "GET",
+      tags: ["banners"],
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get active banner list",
+      data: null,
+    };
+  }
+}

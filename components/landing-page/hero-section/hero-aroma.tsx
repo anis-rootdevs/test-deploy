@@ -3,27 +3,17 @@
 import { CustomButton } from "@/components/custom/custom-button";
 import { Separator } from "@/components/ui/separator";
 import { routes } from "@/config/routes";
+import { HeroProps } from "@/lib/types";
 import { motion } from "framer-motion";
 import Image from "next/image";
-interface HeroArtCoffeeProps {
-  tagline?: string;
-  heading?: string;
-  shortDesc?: string;
-  image?: string;
-}
 
-const HeroAroma = ({
-  tagline,
-  heading,
-  shortDesc,
-  image,
-}: HeroArtCoffeeProps) => {
+const HeroAroma = ({ tagline, heading, shortDesc, image }: HeroProps) => {
   return (
     <section className="relative w-full h-[600px] md:h-[700px] lg:h-[880px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src={image || "/images/hero-section/aroma-hero.svg"}
+          src={image || ""}
           alt="aroma coffee"
           fill
           className="object-cover"
@@ -50,7 +40,7 @@ const HeroAroma = ({
               transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
               className="text-primary font-jost font-normal text-lg md:text-[24px] mb-1 md:mb-2 leading-[35px]"
             >
-              {tagline || "Sip. Savor. Smile."}
+              {tagline || ""}
             </motion.p>
 
             {/* Main Heading */}
@@ -60,7 +50,7 @@ const HeroAroma = ({
               transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
               className="h1-text text-[#FAF8F5] uppercase leading-tight"
             >
-              {heading || "WHERE COMFORT MEETS AROMA"}
+              {heading || ""}
             </motion.h1>
 
             {/* Separator */}
@@ -81,7 +71,7 @@ const HeroAroma = ({
               className="font-jost text-[#FAF8F5] text-base md:text-[24px] md:leading-[35px] font-normal mb-6 md:mb-[50px]"
             >
               {shortDesc ||
-                " A cozy corner for every mood — from morning rush to late-night talk."}
+                " "}
             </motion.p>
 
             {/* CTA Buttons */}
