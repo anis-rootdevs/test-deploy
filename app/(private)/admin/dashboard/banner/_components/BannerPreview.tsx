@@ -4,6 +4,7 @@ import HeroAroma from "@/components/landing-page/hero-section/hero-aroma";
 import HeroAromaCare from "@/components/landing-page/hero-section/hero-aroma-care";
 import HeroArtCoffee from "@/components/landing-page/hero-section/hero-art-coffee";
 import HeroStories from "@/components/landing-page/hero-section/hero-stories";
+import HeroSectionLoader from "@/components/landing-page/hero-section/HeroSectionLoader";
 import { BannerFormData } from "@/lib/types";
 import { memo, useEffect, useState } from "react";
 
@@ -12,17 +13,6 @@ interface BannerPreviewProps {
   onThemeSelect: (themeIndex: number) => void;
   selectedTheme: number | null;
 }
-
-export const PreviewLoader = () => {
-  return (
-    <div className="flex flex-col items-center justify-center animate-pulse space-y-4 py-10">
-      <div className="h-6 w-40 bg-gray-300 rounded"></div>
-      <div className="h-6 w-80 bg-gray-300 rounded"></div>
-      <div className="h-64 w-full max-w-4xl bg-gray-200 rounded"></div>
-      <div className="h-4 w-1/2 bg-gray-300 rounded"></div>
-    </div>
-  );
-};
 
 function BannerPreview({
   data,
@@ -92,17 +82,6 @@ function BannerPreview({
     },
     {
       component: (
-        <HeroAroma
-          tagline={data?.tagline}
-          heading={data?.heading}
-          shortDesc={data?.shortDesc}
-          image={imageUrl}
-        />
-      ),
-      label: "Aroma",
-    },
-    {
-      component: (
         <HeroStories
           tagline={data?.tagline}
           heading={data?.heading}
@@ -112,6 +91,18 @@ function BannerPreview({
       ),
       label: "Stories",
     },
+    {
+      component: (
+        <HeroAroma
+          tagline={data?.tagline}
+          heading={data?.heading}
+          shortDesc={data?.shortDesc}
+          image={imageUrl}
+        />
+      ),
+      label: "Aroma",
+    },
+
     {
       component: (
         <HeroAromaCare
@@ -143,7 +134,7 @@ function BannerPreview({
       {/* Loader */}
       {!isIncomplete && loading && (
         <div className="py-10">
-          <PreviewLoader />
+          <HeroSectionLoader />
         </div>
       )}
 

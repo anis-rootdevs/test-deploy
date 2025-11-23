@@ -188,7 +188,7 @@ export default function BannerForm({
           {/* Image Upload */}
           <div>
             <label className="block text-sm font-medium mb-2">
-              Banner Image
+              Banner Image{" "}
             </label>
             <FileUploadComponent
               accept="image"
@@ -208,6 +208,9 @@ export default function BannerForm({
                 setImageFiles([]);
               }}
             />
+            <span className="text-primary text-sm mt-4">
+              Recommended size: 1940 × 800px
+            </span>
           </div>
 
           {/* Action Buttons */}

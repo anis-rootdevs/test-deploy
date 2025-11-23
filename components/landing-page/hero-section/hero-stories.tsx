@@ -2,27 +2,17 @@
 
 import { CustomButton } from "@/components/custom/custom-button";
 import { routes } from "@/config/routes";
+import { HeroProps } from "@/lib/types";
 import { motion } from "framer-motion";
 import Image from "next/image";
-interface HeroArtCoffeeProps {
-  tagline?: string;
-  heading?: string;
-  shortDesc?: string;
-  image?: string;
-}
 
-const HeroStories = ({
-  tagline,
-  heading,
-  shortDesc,
-  image,
-}: HeroArtCoffeeProps) => {
+const HeroStories = ({ tagline, heading, shortDesc, image }: HeroProps) => {
   return (
     <section className="relative w-full h-[600px] md:h-[700px] lg:h-[880px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src={image || "/images/hero-section/stories-togather.svg"}
+          src={image || ""}
           alt="stories together"
           fill
           className="object-cover"
@@ -43,7 +33,7 @@ const HeroStories = ({
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="text-primary font-jost font-normal text-lg md:text-[24px] leading-[35px]"
             >
-              {tagline || "Sip. Savor. Smile."}
+              {tagline || ""}
             </motion.p>
 
             {/* Main Heading */}
@@ -53,7 +43,7 @@ const HeroStories = ({
               transition={{ delay: 0.3, duration: 0.9, ease: "easeOut" }}
               className="h1-text text-[#FAF8F5] uppercase leading-tight"
             >
-              {heading || "STORIES TOGETHER OVER COFFEE"}
+              {heading || ""}
             </motion.h1>
 
             {/* Description */}
@@ -64,7 +54,7 @@ const HeroStories = ({
               className="font-jost text-[#FAF8F5] text-base md:text-[24px] md:leading-[35px] font-normal"
             >
               {shortDesc ||
-                "Gather your friends, share your stories, and let every sip bring you closer."}
+                ""}
             </motion.p>
 
             {/* CTA Buttons */}
