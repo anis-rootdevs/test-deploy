@@ -4,19 +4,16 @@ import { CustomButton } from "@/components/custom/custom-button";
 import { routes } from "@/config/routes";
 import { HeroProps } from "@/lib/types";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 const HeroArtCoffee = ({ tagline, heading, shortDesc, image }: HeroProps) => {
   return (
     <section className="relative w-full h-[500px] md:h-[700px] lg:h-[880px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 aspect-[1393/464] mt-[320px]">
-        <Image
+        <img
           src={image || ""}
           alt="aroma coffee"
-          fill
-          className="object-cover"
-          priority
+          className="w-full h-full object-cover object-center"
         />
       </div>
 
@@ -51,8 +48,7 @@ const HeroArtCoffee = ({ tagline, heading, shortDesc, image }: HeroProps) => {
               transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
               className="font-jost text-[#101020] dark:text-[#FAF8F5] text-base md:text-[24px] md:leading-[35px]"
             >
-              {shortDesc ||
-                ""}
+              {shortDesc || ""}
             </motion.p>
 
             {/* Buttons */}

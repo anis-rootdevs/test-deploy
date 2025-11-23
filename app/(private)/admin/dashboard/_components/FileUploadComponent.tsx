@@ -1,7 +1,6 @@
 "use client";
 
 import { Check, File, Upload, X } from "lucide-react";
-import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 // types
 interface FileUploadProps {
@@ -202,7 +201,7 @@ const FileUploadComponent = ({
     return (
       <div className={`w-full ${className}`}>
         <div className="relative rounded-lg overflow-hidden border-2 border-gray-200">
-          <Image
+          <img
             src={existingImageUrl}
             alt="Current image"
             width={100}
@@ -260,7 +259,7 @@ const FileUploadComponent = ({
     return (
       <div className={`w-full ${className}`}>
         <div className="relative rounded-lg overflow-hidden border-2 border-gray-200">
-          <Image
+          <img
             src={uploadedFiles[0].preview}
             alt={uploadedFiles[0].file.name}
             width={100}
@@ -382,7 +381,7 @@ const FileUploadComponent = ({
                   {/* Preview or Icon */}
                   <div className="shrink-0">
                     {uploadedFile.preview ? (
-                      <Image
+                      <img
                         width={48}
                         height={48}
                         src={uploadedFile.preview}

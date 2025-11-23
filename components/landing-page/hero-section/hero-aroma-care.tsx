@@ -3,19 +3,16 @@ import { CustomButton } from "@/components/custom/custom-button";
 import { routes } from "@/config/routes";
 import { HeroProps } from "@/lib/types";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 const HeroAromaCare = ({ tagline, heading, shortDesc, image }: HeroProps) => {
   return (
     <section className="relative w-full h-[600px] md:h-[700px] lg:h-[880px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
-        <Image
+        <img
           src={image || ""}
           alt="aroma coffee"
-          fill
-          className="object-cover"
-          priority
+          className="w-full h-full object-cover object-center"
         />
         {/* Dark Overlay */}
         {/* <div className="absolute inset-0 bg-black/30" /> */}
@@ -59,8 +56,7 @@ const HeroAromaCare = ({ tagline, heading, shortDesc, image }: HeroProps) => {
               transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
               className="font-jost text-[#101020] dark:text-[#FAF8F5] text-base md:text-[24px] md:leading-[35px] font-normal mb-6 md:mb-[50px]"
             >
-              {shortDesc ||
-                ""}
+              {shortDesc || ""}
             </motion.p>
 
             {/* CTA Buttons */}
