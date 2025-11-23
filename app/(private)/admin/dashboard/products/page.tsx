@@ -5,10 +5,11 @@ import ProductsList from "./_components/ProductsList";
 export default async function ProductsHome() {
   const products = await getProductList();
   const categories = await getCategoriesList();
+  console.log("products===", products);
 
   return (
     <ProductsList
-      products={products?.data?.docs || []}
+      initialProducts={products?.data?.docs || []}
       categories={categories?.data || []}
     />
   );

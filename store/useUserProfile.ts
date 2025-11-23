@@ -29,8 +29,6 @@ const useUserProfile = create<UserProfileState>((set) => ({
       if (!res.ok) throw new Error("Failed to fetch user data");
       const data = await res.json();
 
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-
       set({ userData: data });
     } catch (error: any) {
       console.error("Error fetching user data:", error);

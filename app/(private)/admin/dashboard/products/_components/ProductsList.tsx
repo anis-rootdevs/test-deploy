@@ -3,12 +3,10 @@
 import DataTable from "@/components/custom/data-table/DataTable";
 import DataTablePagination from "@/components/custom/data-table/DataTablePagination";
 import { Button } from "@/components/ui/button";
-import { Category, Products } from "@/lib/types";
+import { Category, FilterType, Products } from "@/lib/types";
 import {
   ColumnDef,
-  ColumnFiltersState,
   getCoreRowModel,
-  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
@@ -18,6 +16,7 @@ import {
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
 
+import TableSkeleton from "@/components/custom/data-table/TableSkeleton";
 import { useState } from "react";
 import ProductDeleteModal from "./ProductDeleteModal";
 import ProductsFormModal from "./ProductsFormModal";
@@ -25,16 +24,19 @@ import ProductsStatusChange from "./ProductsStatusChange";
 import ProductTableToolbar from "./ProductTableToolbar";
 
 export default function ProductsList({
-  products,
+  initialProducts,
   categories,
 }: {
-  products: Products[];
+  initialProducts: Products[];
   categories: Category[];
 }) {
+  const [products, setProducts] = useState<Products[]>(initialProducts);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState<FilterType>("all");
+  const [isLoading, setIsLoading] = useState(false);
 
   const columns: ColumnDef<Products>[] = [
     {
@@ -65,6 +67,7 @@ export default function ProductsList({
       accessorKey: "shortDesc",
       header: "Short Description",
     },
+
     {
       accessorKey: "category",
       header: "Category",
@@ -123,6 +126,7 @@ export default function ProductsList({
       },
     },
   ];
+  let limit = 10;
 
   // Create table instance
   const table = useReactTable<Products>({
@@ -133,30 +137,54 @@ export default function ProductsList({
         pageSize: 10,
       },
     },
-    state: { sorting, columnVisibility, rowSelection, columnFilters },
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+    },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    // Force table to update when data changes
+    manualPagination: false,
   });
 
   return (
     <div className="flex flex-col gap-6">
-      <ProductTableToolbar table={table} categories={categories} />
-
-      <DataTable
-        data={products}
-        columns={columns}
-        getRowId={(row) => row._id}
+      <ProductTableToolbar
         table={table}
+        categories={categories}
+        search={search}
+        setSearch={setSearch}
+        filter={filter}
+        setFilter={setFilter}
+        setProducts={setProducts}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        products={products}
       />
 
-      <DataTablePagination table={table} />
+      {isLoading ? (
+        <TableSkeleton
+          columns={table.getHeaderGroups()[0].headers.length}
+          rows={limit}
+          pagination={false}
+        />
+      ) : (
+        <>
+          <DataTable
+            data={products}
+            columns={columns}
+            getRowId={(row) => row._id}
+            table={table}
+          />
+          <DataTablePagination table={table} />
+        </>
+      )}
     </div>
   );
 }

@@ -22,10 +22,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Category, Products } from "@/lib/types";
 import { BadgeAlert, Loader2, Plus, SquarePen } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import FileUploadComponent from "../../_components/FileUploadComponent";
+import FormSwitch from "./FormSwitch";
 
 interface ProductFormData {
   name: string;
@@ -33,6 +35,8 @@ interface ProductFormData {
   shortDesc: string;
   category: string;
   image: FileList;
+  mostLoved: boolean;
+  featured: boolean;
 }
 
 interface ProductsFormModalProps {
@@ -59,6 +63,8 @@ export default function ProductsFormModal({
     formState: { isSubmitting, errors },
   } = methods;
 
+  const router = useRouter();
+
   // Reset form when dialog opens
   useEffect(() => {
     if (isDialogOpen) {
@@ -71,6 +77,8 @@ export default function ProductsFormModal({
           price: product.price?.toString(),
           shortDesc: product.shortDesc,
           category: matchedCategory?._id || "",
+          mostLoved: product.mostLoved || false,
+          featured: product.featured || false,
         });
       } else {
         reset({
@@ -79,6 +87,8 @@ export default function ProductsFormModal({
           shortDesc: "",
           category: "",
           image: undefined,
+          mostLoved: false,
+          featured: false,
         });
       }
       setImageFiles([]);
@@ -98,6 +108,8 @@ export default function ProductsFormModal({
       formData.append("price", data.price);
       formData.append("shortDesc", data.shortDesc);
       formData.append("category", data.category);
+      formData.append("mostLoved", String(data.mostLoved));
+      formData.append("featured", String(data.featured));
 
       // Add image if selected
       if (imageFiles.length > 0) {
@@ -125,7 +137,7 @@ export default function ProductsFormModal({
             ? "Banner updated successfully!"
             : "Banner added successfully!")
       );
-
+      router.refresh();
       setIsDialogOpen(false);
       reset();
       setImageFiles([]);
@@ -211,6 +223,19 @@ export default function ProductsFormModal({
                 </div>
               )}
             </div>
+            <div className="md:flex justify-between space-y-4 md:space-y-0">
+              <FormSwitch
+                label="Most Loved"
+                name="mostLoved"
+                description="Active Most Loved Products"
+              />
+              <FormSwitch
+                label="Featured Products"
+                name="featured"
+                description="Active featured Products"
+              />
+            </div>
+            <div></div>
 
             {/* Category Dropdown */}
             <div className="w-full">
@@ -295,9 +320,9 @@ export default function ProductsFormModal({
                     {isEditMode ? "Updating..." : "Adding..."}
                   </>
                 ) : isEditMode ? (
-                  "Update Banner"
+                  "Update Product"
                 ) : (
-                  "Add Banner"
+                  "Add Product"
                 )}
               </Button>
             </div>
