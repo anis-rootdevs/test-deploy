@@ -4,6 +4,7 @@ export const dynamic = "force-dynamic";
 
 export default async function BannerPage() {
   const banners = await getBanners();
+
   return (
     <>
       <BannerLists data={banners?.data || []} />

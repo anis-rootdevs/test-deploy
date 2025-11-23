@@ -8,6 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Coffee } from "lucide-react";
 import { useState } from "react";
 
 export default function AppSidebarHeader({ teams }: any) {
@@ -21,8 +22,10 @@ export default function AppSidebarHeader({ teams }: any) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                <activeTeam.logo className="size-4" />
+              <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-sm">
+                {/* <activeTeam.logo className="size-4" /> */}
+
+                <Coffee className="size-6" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate text-[24px] font-bold font-jost">

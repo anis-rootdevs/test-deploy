@@ -20,6 +20,25 @@ export async function getBanners() {
   }
 }
 
+export async function getBannerById(id: string) {
+  try {
+    const res = await apiClient(`/api/admin/banner/${id}`, {
+      method: "GET",
+      cache: "no-store",
+      tags: ["banners"],
+    });
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Failed to fetch banner data",
+      data: null,
+    };
+  }
+}
+
 export async function createBanner(formData: FormData) {
   try {
     const res = await apiClient(`/api/admin/banner`, {

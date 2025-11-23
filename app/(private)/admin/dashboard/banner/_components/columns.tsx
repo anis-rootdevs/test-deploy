@@ -2,12 +2,13 @@
 
 import DragHandle from "@/components/custom/data-table/DragHandle";
 import { Button } from "@/components/ui/button";
+import { routes } from "@/config/routes";
 import { Banner } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { Trash2 } from "lucide-react";
+import { SquarePen, Trash2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import BannerDeleteModal from "./BannerDeleteModal";
-import BannerFormModal from "./BannerFormModal";
 import ToggleSwitch from "./ToggleSwitch";
 
 export const columns: ColumnDef<Banner>[] = [
@@ -72,7 +73,12 @@ export const columns: ColumnDef<Banner>[] = [
 
       return (
         <div className="flex items-center gap-2">
-          <BannerFormModal isEditMode={true} banner={banner} />
+          {/* <BannerFormModal isEditMode={true} banner={banner} /> */}
+          <Button size="sm" asChild>
+            <Link href={routes.privateRoutes.admin.banner.edit(banner._id)}>
+              <SquarePen className="h-4 w-4" />
+            </Link>
+          </Button>
           <BannerDeleteModal
             bannerId={banner._id}
             itemName={banner.heading}

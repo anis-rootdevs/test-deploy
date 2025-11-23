@@ -4,7 +4,6 @@ import { Types } from "mongoose";
 import { NextResponse } from "next/server";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
-import { NestedRoutes } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -41,16 +40,24 @@ export function isTokenExpired(exp?: number): boolean {
   return now >= exp;
 }
 
+export type NestedRoutes =
+  | string
+  | { [key: string]: NestedRoutes | ((...args: any[]) => string) };
+
 export function extractRoutes(obj: NestedRoutes): string[] {
   const links: string[] = [];
 
-  for (const value of Object.values(obj)) {
+  for (const value of Object.values(obj as Record<string, any>)) {
     if (typeof value === "string") {
       links.push(value);
+    } else if (typeof value === "function") {
+      // skip functions because we cannot statically extract dynamic route
+      continue;
     } else if (typeof value === "object" && value !== null) {
       links.push(...extractRoutes(value));
     }
   }
+
   return links;
 }
 
