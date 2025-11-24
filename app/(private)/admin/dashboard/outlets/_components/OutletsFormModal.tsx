@@ -72,12 +72,22 @@ export default function OutletsFormModal({
       toast.error("Please upload an image!");
       return;
     }
+    console.log(data);
 
     try {
       const formData = new FormData();
       formData.append("name", data.name || "");
       formData.append("location", data.location || "");
-      formData.append("phone", String(data.phone || ""));
+
+      let cleanPhone = String(data.phone || "");
+      const dialCode = String(data.dialCode || "").replace("+", "");
+
+      // If phone starts with dial code, remove it
+      if (cleanPhone.startsWith(dialCode)) {
+        cleanPhone = cleanPhone.substring(dialCode.length);
+      }
+
+      formData.append("phone", cleanPhone);
       formData.append("dialCode", String(data.dialCode || ""));
 
       // Add image if selected
@@ -234,7 +244,7 @@ export default function OutletsFormModal({
               </label>
               <FileUploadComponent
                 accept="image"
-                maxSize={5}
+                maxSize={15}
                 maxFiles={1}
                 onFilesChange={setImageFiles}
                 existingImageUrl={
