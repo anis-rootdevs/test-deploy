@@ -139,3 +139,12 @@ export interface HeroProps {
   theme?: number;
   _id?: string;
 }
+
+export interface MostLovedItems {
+  _id: string;
+  name: string;
+  shortDesc: string;
+  price: number;
+  image: string;
+  category: string;
+}

@@ -294,7 +294,7 @@ export default function ProductsFormModal({
               </label>
               <FileUploadComponent
                 accept="image"
-                maxSize={5}
+                maxSize={10}
                 maxFiles={1}
                 onFilesChange={setImageFiles}
                 existingImageUrl={

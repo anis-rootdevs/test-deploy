@@ -16,7 +16,7 @@ export function fileValidator(
   options: FileValidationOptions = {}
 ): FileValidationResult {
   const {
-    maxSize = 5 * 1024 * 1024, // 5MB default
+    maxSize = 10 * 1024 * 1024, // 10MB default
     allowedTypes = [
       "image/jpeg",
       "image/png",

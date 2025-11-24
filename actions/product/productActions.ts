@@ -159,11 +159,12 @@ export async function changeProductStatus(id: string, status: boolean) {
   }
 }
 
-export async function getMostLovedProducts() {
+export async function getMostLovedProducts(limit: number) {
   try {
-    const res = await apiClient("/api/product/most-loved", {
+    const res = await apiClient(`/api/product/most-loved?limit=${limit}`, {
       method: "GET",
       // tags: ["banners"],
+      cache: "no-store",
     });
     return res;
   } catch (error) {
@@ -173,6 +174,25 @@ export async function getMostLovedProducts() {
         error instanceof Error
           ? error.message
           : "Failed to get most loved products",
+      data: null,
+    };
+  }
+}
+export async function getFeaturedProducts(limit: number) {
+  try {
+    const res = await apiClient(`/api/product/featured?limit=${limit}`, {
+      method: "GET",
+      // tags: ["banners"],
+      cache: "no-store",
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get featured products",
       data: null,
     };
   }

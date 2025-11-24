@@ -14,7 +14,6 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { Trash2 } from "lucide-react";
-import Image from "next/image";
 
 import TableSkeleton from "@/components/custom/data-table/TableSkeleton";
 import { useState } from "react";
@@ -47,7 +46,7 @@ export default function ProductsList({
 
         return (
           <div className="relative w-[50px] h-[50px] overflow-hidden rounded">
-            <Image
+            <img
               src={imageUrl}
               alt={row.original.name}
               width={50}
