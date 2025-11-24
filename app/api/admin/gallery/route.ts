@@ -3,17 +3,17 @@ import { asyncFormDataHandler } from "@/lib/async-formdata-handler";
 import { asyncHandler } from "@/lib/async-handler";
 import { fileValidator } from "@/lib/file-validator";
 import { apiResponse, makePaginate } from "@/lib/utils";
-import { outletSchema } from "@/lib/validation-schema";
-import Outlet from "@/model/Outlet";
+import { gallerySchema } from "@/lib/validation-schema";
+import Gallery from "@/model/Gallery";
 import { NextRequest } from "next/server";
 import z from "zod";
 
-// Create a outlet
+// Create a gallery
 export const POST = asyncFormDataHandler(
-  outletSchema,
+  gallerySchema,
   async (
     req: NextRequest,
-    data: z.infer<typeof outletSchema>,
+    data: z.infer<typeof gallerySchema>,
     formData: FormData
   ) => {
     const { valid, error } = fileValidator(formData.get("image") as File, {
@@ -25,19 +25,19 @@ export const POST = asyncFormDataHandler(
     const { public_id } = await uploadToCloudinary(
       formData.get("image") as File,
       {
-        folder: `${process.env.CLOUDINARY_FOLDER}/outlet`,
+        folder: `${process.env.CLOUDINARY_FOLDER}/gallery`,
       }
     );
 
-    const outletData = { ...data, image: public_id };
-    await Outlet.create(outletData);
+    const galleryData = { ...data, image: public_id };
+    await Gallery.create(galleryData);
 
-    return apiResponse(true, 200, "Outlet has been created successfully!");
+    return apiResponse(true, 200, "Gallery has been created successfully!");
   },
   true
 );
 
-// Get all outlets
+// Get all galleries
 export const GET = asyncHandler(async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
 
@@ -48,12 +48,12 @@ export const GET = asyncHandler(async (req: NextRequest) => {
   const skip: number = (Number(page) - 1) * Number(limit);
   const query: Record<string, any> = search
     ? {
-        name: { $regex: search, $options: "i" },
+        capturedBy: { $regex: search, $options: "i" },
       }
     : {};
 
   const [docs, total] = await Promise.all([
-    Outlet.aggregate([
+    Gallery.aggregate([
       {
         $match: query,
       },
@@ -85,11 +85,21 @@ export const GET = asyncHandler(async (req: NextRequest) => {
           },
         },
       },
+      {
+        $project: {
+          updatedAt: 0,
+        },
+      },
     ]),
-    Outlet.countDocuments(query),
+    Gallery.countDocuments(query),
   ]);
 
   const data = makePaginate(docs, Number(page), Number(limit), skip, total);
 
-  return apiResponse(true, 200, "Outlets has been fetched successfully!", data);
+  return apiResponse(
+    true,
+    200,
+    "Galleries have been fetched successfully!",
+    data
+  );
 }, true);
