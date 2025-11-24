@@ -6,7 +6,6 @@ import { routes } from "@/config/routes";
 import { Banner } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { SquarePen, Trash2 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import BannerDeleteModal from "./BannerDeleteModal";
 import ToggleSwitch from "./ToggleSwitch";
@@ -25,7 +24,7 @@ export const columns: ColumnDef<Banner>[] = [
 
       return (
         <div className="relative w-[50px] h-[50px] overflow-hidden rounded">
-          <Image
+          <img
             src={imageUrl}
             alt={row.original.heading}
             width={50}
