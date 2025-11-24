@@ -1,12 +1,11 @@
 "use client";
 
-import { getProductList } from "@/actions/product/productActions";
 import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
 import { Input } from "@/components/ui/input";
-import { Category, FilterType, Products } from "@/lib/types";
+import { Category, FilterType } from "@/lib/types";
 import { Table } from "@tanstack/react-table";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useTransition } from "react";
 import ProductFilter from "./ProductFilter";
 import ProductsFormModal from "./ProductsFormModal";
 
@@ -17,10 +16,7 @@ interface ProductsTableToolbarProps<TData> {
   setSearch: (value: string) => void;
   filter: FilterType;
   setFilter: (value: FilterType) => void;
-  setProducts: (products: Products[]) => void;
   isLoading: boolean;
-  setIsLoading: (loading: boolean) => void;
-  products?: any;
 }
 
 const breadcrumbItems = [
@@ -36,46 +32,40 @@ export default function ProductTableToolbar<TData>({
   setSearch,
   filter,
   setFilter,
-  setProducts,
   isLoading,
-  setIsLoading,
 }: ProductsTableToolbarProps<TData>) {
-  // Fetch products based on search and filter
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+
+  // Update URL params when search/filter changes
   useEffect(() => {
-    const fetchProducts = async () => {
-      setIsLoading(true);
-
-      try {
-        const params: any = {};
-
-        if (search) {
-          params.search = search;
-        }
-        if (filter !== "all") {
-          params.tag = filter;
-        }
-
-        const result = await getProductList(params);
-
-        if (result?.status === true && result.data.docs) {
-          setProducts(result.data.docs);
-        } else {
-          toast.error(result.message || "Failed to fetch products");
-        }
-      } catch (error) {
-        toast.error("Error fetching products");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    // Debounce search
     const delay = setTimeout(() => {
-      fetchProducts();
+      const params = new URLSearchParams();
+
+      // if (search) {
+      //   params.set("search", search);
+      // }
+
+      if (filter && filter !== "all") {
+        params.set("filter", filter);
+      }
+      const queryString = params.toString();
+      const newUrl = queryString ? `${pathname}?${queryString}` : pathname;
+
+      startTransition(() => {
+        router.replace(newUrl, { scroll: false });
+      });
     }, 500);
 
     return () => clearTimeout(delay);
-  }, [search, filter, setProducts, setIsLoading]);
+  }, [search, filter, pathname, router]);
+
+  const handleRefresh = useCallback(() => {
+    startTransition(() => {
+      router.refresh();
+    });
+  }, [router]);
 
   return (
     <div>
@@ -87,20 +77,28 @@ export default function ProductTableToolbar<TData>({
           <div className="flex items-center gap-4">
             <Input
               placeholder="Search products..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={
+                (table.getColumn("name")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn("name")?.setFilterValue(event.target.value)
+              }
               className="h-10 w-[150px] lg:w-[250px] rounded-[4px]"
-              disabled={isLoading}
+              disabled={isLoading || isPending}
             />
             <ProductFilter
               filter={filter}
               setFilter={setFilter}
-              disabled={isLoading}
+              disabled={isLoading || isPending}
             />
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <ProductsFormModal isEditMode={false} categories={categories} />
+          <ProductsFormModal
+            isEditMode={false}
+            categories={categories}
+            onSuccess={handleRefresh}
+          />
         </div>
       </div>
     </div>

@@ -22,7 +22,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Category, Products } from "@/lib/types";
 import { BadgeAlert, Loader2, Plus, SquarePen } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -43,12 +42,14 @@ interface ProductsFormModalProps {
   product?: Products | null;
   isEditMode?: boolean;
   categories?: Category[];
+  onSuccess?: () => void;
 }
 
 export default function ProductsFormModal({
   product,
   isEditMode = false,
   categories = [],
+  onSuccess,
 }: ProductsFormModalProps) {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -62,8 +63,6 @@ export default function ProductsFormModal({
     control,
     formState: { isSubmitting, errors },
   } = methods;
-
-  const router = useRouter();
 
   // Reset form when dialog opens
   useEffect(() => {
@@ -137,7 +136,12 @@ export default function ProductsFormModal({
             ? "Banner updated successfully!"
             : "Banner added successfully!")
       );
-      router.refresh();
+
+      // Trigger refresh callback
+      if (onSuccess) {
+        onSuccess();
+      }
+
       setIsDialogOpen(false);
       reset();
       setImageFiles([]);
@@ -223,20 +227,18 @@ export default function ProductsFormModal({
                 </div>
               )}
             </div>
-            <div className="md:flex justify-between space-y-4 md:space-y-0">
+            <div className="md:flex justify-between gap-2 space-y-4 md:space-y-0">
               <FormSwitch
-                label="Most Loved"
+                label="Mark as Most Loved"
                 name="mostLoved"
-                description="Active Most Loved Products"
+                description="Show this product in the Most Loved section"
               />
               <FormSwitch
-                label="Featured Products"
+                label="Mark as Featured"
                 name="featured"
-                description="Active featured Products"
+                description="Show this product in the Featured Products section"
               />
             </div>
-            <div></div>
-
             {/* Category Dropdown */}
             <div className="w-full">
               <Label className="text-sm font-jost font-medium mb-1 block">

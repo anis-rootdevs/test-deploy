@@ -20,12 +20,14 @@ interface ProductDeleteModalProps {
   trigger: ReactNode;
   productId: string;
   title?: string;
+  onSuccess?: () => void;
 }
 
 export default function ProductDeleteModal({
   trigger,
   productId,
   title = "Delete Product?",
+  onSuccess,
 }: ProductDeleteModalProps) {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -50,6 +52,11 @@ export default function ProductDeleteModal({
       }
 
       toast.success(response?.message || "Banner deleted successfully!");
+
+      // Trigger refresh callback
+      if (onSuccess) {
+        onSuccess();
+      }
 
       // Close modal on success
       setIsDeleting(false);
