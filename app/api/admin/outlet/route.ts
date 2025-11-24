@@ -1,4 +1,5 @@
 import { uploadToCloudinary } from "@/config/cloudinary";
+import { CLOUDINARY_SECURE_URL_BASE } from "@/config/constant";
 import { asyncFormDataHandler } from "@/lib/async-formdata-handler";
 import { asyncHandler } from "@/lib/async-handler";
 import { fileValidator } from "@/lib/file-validator";
@@ -74,11 +75,7 @@ export const GET = asyncHandler(async (req: NextRequest) => {
             $cond: {
               if: { $ne: ["$image", null] }, // Check if image exists
               then: {
-                $concat: [
-                  process.env.CLOUDINARY_SECURE_URL_BASE || "",
-                  "/",
-                  "$image",
-                ],
+                $concat: [CLOUDINARY_SECURE_URL_BASE, "/", "$image"],
               },
               else: null, // or a default image URL
             },

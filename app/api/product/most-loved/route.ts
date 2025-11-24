@@ -1,3 +1,4 @@
+import { CLOUDINARY_SECURE_URL_BASE } from "@/config/constant";
 import { asyncHandler } from "@/lib/async-handler";
 import { apiResponse } from "@/lib/utils";
 import Product from "@/model/Product";
@@ -40,11 +41,7 @@ export const GET = asyncHandler(async (req: NextRequest) => {
           $cond: {
             if: { $ne: ["$image", null] }, // Check if image exists
             then: {
-              $concat: [
-                process.env.CLOUDINARY_SECURE_URL_BASE || "",
-                "/",
-                "$image",
-              ],
+              $concat: [CLOUDINARY_SECURE_URL_BASE, "/", "$image"],
             },
             else: null, // or a default image URL
           },
