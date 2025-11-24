@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Category, FilterType, Products } from "@/lib/types";
 import {
   ColumnDef,
+  ColumnFiltersState,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
@@ -16,26 +18,42 @@ import {
 import { Trash2 } from "lucide-react";
 
 import TableSkeleton from "@/components/custom/data-table/TableSkeleton";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 import ProductDeleteModal from "./ProductDeleteModal";
 import ProductsFormModal from "./ProductsFormModal";
 import ProductsStatusChange from "./ProductsStatusChange";
 import ProductTableToolbar from "./ProductTableToolbar";
 
+interface ProductsListProps {
+  initialProducts: Products[];
+  categories: Category[];
+  initialSearch?: string;
+  initialFilter?: FilterType;
+}
+
 export default function ProductsList({
   initialProducts,
   categories,
-}: {
-  initialProducts: Products[];
-  categories: Category[];
-}) {
-  const [products, setProducts] = useState<Products[]>(initialProducts);
+  initialSearch = "",
+  initialFilter = "all",
+}: ProductsListProps) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<FilterType>("all");
-  const [isLoading, setIsLoading] = useState(false);
+  const [search, setSearch] = useState(initialSearch);
+  const [filter, setFilter] = useState<FilterType>(initialFilter);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  // Function to trigger refresh
+  const refreshProducts = () => {
+    startTransition(() => {
+      router.refresh();
+    });
+  };
 
   const columns: ColumnDef<Products>[] = [
     {
@@ -61,6 +79,7 @@ export default function ProductsList({
     {
       accessorKey: "name",
       header: "Name",
+      enableColumnFilter: true,
     },
     {
       accessorKey: "shortDesc",
@@ -86,10 +105,7 @@ export default function ProductsList({
             productId={product._id}
             initialStatus={product.status || false}
             onStatusChange={(newStatus) => {
-              // Optional: Handle status change (e.g., update cache, show toast)
-              console.log(
-                `Banner ${product._id} status changed to ${newStatus}`
-              );
+              refreshProducts();
             }}
           />
         );
@@ -107,9 +123,11 @@ export default function ProductsList({
               isEditMode={true}
               product={product}
               categories={categories}
+              onSuccess={refreshProducts}
             />
             <ProductDeleteModal
               productId={product._id}
+              onSuccess={refreshProducts}
               trigger={
                 <Button
                   variant="destructive"
@@ -129,7 +147,7 @@ export default function ProductsList({
 
   // Create table instance
   const table = useReactTable<Products>({
-    data: products,
+    data: initialProducts,
     columns: columns,
     initialState: {
       pagination: {
@@ -140,6 +158,7 @@ export default function ProductsList({
       sorting,
       columnVisibility,
       rowSelection,
+      columnFilters,
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -148,6 +167,8 @@ export default function ProductsList({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     // Force table to update when data changes
     manualPagination: false,
   });
@@ -161,13 +182,10 @@ export default function ProductsList({
         setSearch={setSearch}
         filter={filter}
         setFilter={setFilter}
-        setProducts={setProducts}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        products={products}
+        isLoading={isPending}
       />
 
-      {isLoading ? (
+      {isPending ? (
         <TableSkeleton
           columns={table.getHeaderGroups()[0].headers.length}
           rows={limit}
@@ -176,7 +194,7 @@ export default function ProductsList({
       ) : (
         <>
           <DataTable
-            data={products}
+            data={initialProducts}
             columns={columns}
             getRowId={(row) => row._id}
             table={table}

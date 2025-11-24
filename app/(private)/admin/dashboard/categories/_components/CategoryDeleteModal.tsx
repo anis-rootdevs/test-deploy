@@ -42,7 +42,7 @@ const CategoryDeleteModal = ({
       toast.dismiss(loadingToast);
 
       // Check if response indicates success
-      if (!response?.ok) {
+      if (!response?.status === true) {
         toast.error(response?.message || "Failed to delete banner");
         setIsDeleting(false);
         return;
