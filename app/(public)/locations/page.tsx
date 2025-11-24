@@ -1,8 +1,12 @@
+import { getAllOutlets } from "@/actions/outlets/outletsActions";
 import MenuHeroSection from "@/components/landing-page/menu-section/menu-hero-section";
 import LocationCardComponents from "@/components/locations/location-card-components";
-import { cafesLocationData } from "@/public/sample-data/landing-page-data";
+import { Outlets } from "@/lib/types";
 
-const LocationsHomePage = () => {
+const LocationsHomePage = async () => {
+  const allOutlets = await getAllOutlets(2);
+  const data: Outlets[] = allOutlets?.data?.docs || [];
+
   return (
     <div className="">
       <MenuHeroSection
@@ -10,9 +14,9 @@ const LocationsHomePage = () => {
         title="Location"
       />
       <div className="mt-16">
-        {cafesLocationData.map((cafe, index) => (
+        {data.map((cafe: Outlets, index: number) => (
           <LocationCardComponents
-            key={cafe.id}
+            key={cafe._id}
             cafeData={cafe}
             imagePosition={index % 2 === 0 ? "right" : "left"}
           />

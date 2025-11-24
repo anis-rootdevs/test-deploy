@@ -1,15 +1,14 @@
 "use client";
-import { CustomButton } from "../custom/custom-button";
-import Link from "next/link";
-import { Icons } from "../custom/icons";
 import { routes } from "@/config/routes";
 import { CafeInfoCardProps } from "@/lib/types";
+import Link from "next/link";
+import { CustomButton } from "../custom/custom-button";
+import { Icons } from "../custom/icons";
 
 const CafeInfoCard = ({
   title,
   address,
   phone,
-  openingHours,
   buttonText = "Reserve Table",
   onReserveClick,
   className = "",
@@ -35,28 +34,6 @@ const CafeInfoCard = ({
           >
             {phone}
           </Link>
-        </div>
-
-        {/* Opening Hours */}
-        <div>
-          <div className="flex items-start gap-x-[11px]">
-            <div className="gap-3">
-              <Icons.clockTime className="w-6 h-6 text-primary flex-shrink-0" />
-            </div>
-            <div>
-              {openingHours.map((schedule, index) => (
-                <div key={index} className="flex items-center mb-2.5">
-                  <span className="text-[15px] md:text-base font-jost">
-                    {schedule.days}
-                  </span>
-                  <span className="mx-[22px]">-</span>
-                  <span className="text-[15px] md:text-base font-jost">
-                    {schedule.hours}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Reserve Button */}
