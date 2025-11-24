@@ -51,6 +51,13 @@ export const bannerSchema = z.object({
   theme: requiredNumberField("theme", [1, 2, 3, 4]),
 });
 
+export const gallerySchema = z.object({
+  tagline: requiredStringField("tagline"),
+  capturedBy: requiredStringField("capturedBy"),
+  status: booleanField("status", true),
+  featured: booleanField("featured", false),
+});
+
 export const outletSchema = z.object({
   name: z.string("name must be string!").min(1, "Required!").trim(),
   location: z.string("location must be string!").min(1, "Required!").trim(),
