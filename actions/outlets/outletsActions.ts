@@ -109,3 +109,19 @@ export async function changeOutletsStatus(id: string, status: boolean) {
     };
   }
 }
+export async function getAllOutlets(limit: number) {
+  try {
+    const res = await apiClient(`/api/outlet/all?limit=${limit}`, {
+      method: "GET",
+      // tags: ["banners"],
+      cache: "no-store",
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : "Failed to get outlets",
+      data: null,
+    };
+  }
+}

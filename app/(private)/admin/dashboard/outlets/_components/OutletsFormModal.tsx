@@ -72,7 +72,6 @@ export default function OutletsFormModal({
       toast.error("Please upload an image!");
       return;
     }
-    console.log(data);
 
     try {
       const formData = new FormData();

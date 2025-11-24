@@ -1,16 +1,11 @@
 "use client";
 
+import { Outlets } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import CafeInfoCard from "./cafe-info-card";
-import { cn } from "@/lib/utils";
 interface LocationCardComponentsProps {
-  cafeData: {
-    title: string;
-    address: string;
-    phone: string;
-    image: string;
-    openingHours: Array<{ days: string; hours: string }>;
-  };
+  cafeData: Outlets;
   imagePosition?: "left" | "right";
 }
 
@@ -19,7 +14,7 @@ const LocationCardComponents = ({
   imagePosition = "right",
 }: LocationCardComponentsProps) => {
   const handleReserve = () => {
-    console.log("Reserve button clicked for:", cafeData.title);
+    // console.log("Reserve button clicked for:", cafeData.name);
     // Add your reservation logic here
   };
 
@@ -37,10 +32,10 @@ const LocationCardComponents = ({
           )}
         >
           <CafeInfoCard
-            title={cafeData.title}
-            address={cafeData.address}
-            phone={cafeData.phone}
-            openingHours={cafeData.openingHours}
+            title={cafeData.name || ""}
+            address={cafeData.location || ""}
+            phone={`${cafeData.dialCode || ""} ${cafeData.phone || ""}`}
+            openingHours={[]}
             onReserveClick={handleReserve}
           />
         </div>
@@ -52,10 +47,10 @@ const LocationCardComponents = ({
             isImageRight ? "order-1 lg:order-2" : "order-1 lg:order-1"
           )}
         >
-          <div className="relative w-full h-full">
+          <div className="relative aspect-[948/632]">
             <Image
-              src={cafeData.image}
-              alt={cafeData.title}
+              src={cafeData.image || ""}
+              alt={cafeData.name}
               fill
               className="object-cover"
             />
