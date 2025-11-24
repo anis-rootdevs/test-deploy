@@ -29,7 +29,11 @@ export default function FormSwitch({ name, label, description }: IProps) {
             <FormDescription>{description}</FormDescription>
           </div>
           <FormControl>
-            <Switch checked={field.value} onCheckedChange={field.onChange} />
+            <Switch
+              checked={field.value}
+              onCheckedChange={field.onChange}
+              className="cursor-pointer"
+            />
           </FormControl>
         </FormItem>
       )}

@@ -35,7 +35,11 @@ export interface Products {
   category?: string;
   image?: string;
   status?: boolean;
+  mostLoved?: boolean;
+  featured?: boolean;
 }
+
+export type FilterType = "all" | "mostLoved" | "featured";
 export interface Outlets {
   _id: string;
   name: string;
@@ -134,4 +138,13 @@ export interface HeroProps {
   image?: string;
   theme?: number;
   _id?: string;
+}
+
+export interface MostLovedItems {
+  _id: string;
+  name: string;
+  shortDesc: string;
+  price: number;
+  image: string;
+  category: string;
 }

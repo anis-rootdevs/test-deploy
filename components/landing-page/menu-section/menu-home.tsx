@@ -1,9 +1,13 @@
-import MenuItemCard from "./menu-items-card";
 import { CustomButton } from "@/components/custom/custom-button";
-import { menuItems } from "@/public/sample-data/landing-page-data";
 import { routes } from "@/config/routes";
+import { MostLovedItems } from "@/lib/types";
+import MenuItemCard from "./menu-items-card";
 
-const MenuHome = () => {
+const MenuHome = ({
+  featuredProducts,
+}: {
+  featuredProducts: MostLovedItems[];
+}) => {
   return (
     <div className="lg:py-20 py-16 bg-[#FAF8F5] dark:bg-[#181C20]">
       <div className="max-w-[1320px] mx-auto ">
@@ -16,13 +20,13 @@ const MenuHome = () => {
             your favorites, served with love.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:gap-x-[134px] md:gap-x-[100px] gap-6 grid-cols-1 px-4">
-          {menuItems.map((item) => (
+        <div className="grid md:grid-cols-2 lg:gap-x-[134px] md:gap-x-[50px] gap-6 grid-cols-1 px-4">
+          {featuredProducts.map((item) => (
             <MenuItemCard
-              key={item.id}
+              key={item._id}
               image={item.image}
               title={item.name}
-              description={item.description}
+              description={item.shortDesc}
               price={item.price}
               className="bg-[#FEFEFF] dark:bg-[#0F141B]"
             />

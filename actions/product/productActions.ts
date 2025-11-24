@@ -9,11 +9,12 @@ interface GetProductListParams {
   search?: string;
   sortBy?: string;
   category?: string;
+  tag?: string;
 }
 
 export async function getProductList(params: GetProductListParams = {}) {
   try {
-    const { page = 1, limit = 10, search, sortBy, category } = params;
+    const { page = 1, limit = 10, search, sortBy, category, tag } = params;
 
     // Build query parameters
     const queryParams = new URLSearchParams({
@@ -25,12 +26,14 @@ export async function getProductList(params: GetProductListParams = {}) {
     if (search) queryParams.append("search", search);
     if (sortBy) queryParams.append("sortBy", sortBy);
     if (category) queryParams.append("category", category);
+    if (tag) queryParams.append("tag", tag);
 
     const res = await apiClient(
       `/api/admin/product?${queryParams.toString()}`,
       {
         method: "GET",
         tags: ["product"],
+        cache: "no-store",
       }
     );
 
@@ -151,6 +154,45 @@ export async function changeProductStatus(id: string, status: boolean) {
         error instanceof Error
           ? error.message
           : "Failed to update product status",
+      data: null,
+    };
+  }
+}
+
+export async function getMostLovedProducts(limit: number) {
+  try {
+    const res = await apiClient(`/api/product/most-loved?limit=${limit}`, {
+      method: "GET",
+      // tags: ["banners"],
+      cache: "no-store",
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get most loved products",
+      data: null,
+    };
+  }
+}
+export async function getFeaturedProducts(limit: number) {
+  try {
+    const res = await apiClient(`/api/product/featured?limit=${limit}`, {
+      method: "GET",
+      // tags: ["banners"],
+      cache: "no-store",
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get featured products",
       data: null,
     };
   }

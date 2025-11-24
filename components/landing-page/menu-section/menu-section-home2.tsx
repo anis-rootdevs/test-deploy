@@ -1,10 +1,10 @@
 import { CustomButton } from "@/components/custom/custom-button";
-import { menuItems } from "@/public/sample-data/landing-page-data";
-import MenuItemCard from "./menu-items-card";
-import Image from "next/image";
 import { routes } from "@/config/routes";
+import { MostLovedItems } from "@/lib/types";
+import Image from "next/image";
+import MenuItemCard from "./menu-items-card";
 
-const MenuSectionHome2 = () => {
+const MenuSectionHome2 = ({ featuredProducts }: { featuredProducts: MostLovedItems[] }) => {
   return (
     <div className="lg:py-20 py-16 relative">
       {/* Background Image with Overlay */}
@@ -34,12 +34,12 @@ const MenuSectionHome2 = () => {
 
         {/* Menu Grid */}
         <div className="grid md:grid-cols-2 gap-6 md:gap-x-12 lg:gap-x-16 mb-10 md:mb-14">
-          {menuItems.map((item) => (
+          {featuredProducts.map((item) => (
             <MenuItemCard
-              key={item.id}
+              key={item._id}
               image={item.image}
               title={item.name}
-              description={item.description}
+              description={item.shortDesc}
               price={item.price}
               className="bg-[#FFFFFF26] text-white"
               priceClassName="text-primary"

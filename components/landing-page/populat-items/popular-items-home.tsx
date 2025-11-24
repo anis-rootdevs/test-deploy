@@ -1,22 +1,13 @@
 "use client";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { routes } from "@/config/routes";
+import { MostLovedItems } from "@/lib/types";
+import { AnimatePresence, motion } from "framer-motion";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
-import { routes } from "@/config/routes";
-
-export interface MenuItem {
-  id: number;
-  badge: string;
-  title: string;
-  description: string;
-  price: string;
-  images: string;
-}
+import { useEffect, useState } from "react";
 
 interface MenuSliderProps {
-  items: MenuItem[];
+  items: MostLovedItems[];
   autoSlideInterval?: number;
   onExploreClick?: () => void;
 }
@@ -48,7 +39,7 @@ const PopularItemsHome = ({
               {/* Badge - Fixed (Not Animated) */}
               <div className="mb-6">
                 <p className="text-lg font-normal md:text-2xl font-jost mb-2">
-                  {currentItem.badge}
+                  {/* {currentItem.category} */}Most Loved by You
                 </p>
                 <div className="w-[75px] h-[2px] bg-primary" />
               </div>
@@ -65,12 +56,12 @@ const PopularItemsHome = ({
                 >
                   {/* Title */}
                   <h2 className="text-2xl md:text-[28px] lg:text-[36px] font-semibold font-jost uppercase">
-                    {currentItem.title}
+                    {currentItem.name}
                   </h2>
 
                   {/* Description */}
                   <p className="text-base md:text-lg font-medium font-jost">
-                    {currentItem.description}
+                    {currentItem.shortDesc}
                   </p>
 
                   {/* Price */}
@@ -79,7 +70,7 @@ const PopularItemsHome = ({
                       Price
                     </span>
                     <span className="text-lg md:text-2xl font-jost font-medium">
-                      {currentItem.price}
+                      $ {currentItem.price}
                     </span>
                   </div>
                 </motion.div>
@@ -121,12 +112,10 @@ const PopularItemsHome = ({
                   transition={{ delay: 0.2, duration: 0.5 }}
                   className="relative w-full h-full"
                 >
-                  <Image
-                    src={currentItem.images}
-                    alt={currentItem.title}
-                    fill
+                  <img
+                    src={currentItem.image}
+                    alt={currentItem.name}
                     className="object-contain"
-                    priority
                   />
                 </motion.div>
               </motion.div>

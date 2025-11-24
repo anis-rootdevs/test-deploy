@@ -1,8 +1,12 @@
 "use client";
-import { popularMenuItems } from "@/public/sample-data/landing-page-data";
+import { MostLovedItems } from "@/lib/types";
 import PopularItemsHome from "./popular-items-home";
 
-const PopularItemsCard = () => {
+const PopularItemsCard = ({
+  mostLovedProducts,
+}: {
+  mostLovedProducts: MostLovedItems[];
+}) => {
   const handleExploreClick = () => {
     console.log("Explore More Menu clicked!");
     // Add your navigation logic here
@@ -11,7 +15,7 @@ const PopularItemsCard = () => {
   return (
     <>
       <PopularItemsHome
-        items={popularMenuItems}
+        items={mostLovedProducts}
         onExploreClick={handleExploreClick}
       />
     </>

@@ -32,7 +32,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
       <div className="p-0">
         <div className="flex items-center gap-4">
           {/* Image Section */}
-          <div className="relative  flex-shrink-0 aspect-[170/170] overflow-hidden">
+          <div className="relative  flex-shrink-0 h-[164px] w-[150px] overflow-hidden">
             <Image
               src={image}
               alt={title}
