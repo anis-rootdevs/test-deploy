@@ -53,8 +53,10 @@ export const GET = asyncHandler(async (req: NextRequest) => {
   const skip: number = (Number(page) - 1) * Number(limit);
   const query: Record<string, any> = search
     ? {
-        name: { $regex: search, $options: "i" },
-        shortDesc: { $regex: search, $options: "i" },
+        $or: [
+          { name: { $regex: new RegExp(search, "i") } },
+          { shortDesc: { $regex: new RegExp(search, "i") } },
+        ],
       }
     : {};
 
