@@ -27,7 +27,7 @@ export default function UserMenu() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const router = useRouter();
-  console.log("userData", userData, session);
+
   //   logout function
   const handleLogout = async () => {
     await signOut({

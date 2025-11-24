@@ -5,6 +5,7 @@ import OutletsList from "./_components/OutletsList";
 
 export default async function OutletsHome() {
   const outlets = await getOutletsList();
+
   return (
     <Suspense
       fallback={
@@ -13,7 +14,7 @@ export default async function OutletsHome() {
         </>
       }
     >
-      <OutletsList outlets={outlets?.data || []} />
+      <OutletsList outlets={outlets?.data?.docs || []} />
     </Suspense>
   );
 }
