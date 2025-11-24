@@ -1,41 +1,7 @@
-import { uploadToCloudinary } from "@/config/cloudinary";
-import { asyncFormDataHandler } from "@/lib/async-formdata-handler";
 import { asyncHandler } from "@/lib/async-handler";
-import { fileValidator } from "@/lib/file-validator";
 import { apiResponse, makePaginate } from "@/lib/utils";
-import { outletSchema } from "@/lib/validation-schema";
 import Outlet from "@/model/Outlet";
 import { NextRequest } from "next/server";
-import z from "zod";
-
-// Create a outlet
-export const POST = asyncFormDataHandler(
-  outletSchema,
-  async (
-    req: NextRequest,
-    data: z.infer<typeof outletSchema>,
-    formData: FormData
-  ) => {
-    const { valid, error } = fileValidator(formData.get("image") as File, {
-      required: true,
-    });
-    if (!valid) return apiResponse(false, 400, error!);
-
-    // Upload to cloudinary
-    const { public_id } = await uploadToCloudinary(
-      formData.get("image") as File,
-      {
-        folder: `${process.env.CLOUDINARY_FOLDER}/outlet`,
-      }
-    );
-
-    const outletData = { ...data, image: public_id };
-    await Outlet.create(outletData);
-
-    return apiResponse(true, 200, "Outlet has been created successfully!");
-  },
-  true
-);
 
 // Get all outlets
 export const GET = asyncHandler(async (req: NextRequest) => {
@@ -43,19 +9,13 @@ export const GET = asyncHandler(async (req: NextRequest) => {
 
   const page = searchParams.get("page") || 1;
   const limit = searchParams.get("limit") || 10;
-  const search = searchParams.get("search") || undefined;
 
   const skip: number = (Number(page) - 1) * Number(limit);
-  const query: Record<string, any> = search
-    ? {
-        name: { $regex: search, $options: "i" },
-      }
-    : {};
 
   const [docs, total] = await Promise.all([
     Outlet.aggregate([
       {
-        $match: query,
+        $match: { status: true },
       },
       {
         $sort: {
@@ -85,16 +45,11 @@ export const GET = asyncHandler(async (req: NextRequest) => {
           },
         },
       },
-      {
-        $project: {
-          updatedAt: 0,
-        },
-      },
     ]),
-    Outlet.countDocuments(query),
+    Outlet.countDocuments(),
   ]);
 
   const data = makePaginate(docs, Number(page), Number(limit), skip, total);
 
   return apiResponse(true, 200, "Outlets has been fetched successfully!", data);
-}, true);
+});
