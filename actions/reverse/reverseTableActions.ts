@@ -1,7 +1,7 @@
 "use server";
 
 import { apiClient } from "@/lib/api-client";
-import { ReverseTable } from "@/lib/types";
+import { CreateReverseTableInput } from "@/lib/types";
 import { updateTag } from "next/cache";
 
 interface GetReversedParams {
@@ -49,7 +49,7 @@ export async function getReversedList(params: GetReversedParams = {}) {
   }
 }
 
-export async function createReverseTable(data: Omit<ReverseTable, "_id">) {
+export async function createReverseTable(data: CreateReverseTableInput) {
   try {
     const res = await apiClient("/api/reserve-table", {
       method: "POST",

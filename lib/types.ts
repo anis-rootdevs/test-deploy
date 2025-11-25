@@ -180,3 +180,16 @@ export interface ReverseTable {
   status: "pending" | "confirmed" | "cancelled";
   createdAt: string;
 }
+export interface CreateReverseTableInput {
+  outlet: string; // always string
+  reason: string;
+  name: string;
+  email: string;
+  dialCode: string;
+  phone: string;
+  reservedAt: string;
+  numOfPeople: number;
+  message: string;
+  status: "pending" | "confirmed" | "cancelled";
+  createdAt: string;
+}

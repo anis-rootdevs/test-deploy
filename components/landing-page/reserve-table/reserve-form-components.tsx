@@ -79,6 +79,8 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
         reservedAt: values.reservedAt,
         numOfPeople: parseInt(values.numOfPeople) || 1,
         message: values.message || "",
+        status: "pending" as const,
+        createdAt: new Date().toISOString(),
       };
 
       const loadingToast = toast.loading("Making reservation...");

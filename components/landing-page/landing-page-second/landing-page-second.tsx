@@ -1,4 +1,5 @@
 import { getBanner } from "@/actions/banner/bannerActions";
+import { getAllFeaturedGallery } from "@/actions/gallery/galleryActions";
 import {
   getFeaturedProducts,
   getMostLovedProducts,
@@ -19,6 +20,7 @@ const LandingPageSecond = async () => {
   const banners = await getBanner();
   const mostLovedProducts = await getMostLovedProducts(5);
   const featuredProducts = await getFeaturedProducts(6);
+  const gallery = await getAllFeaturedGallery(6);
   return (
     <>
       <Suspense fallback={<HeroSectionLoader />}>
@@ -35,7 +37,9 @@ const LandingPageSecond = async () => {
       </Suspense>
 
       <ChefShapeHome />
-      <ImageGalleryLanding />
+      <Suspense fallback={<p>Loading...</p>}>
+        <ImageGalleryLanding gallery={gallery?.data || []} />
+      </Suspense>
       <BookReservationHome2 />
     </>
   );

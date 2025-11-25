@@ -1,10 +1,10 @@
+export const dynamic = "force-dynamic";
 import { getAllOutlets } from "@/actions/outlets/outletsActions";
 import ReserveFormComponents from "@/components/landing-page/reserve-table/reserve-form-components";
 import ReserveTableHero from "@/components/landing-page/reserve-table/reserve-table-hero";
 
 const ReserveTableHome = async () => {
   const outlet = await getAllOutlets(5);
-  console.log(outlet);
   return (
     <div className="relative overflow-hidden px-4">
       {/* Hero Section */}

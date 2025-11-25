@@ -1,6 +1,7 @@
+// components/gallery/gallery-images-details.tsx
 import { Galleries } from "@/lib/types";
 import GalleryImageCard from "./gallery-image-card";
-// Helper function
+
 function splitIntoColumns(items: Galleries[], columns: number) {
   const result: Galleries[][] = Array.from({ length: columns }, () => []);
   items.forEach((item, index) => {
@@ -9,9 +10,21 @@ function splitIntoColumns(items: Galleries[], columns: number) {
   return result;
 }
 
-const GalleryImagesDetails = ({ gallery }: { gallery: Galleries[] }) => {
-  console.log("gallery", gallery);
-  const columns = splitIntoColumns(gallery, 3);
+interface GalleryImagesDetailsProps {
+  gallery: Galleries[];
+}
+
+const GalleryImagesDetails = ({ gallery }: GalleryImagesDetailsProps) => {
+  // ✅ Safety check with default to empty array
+  const safeGallery = gallery ?? [];
+
+  // ✅ Early return if no items
+  if (safeGallery.length === 0) {
+    return null;
+  }
+
+  const columns = splitIntoColumns(safeGallery, 3);
+
   return (
     <section className="max-w-[1320px] mx-auto py-12 md:py-20 px-4">
       {/* Desktop & Tablet Layout */}
@@ -19,7 +32,10 @@ const GalleryImagesDetails = ({ gallery }: { gallery: Galleries[] }) => {
         {columns.map((col, colIndex) => (
           <div key={colIndex} className="flex flex-col gap-4">
             {col.map((item, i) => (
-              <div key={i} className={i % 2 === 0 ? "h-[449px]" : "h-[272px]"}>
+              <div
+                key={item._id || `item-${i}`}
+                className={i % 2 === 0 ? "h-[449px]" : "h-[272px]"}
+              >
                 <GalleryImageCard
                   src={item.image}
                   quote={item.tagline}
@@ -34,8 +50,8 @@ const GalleryImagesDetails = ({ gallery }: { gallery: Galleries[] }) => {
 
       {/* Mobile layout */}
       <div className="md:hidden grid grid-cols-1 gap-3">
-        {gallery.map((item, i) => (
-          <div key={i} className="h-[300px]">
+        {safeGallery.map((item, i) => (
+          <div key={item._id || `mobile-item-${i}`} className="h-[300px]">
             <GalleryImageCard
               src={item.image}
               quote={item.tagline}

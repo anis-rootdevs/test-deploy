@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getAllOutlets } from "@/actions/outlets/outletsActions";
 import MenuHeroSection from "@/components/landing-page/menu-section/menu-hero-section";
 import LocationCardComponents from "@/components/locations/location-card-components";
