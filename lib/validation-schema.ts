@@ -1,3 +1,4 @@
+import { RESERVE_TABLE_STATUS } from "@/config/constant";
 import { z } from "zod";
 import {
   booleanField,
@@ -7,6 +8,8 @@ import {
   requiredObjectIdField,
   requiredStringField,
 } from "./utils";
+
+const { PENDING, CONFIRMED, CANCELLED } = RESERVE_TABLE_STATUS;
 
 export const newsletterSchema = z.object({
   email: z
@@ -91,7 +94,7 @@ export const reserveTableSchema = z.object({
 });
 
 export const reserveStatusSchema = z.object({
-  status: requiredEnumField("status", ["pending", "confirmed", "cancelled"]),
+  status: requiredEnumField("status", [PENDING, CONFIRMED, CANCELLED]),
 });
 
 export const sortSchema = z.object({

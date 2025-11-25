@@ -42,6 +42,27 @@ export const GET = asyncHandler(async (req: NextRequest) => {
         $limit: Number(limit),
       },
       {
+        $lookup: {
+          from: "outlets",
+          localField: "outlet",
+          foreignField: "_id",
+          as: "outlet",
+          pipeline: [
+            {
+              $project: {
+                name: 1,
+              },
+            },
+          ],
+        },
+      },
+      {
+        $unwind: {
+          path: "$outlet",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
         $project: {
           updatedAt: 0,
         },
