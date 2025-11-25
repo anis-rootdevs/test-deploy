@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { BsShop } from "react-icons/bs";
 import { FaImages } from "react-icons/fa6";
+import { MdLibraryBooks } from "react-icons/md";
 import { PiHamburgerDuotone } from "react-icons/pi";
 import { TbCategory, TbSlideshow } from "react-icons/tb";
 
@@ -274,6 +275,11 @@ export const adminDashboardMenu = {
       title: "Gallery",
       url: routes.privateRoutes.admin.gallery,
       icon: FaImages,
+    },
+    {
+      title: "Reserve Table",
+      url: routes.privateRoutes.admin.reserve,
+      icon: MdLibraryBooks,
     },
     {
       title: "Models",

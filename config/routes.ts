@@ -21,6 +21,7 @@ export const routes = {
       products: "/admin/dashboard/products",
       gallery: "/admin/dashboard/gallery",
       outlets: "/admin/dashboard/outlets",
+      reserve: "/admin/dashboard/reserve",
       notification: `/admin/notification`,
       contact: `/admin/contact`,
       newsletter: `/admin/newsletter`,
