@@ -1,4 +1,6 @@
+import { invalidateCache } from "@/config/cache";
 import { uploadToCloudinary } from "@/config/cloudinary";
+import { CACHE_KEYS, CLOUDINARY_SECURE_URL_BASE } from "@/config/constant";
 import { asyncFormDataHandler } from "@/lib/async-formdata-handler";
 import { asyncHandler } from "@/lib/async-handler";
 import { fileValidator } from "@/lib/file-validator";
@@ -32,6 +34,8 @@ export const POST = asyncFormDataHandler(
     const productData = { ...data, image: public_id };
     await Product.create(productData);
 
+    invalidateCache(CACHE_KEYS.MENU); // Invalidate menu cache
+
     return apiResponse(true, 200, "Product has been created successfully!");
   },
   true
@@ -49,8 +53,10 @@ export const GET = asyncHandler(async (req: NextRequest) => {
   const skip: number = (Number(page) - 1) * Number(limit);
   const query: Record<string, any> = search
     ? {
-        name: { $regex: search, $options: "i" },
-        shortDesc: { $regex: search, $options: "i" },
+        $or: [
+          { name: { $regex: new RegExp(search, "i") } },
+          { shortDesc: { $regex: new RegExp(search, "i") } },
+        ],
       }
     : {};
 
@@ -93,11 +99,7 @@ export const GET = asyncHandler(async (req: NextRequest) => {
             $cond: {
               if: { $ne: ["$image", null] }, // Check if image exists
               then: {
-                $concat: [
-                  process.env.CLOUDINARY_SECURE_URL_BASE || "",
-                  "/",
-                  "$image",
-                ],
+                $concat: [CLOUDINARY_SECURE_URL_BASE, "/", "$image"],
               },
               else: null, // or a default image URL
             },

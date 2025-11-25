@@ -28,6 +28,8 @@ const ProductSchema: Schema = new mongoose.Schema(
   }
 );
 
+ProductSchema.index({ category: 1 });
+
 const Product =
   mongoose.models.Product ||
   mongoose.model<IProduct>("Product", ProductSchema, "products");

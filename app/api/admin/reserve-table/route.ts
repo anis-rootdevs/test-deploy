@@ -1,22 +1,32 @@
-import { CLOUDINARY_SECURE_URL_BASE } from "@/config/constant";
 import { asyncHandler } from "@/lib/async-handler";
 import { apiResponse, makePaginate } from "@/lib/utils";
-import Gallery from "@/model/Gallery";
+import ReserveTable from "@/model/ReserveTable";
 import { NextRequest } from "next/server";
 
-// Get all galleries
+// Get all reserve tables
 export const GET = asyncHandler(async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
+
   const page = searchParams.get("page") || 1;
   const limit = searchParams.get("limit") || 10;
+  const search = searchParams.get("search") || undefined;
+  const status = searchParams.get("status") || undefined;
 
   const skip: number = (Number(page) - 1) * Number(limit);
-  const query: Record<string, any> = {
-    status: true,
-  };
+  const query: Record<string, any> = search
+    ? {
+        $or: [
+          { name: { $regex: new RegExp(search, "i") } },
+          { email: { $regex: new RegExp(search, "i") } },
+          { phone: { $regex: new RegExp(search, "i") } },
+        ],
+      }
+    : {};
+
+  if (status) query.status = status;
 
   const [docs, total] = await Promise.all([
-    Gallery.aggregate([
+    ReserveTable.aggregate([
       {
         $match: query,
       },
@@ -32,28 +42,12 @@ export const GET = asyncHandler(async (req: NextRequest) => {
         $limit: Number(limit),
       },
       {
-        $addFields: {
-          image: {
-            $cond: {
-              if: { $ne: ["$image", null] }, // Check if image exists
-              then: {
-                $concat: [CLOUDINARY_SECURE_URL_BASE, "/", "$image"],
-              },
-              else: null, // or a default image URL
-            },
-          },
-        },
-      },
-      {
         $project: {
           updatedAt: 0,
-          status: 0,
-          featured: 0,
-          position: 0,
         },
       },
     ]),
-    Gallery.countDocuments(query),
+    ReserveTable.countDocuments(query),
   ]);
 
   const data = makePaginate(docs, Number(page), Number(limit), skip, total);
@@ -61,7 +55,7 @@ export const GET = asyncHandler(async (req: NextRequest) => {
   return apiResponse(
     true,
     200,
-    "Galleries have been fetched successfully!",
+    "Reserve tables have been fetched successfully!",
     data
   );
-});
+}, true);

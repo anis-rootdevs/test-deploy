@@ -1,6 +1,8 @@
 import { z } from "zod";
 import {
   booleanField,
+  optionalStringField,
+  requiredEnumField,
   requiredNumberField,
   requiredObjectIdField,
   requiredStringField,
@@ -74,6 +76,22 @@ export const categorySchema = z.object({
   name: z.string("Required!").min(1, "Required!").trim(),
   slug: z.string("Required!").min(1, "Required!").toLowerCase().trim(),
   status: z.boolean("Status must be boolean!").optional(),
+});
+
+export const reserveTableSchema = z.object({
+  outlet: requiredObjectIdField("outlet"),
+  reason: requiredStringField("reason"),
+  name: requiredStringField("name"),
+  email: requiredStringField("email"),
+  dialCode: requiredStringField("dialCode"),
+  phone: requiredStringField("phone"),
+  reservedAt: requiredStringField("reservedAt"),
+  numOfPeople: requiredNumberField("numOfPeople"),
+  message: optionalStringField("message"),
+});
+
+export const reserveStatusSchema = z.object({
+  status: requiredEnumField("status", ["pending", "confirmed", "cancelled"]),
 });
 
 export const sortSchema = z.object({
