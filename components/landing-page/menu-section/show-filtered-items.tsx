@@ -1,9 +1,8 @@
 "use client";
-import OffersSection from "./offers-section";
+import { useMenuFilterStore } from "@/store/useMenuFilterStore";
 import VisitHomeSection from "../visit-us-section/visit-home-section";
 import MenuItemCard from "./menu-items-card";
-import ToppingsSection from "./toppings-section";
-import { useMenuFilterStore } from "@/store/useMenuFilterStore";
+import OffersSection from "./offers-section";
 
 const ShowFilteredItems = () => {
   const { filteredItems } = useMenuFilterStore();
@@ -31,7 +30,7 @@ const ShowFilteredItems = () => {
             />
           ))}
         </div>
-        {toppings && (
+        {/* {toppings && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-5 ">
             <div></div>
             <div>
@@ -42,7 +41,7 @@ const ShowFilteredItems = () => {
               />
             </div>
           </div>
-        )}
+        )} */}
       </div>
       <VisitHomeSection />
       <OffersSection />
