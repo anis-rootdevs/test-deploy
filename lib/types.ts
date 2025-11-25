@@ -148,3 +148,14 @@ export interface MostLovedItems {
   image: string;
   category: string;
 }
+export type Galleries = {
+  _id: string;
+  tagline: string;
+  image: string;
+  position: number;
+  createdAt: string;
+  updatedAt: string;
+  capturedBy: string;
+  status?: boolean;
+  featured?: boolean;
+};

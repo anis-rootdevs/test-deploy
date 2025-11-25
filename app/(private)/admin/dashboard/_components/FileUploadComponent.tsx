@@ -130,16 +130,16 @@ const FileUploadComponent = ({
       if (validUploads.length > 0) {
         // Hide existing image when new file is uploaded
         setShowExistingImage(false);
-        setUploadedFiles((prev) => {
-          const updated = [...prev, ...validUploads];
-          onFilesChange?.(updated.map((f) => f.file));
-          return updated;
-        });
+        const updatedFiles = [...uploadedFiles, ...validUploads];
+        setUploadedFiles(updatedFiles);
+        // IMPORTANT: Call onFilesChange here with the new files
+
+        onFilesChange?.(updatedFiles.map((f) => f.file));
       }
 
       setErrors(newErrors);
     },
-    [uploadedFiles.length, maxFiles, isUploadDisabled, onFilesChange, accept]
+    [uploadedFiles, maxFiles, isUploadDisabled, onFilesChange, accept, maxSize]
   );
 
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -160,6 +160,8 @@ const FileUploadComponent = ({
       e.stopPropagation();
       setDragActive(false);
       if (isUploadDisabled) return;
+
+      console.log("file List", e.dataTransfer.files);
 
       handleFiles(e.dataTransfer.files);
     },

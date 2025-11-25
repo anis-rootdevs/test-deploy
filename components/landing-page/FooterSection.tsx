@@ -1,8 +1,14 @@
+import { getAllFeaturedGallery } from "@/actions/gallery/galleryActions";
+import { routes } from "@/config/routes";
+import { Galleries } from "@/lib/types";
+import {
+  locations,
+  policy,
+  quickMenu,
+} from "@/public/sample-data/landing-page-data";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Separator } from "../ui/separator";
-import { Icons } from "../custom/icons";
 import {
   Carousel,
   CarouselContent,
@@ -10,15 +16,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-import { routes } from "@/config/routes";
-import {
-  galleryImages,
-  locations,
-  policy,
-  quickMenu,
-} from "@/public/sample-data/landing-page-data";
+import { Separator } from "../ui/separator";
 
-const FooterSection = () => {
+const FooterSection = async () => {
+  // api call grt galleries
+  const gallery = await getAllFeaturedGallery(6);
   return (
     <footer className="w-full bg-[#E2E2E2] dark:bg-[#222831] text-[#2A2A2F] dark:text-[#FEFEFF] ">
       <div className="max-w-[1320px] mx-auto px-6 py-10 md:py-14">
@@ -100,11 +102,11 @@ const FooterSection = () => {
                 className="w-full"
               >
                 <CarouselContent className="-ml-4">
-                  {galleryImages.map((img, index) => (
+                  {gallery?.data.map((data: Galleries, index: number) => (
                     <CarouselItem key={index} className="pl-2 basis-1/4">
                       <div className="relative aspect-[74/67] overflow-hidden bg-white">
                         <Image
-                          src={img}
+                          src={data.image}
                           alt={`Gallery ${index + 1}`}
                           width={50}
                           height={50}

@@ -19,6 +19,7 @@ export const routes = {
       },
       categories: "/admin/dashboard/categories",
       products: "/admin/dashboard/products",
+      gallery: "/admin/dashboard/gallery",
       outlets: "/admin/dashboard/outlets",
       notification: `/admin/notification`,
       contact: `/admin/contact`,

@@ -2,9 +2,8 @@
 
 import OpeningsHours from "@/components/custom/openings-hours";
 import { Separator } from "@/components/ui/separator";
-import React from "react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 interface OpeningHour {
   days: string;
   time: string;
@@ -53,7 +52,6 @@ const ReserveTableHero = ({
               alt="Reserve table background"
               fill
               priority
-              quality={100}
               className="object-cover"
             />
             {overlay && (
