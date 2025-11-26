@@ -9,11 +9,11 @@ import OffersSection from "./offers-section";
 import ShowFilteredItems from "./show-filtered-items";
 import SweetsSection from "./sweets-section";
 
+import { useEffect } from "react";
 import {
   CategorySectionSkeleton,
   MenuItemsGridSkeleton,
 } from "./menu-items-card-loader";
-import { useEffect } from "react";
 
 const MenuSectionPage = () => {
   const { activeCategory, isLoading, initializeMenu } = useMenuFilterStore();

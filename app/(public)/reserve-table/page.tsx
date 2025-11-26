@@ -1,7 +1,10 @@
+export const dynamic = "force-dynamic";
+import { getAllOutlets } from "@/actions/outlets/outletsActions";
 import ReserveFormComponents from "@/components/landing-page/reserve-table/reserve-form-components";
 import ReserveTableHero from "@/components/landing-page/reserve-table/reserve-table-hero";
 
-const ReserveTableHome = () => {
+const ReserveTableHome = async () => {
+  const outlet = await getAllOutlets(5);
   return (
     <div className="relative overflow-hidden px-4">
       {/* Hero Section */}
@@ -16,11 +19,10 @@ const ReserveTableHome = () => {
           ]}
         />
 
-        {/* without image bg */}
         {/* <ReserveTableHero /> */}
       </div>
       <div className="xl:-mt-[240px] lg:-mt-[190px] lg:-mr-[400px] pb-10 z-[10] relative">
-        <ReserveFormComponents />
+        <ReserveFormComponents outlets={outlet?.data?.docs || []} />
       </div>
     </div>
   );

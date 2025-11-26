@@ -1,7 +1,9 @@
 "use client";
 
+import { createReverseTable } from "@/actions/reverse/reverseTableActions";
 import { CustomButton } from "@/components/custom/custom-button";
 import DatePickerField from "@/components/custom/DatePickerFiled";
+import PhoneInputField from "@/components/custom/PhoneInputField";
 import {
   Form,
   FormControl,
@@ -19,39 +21,86 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Outlets } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 const reservationSchema = z.object({
-  outletName: z.string().min(1, "Please select an outlet"),
+  outlet: z.string().min(1, "Please select an outlet"),
   reason: z.string().min(1, "Please select a reservation reason"),
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Enter a valid email"),
-  date: z.string().min(1, "Please select a date"),
-  people: z.string().min(1, "Number of people is required"),
+  phone: z.string().min(1, "Phone number is required"),
+  dialCode: z.string().optional(),
+  reservedAt: z.string().min(1, "Please select a date"),
+  numOfPeople: z.string().min(1, "Number of people is required"),
   message: z.string().optional(),
 });
 
 type ReservationFormValues = z.infer<typeof reservationSchema>;
 
-const ReserveFormComponents = () => {
+const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
   const form = useForm<ReservationFormValues>({
     resolver: zodResolver(reservationSchema),
     defaultValues: {
-      outletName: "",
+      outlet: "",
       reason: "",
       name: "",
       email: "",
-      date: "",
-      people: "",
+      phone: "",
+      dialCode: "",
+      reservedAt: "",
+      numOfPeople: "",
       message: "",
     },
   });
 
-  const onSubmit = (values: ReservationFormValues) => {
-    console.log("Form Values:", values);
-    // Handle form submission here
+  const onSubmit = async (values: ReservationFormValues) => {
+    try {
+      // Handle phone number
+      let cleanPhone = String(values.phone || "");
+      const dialCode = String(values.dialCode || "").replace("+", "");
+
+      // If phone starts with dial code, remove it
+      if (cleanPhone.startsWith(dialCode)) {
+        cleanPhone = cleanPhone.substring(dialCode.length);
+      }
+
+      // Prepare JSON data
+      const reservationData = {
+        outlet: values.outlet,
+        reason: values.reason,
+        name: values.name,
+        email: values.email,
+        phone: cleanPhone,
+        dialCode: values.dialCode || "",
+        reservedAt: values.reservedAt,
+        numOfPeople: parseInt(values.numOfPeople) || 1,
+        message: values.message || "",
+        status: "pending" as const,
+        createdAt: new Date().toISOString(),
+      };
+
+      const loadingToast = toast.loading("Making reservation...");
+
+      const result = await createReverseTable(reservationData);
+
+      toast.dismiss(loadingToast);
+
+      if (!result.status) {
+        toast.error(result.message || "Failed to make reservation");
+        return;
+      }
+
+      toast.success(result.message || "Reservation created successfully!");
+
+      // Reset form after success
+      form.reset();
+    } catch (error: any) {
+      toast.error(error?.message || "Error making reservation!");
+    }
   };
 
   return (
@@ -61,7 +110,7 @@ const ReserveFormComponents = () => {
           {/* Outlet Name */}
           <FormField
             control={form.control}
-            name="outletName"
+            name="outlet"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-jost text-base font-medium">
@@ -74,16 +123,15 @@ const ReserveFormComponents = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem
-                      value="outlet1"
-                      className="hover:bg-primary hover:text-black"
-                    >
-                      Outlet 1 - Dhaka
-                    </SelectItem>
-                    <SelectItem value="outlet2">
-                      Outlet 2 - Chittagong
-                    </SelectItem>
-                    <SelectItem value="outlet3">Outlet 3 - Sylhet</SelectItem>
+                    {outlets?.map((outlet: Outlets) => (
+                      <SelectItem
+                        key={outlet._id}
+                        value={outlet._id}
+                        className="hover:bg-primary hover:text-black"
+                      >
+                        {outlet.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -115,6 +163,7 @@ const ReserveFormComponents = () => {
                     </SelectItem>
                     <SelectItem value="family">Family Gathering</SelectItem>
                     <SelectItem value="office">Office Meeting</SelectItem>
+                    <SelectItem value="others">Others</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -142,37 +191,47 @@ const ReserveFormComponents = () => {
               </FormItem>
             )}
           />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-jost text-base font-medium">
+                    Your Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="sadia@gmail.com"
+                      type="email"
+                      {...field}
+                      className="h-11 border border-[#E2E2E2] dark:border-[#0F141B] bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#1B2A41] outline-none"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Email */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-jost text-base font-medium">
-                  Your Email
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="sadia@gmail.com"
-                    type="email"
-                    {...field}
-                    className="h-11 border border-[#E2E2E2] dark:border-[#0F141B] bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#1B2A41] outline-none"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <PhoneInputField
+              name="phone"
+              dialCodeName="dialCode"
+              label="Phone Number"
+              required={true}
+              defaultCountry="bd"
+              className="mt-2"
+              errorBadge={false}
+            />
+          </div>
 
           {/* Date - With Calendar Picker */}
           <FormField
             control={form.control}
-            name="date"
+            name="reservedAt"
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <DatePickerField
-                  name="date"
+                  name="reservedAt"
                   control={form.control}
                   label="Reservation Date & Time"
                   placeholder="Select reservation date and time"
@@ -183,8 +242,9 @@ const ReserveFormComponents = () => {
                   dateFormat="Y-m-d h:i K"
                   minDate="today"
                   rules={{ required: "Required!" }}
-                  error={form.formState.errors.date}
+                  error={form.formState.errors.reservedAt}
                   containerClassName="w-full "
+                  errorBadge={false}
                 />
               </FormItem>
             )}
@@ -193,7 +253,7 @@ const ReserveFormComponents = () => {
           {/* Number of People */}
           <FormField
             control={form.control}
-            name="people"
+            name="numOfPeople"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-jost text-base font-medium">

@@ -40,6 +40,7 @@ export interface Products {
 }
 
 export type FilterType = "all" | "mostLoved" | "featured";
+export type ReverseFilterType = "all" | "pending" | "confirmed" | "cancelled";
 export interface Outlets {
   _id: string;
   name: string;
@@ -147,4 +148,48 @@ export interface MostLovedItems {
   price: number;
   image: string;
   category: string;
+}
+export type Galleries = {
+  _id: string;
+  tagline: string;
+  image: string;
+  position: number;
+  createdAt: string;
+  updatedAt: string;
+  capturedBy: string;
+  status?: boolean;
+  featured?: boolean;
+};
+
+export interface ReverseTable {
+  _id: string;
+  outlet:
+    | {
+        _id: string;
+        name: string;
+      }
+    | string;
+  reason: string;
+  name: string;
+  email: string;
+  dialCode: string;
+  phone: string;
+  reservedAt: string;
+  numOfPeople: number;
+  message: string;
+  status: "pending" | "confirmed" | "cancelled";
+  createdAt: string;
+}
+export interface CreateReverseTableInput {
+  outlet: string; // always string
+  reason: string;
+  name: string;
+  email: string;
+  dialCode: string;
+  phone: string;
+  reservedAt: string;
+  numOfPeople: number;
+  message: string;
+  status: "pending" | "confirmed" | "cancelled";
+  createdAt: string;
 }

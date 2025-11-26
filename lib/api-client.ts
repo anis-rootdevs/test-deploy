@@ -44,8 +44,19 @@ export async function apiClient<TResponse = any, TBody = undefined>(
   });
 
   if (!res.ok) {
-    const error = await res.text();
-    throw new Error(`API Error ${res.status}: ${error}`);
+    let errorMessage = `HTTP error! status: ${res.status}`;
+
+    try {
+      const errorData = await res.json();
+      // Extract the actual message from the API response
+      errorMessage = errorData.message || errorMessage;
+    } catch {
+      // If parsing fails, try to get text
+      const errorText = await res.text();
+      errorMessage = errorText || errorMessage;
+    }
+
+    throw new Error(errorMessage);
   }
 
   return res.json();

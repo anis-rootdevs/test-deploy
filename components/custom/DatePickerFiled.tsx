@@ -3,7 +3,7 @@
 import { Label } from "@/components/ui/label";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
-import { Calendar } from "lucide-react";
+import { BadgeAlert, Calendar } from "lucide-react";
 import { useEffect, useRef } from "react";
 import {
   Control,
@@ -37,6 +37,7 @@ interface DatePickerFieldProps<T extends FieldValues> {
   minuteIncrement?: number;
   defaultHour?: number;
   defaultMinute?: number;
+  errorBadge?: boolean;
 }
 
 export default function DatePickerField<T extends FieldValues>({
@@ -61,23 +62,15 @@ export default function DatePickerField<T extends FieldValues>({
   minuteIncrement = 1,
   defaultHour = 12,
   defaultMinute = 0,
+  errorBadge = true,
 }: DatePickerFieldProps<T>) {
   const inputRef = useRef<HTMLInputElement>(null);
   const flatpickrInstanceRef = useRef<flatpickr.Instance | null>(null);
 
-  // Cleanup when unmounted
-  useEffect(() => {
-    return () => flatpickrInstanceRef.current?.destroy();
-  }, []);
-
   return (
     <div className={containerClassName}>
       {label && (
-        <Label
-          className={`font-jost text-base font-medium mb-1.5 ${
-            error ? "text-[#830E0E]" : ""
-          }`}
-        >
+        <Label className="font-jost text-base font-medium mb-1.5 block">
           {label}
         </Label>
       )}
@@ -87,10 +80,16 @@ export default function DatePickerField<T extends FieldValues>({
         control={control}
         rules={rules}
         render={({ field }) => {
-          // Initialize Flatpickr
+          // Initialize Flatpickr once when component mounts
           useEffect(() => {
-            if (!inputRef.current || flatpickrInstanceRef.current) return;
+            if (!inputRef.current) return;
 
+            // Destroy existing instance if any
+            if (flatpickrInstanceRef.current) {
+              flatpickrInstanceRef.current.destroy();
+            }
+
+            // Create new Flatpickr instance
             flatpickrInstanceRef.current = flatpickr(inputRef.current, {
               enableTime,
               noCalendar,
@@ -98,16 +97,38 @@ export default function DatePickerField<T extends FieldValues>({
               minDate,
               maxDate,
               mode,
-              defaultDate,
+              defaultDate: field.value || defaultDate,
               time_24hr,
               minuteIncrement,
               defaultHour,
               defaultMinute,
-
-              onChange: (_, dateStr) => field.onChange(dateStr),
-              onClose: () => field.onBlur(),
+              onChange: (_, dateStr) => {
+                field.onChange(dateStr);
+              },
+              onClose: () => {
+                field.onBlur();
+              },
             });
-          }, []);
+
+            // Cleanup on unmount
+            return () => {
+              if (flatpickrInstanceRef.current) {
+                flatpickrInstanceRef.current.destroy();
+                flatpickrInstanceRef.current = null;
+              }
+            };
+          }, [
+            enableTime,
+            noCalendar,
+            dateFormat,
+            minDate,
+            maxDate,
+            mode,
+            time_24hr,
+            minuteIncrement,
+            defaultHour,
+            defaultMinute,
+          ]);
 
           // Sync external field value with Flatpickr
           useEffect(() => {
@@ -123,16 +144,14 @@ export default function DatePickerField<T extends FieldValues>({
                 type="text"
                 placeholder={placeholder}
                 disabled={disabled}
+                value={field.value || ""}
+                onChange={() => {}} // Handled by Flatpickr
                 className={`
-                  w-full h-[42px] px-4 pr-10 text-sm rounded-md border transition-all
-                  placeholder:text-gray-400
-                  disabled:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed datepicker-input
-
-                  ${
-                    error
-                      ? "border-[#830E0E]"
-                      : "border-gray-300 hover:border-gray-400 focus:ring-blue-500 focus:border-blue-500"
-                  }
+                  w-full h-11 px-4 pr-10 text-sm rounded-md border transition-all bg-transparent
+                  placeholder:text-gray-400 border-[#E2E2E2] dark:border-[#0F141B]
+                  disabled:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed
+                  focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#1B2A41] outline-none
+                  ${error ? "!border-[#830E0E]" : ""}
                 `}
               />
 
@@ -140,7 +159,7 @@ export default function DatePickerField<T extends FieldValues>({
               <Calendar
                 className={`
                   absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none
-                  ${error ? "text-[#830E0E]" : "text-gray-900"}
+                  ${error ? "text-[#830E0E]" : "text-gray-500"}
                 `}
               />
             </div>
@@ -150,9 +169,10 @@ export default function DatePickerField<T extends FieldValues>({
 
       {/* Error Message */}
       {error && (
-        <p className="text-[#830E0E] text-sm font-medium mt-2 font-jost animate-in fade-in-50">
-          {error.message}
-        </p>
+        <div className="flex items-center mt-2 gap-1">
+          {errorBadge && <BadgeAlert className="text-red-500 h-4 w-4" />}
+          <p className="text-red-500 text-xs">{error.message as string}</p>
+        </div>
       )}
     </div>
   );

@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
-import { Toaster, ToastBar } from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { ToastBar, Toaster } from "react-hot-toast";
 
 const CustomToaster = () => {
   return (
@@ -12,7 +11,7 @@ const CustomToaster = () => {
         duration: 3000,
         style: {
           background: "transparent",
-          boxShadow: "none",
+          boxShadow: "10px",
           padding: 0,
         },
       }}

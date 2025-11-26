@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import { Galleries } from "@/lib/types";
 import GalleryImageCard from "./gallery-image-card";
 import GalleryIntroCard from "./gallery-intro-card";
-import { galleryItems } from "@/public/sample-data/landing-page-data";
 
-const ImageGalleryLanding = () => {
+const ImageGalleryLanding = ({ gallery }: { gallery: Galleries[] }) => {
+
   return (
     <section className="max-w-[1320px] mx-auto py-12 md:py-20 px-4">
       {/* Desktop & Tablet Layout (3-column grid) */}
@@ -16,54 +16,64 @@ const ImageGalleryLanding = () => {
             <GalleryIntroCard />
           </div>
           {/* Image below intro */}
-          <div className="h-[272px]">
-            <GalleryImageCard
-              src={galleryItems[0].src}
-              quote={galleryItems[0].quote}
-              author={galleryItems[0].author}
-              className="h-full"
-            />
-          </div>
+          {gallery[0] && (
+            <div className="h-[272px]">
+              <GalleryImageCard
+                src={gallery[0].image}
+                quote={gallery[0].tagline}
+                author={gallery[0].capturedBy}
+                className="h-full"
+              />
+            </div>
+          )}
         </div>
 
         {/* Column 2 */}
         <div className="flex flex-col gap-4">
-          <div className="h-[272px]">
-            <GalleryImageCard
-              src={galleryItems[1].src}
-              quote={galleryItems[1].quote}
-              author={galleryItems[1].author}
-              className="h-full"
-            />
-          </div>
-          <div className="h-[449px]">
-            <GalleryImageCard
-              src={galleryItems[2].src}
-              quote={galleryItems[2].quote}
-              author={galleryItems[2].author}
-              className="h-full"
-            />
-          </div>
+          {gallery[1] && (
+            <div className="h-[272px]">
+              <GalleryImageCard
+                src={gallery[1].image}
+                quote={gallery[1].tagline}
+                author={gallery[1].capturedBy}
+                className="h-full"
+              />
+            </div>
+          )}
+          {gallery[2] && (
+            <div className="h-[449px]">
+              <GalleryImageCard
+                src={gallery[2].image}
+                quote={gallery[2].tagline}
+                author={gallery[2].capturedBy}
+                className="h-full"
+              />
+            </div>
+          )}
         </div>
 
         {/* Column 3 */}
         <div className="flex flex-col gap-4">
-          <div className="h-[449px] border">
-            <GalleryImageCard
-              src={galleryItems[3].src}
-              quote={galleryItems[3].quote}
-              author={galleryItems[3].author}
-              className="h-full"
-            />
-          </div>
-          <div className="h-[272px]">
-            <GalleryImageCard
-              src={galleryItems[4].src}
-              quote={galleryItems[4].quote}
-              author={galleryItems[4].author}
-              className="h-full"
-            />
-          </div>
+          {gallery[3] && (
+            <div className="h-[449px]">
+              <GalleryImageCard
+                src={gallery[3].image}
+                quote={gallery[3].tagline}
+                author={gallery[3].capturedBy}
+                className="h-full"
+              />
+            </div>
+          )}
+          {gallery[4] && (
+            <div className="h-[272px]">
+              <GalleryImageCard
+                src={gallery[4].image}
+                quote={gallery[4].tagline}
+                author={gallery[4].capturedBy}
+                className="h-full"
+              />
+            </div>
+          )}
         </div>
       </div>
 
@@ -72,12 +82,12 @@ const ImageGalleryLanding = () => {
         <div className="h-[449px]">
           <GalleryIntroCard />
         </div>
-        {galleryItems.map((item, i) => (
+        {gallery.map((item, i) => (
           <div key={i} className="h-[300px]">
             <GalleryImageCard
-              src={item.src}
-              quote={item.quote}
-              author={item.author}
+              src={item.image}
+              quote={item.tagline}
+              author={item.capturedBy}
               className="h-full"
             />
           </div>
