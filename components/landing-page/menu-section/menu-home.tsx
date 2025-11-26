@@ -1,7 +1,7 @@
 import { CustomButton } from "@/components/custom/custom-button";
 import { routes } from "@/config/routes";
 import { MostLovedItems } from "@/lib/types";
-import MenuItemCard from "./menu-items-card";
+import MenuItemCard from "./MenuItemCard";
 
 const MenuHome = ({
   featuredProducts,

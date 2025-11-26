@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 interface MenuItemCardProps {
   image: string;
   title: string;
@@ -33,7 +31,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
         <div className="flex items-center gap-4">
           {/* Image Section */}
           <div className="relative  flex-shrink-0 h-[164px] w-[150px] overflow-hidden">
-            <Image
+            <img
               src={image}
               alt={title}
               width={100}
