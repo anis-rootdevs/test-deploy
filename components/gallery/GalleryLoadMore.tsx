@@ -4,7 +4,7 @@
 import { getAllGalleries } from "@/actions/gallery/galleryActions";
 import { Galleries } from "@/lib/types";
 import { useCallback, useEffect, useRef, useState } from "react";
-import GalleryImagesDetails from "./gallery-images-details";
+import GalleryImagesDetails from "./GalleryImagesDetails";
 
 const LIMIT = 10;
 
@@ -18,32 +18,24 @@ const GalleryLoadMore = ({
   initialHasMore,
 }: GalleryLoadMoreProps) => {
   const [gallery, setGallery] = useState<Galleries[]>(initialGallery);
-  const [page, setPage] = useState(2); // Start at page 2 (page 1 already loaded)
+  const [page, setPage] = useState(2);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(initialHasMore);
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchGallery = useCallback(
     async (pageNum: number) => {
-      if (loading) return;
+      if (loading || !hasMore) return;
 
       setLoading(true);
 
       try {
-        const offset = (pageNum - 1) * LIMIT;
-        console.log("Fetching page:", pageNum, "offset:", offset);
+        const res = await getAllGalleries(LIMIT, pageNum);
 
-        const res = await getAllGalleries(LIMIT, offset);
         const docs = res?.data?.docs || [];
         const hasNextPage = res?.data?.hasNext ?? false;
-
-        console.log("API Response:", {
-          docsCount: docs.length,
-          hasNext: hasNextPage,
-          currentPage: res?.data?.page,
-          totalPages: res?.data?.totalPage,
-        });
 
         if (docs.length > 0) {
           setGallery((prev) => [...prev, ...docs]);
@@ -52,65 +44,60 @@ const GalleryLoadMore = ({
         setHasMore(hasNextPage);
 
         if (hasNextPage) {
-          setPage(pageNum + 1);
+          setPage(pageNum + 1); // next page index
         }
       } catch (error) {
-        console.error("Error fetching gallery:", error);
         setHasMore(false);
       } finally {
         setLoading(false);
       }
     },
-    [loading]
+    [loading, hasMore]
   );
 
+  // Infinite scroll
   useEffect(() => {
-    if (!loaderRef.current || !hasMore) {
-      return;
-    }
+    if (!loaderRef.current || !hasMore) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !loading && hasMore) {
-          console.log("Loader visible, fetching page:", page);
-          fetchGallery(page);
+          if (debounceRef.current) clearTimeout(debounceRef.current);
+          debounceRef.current = setTimeout(() => {
+            fetchGallery(page);
+          }, 500); // 500ms debounce
         }
       },
       {
         threshold: 0.1,
-        rootMargin: "100px",
+        rootMargin: "120px",
       }
     );
 
-    const currentLoader = loaderRef.current;
-    observer.observe(currentLoader);
+    const currentRef = loaderRef.current;
+    observer.observe(currentRef);
 
     return () => {
-      if (currentLoader) {
-        observer.unobserve(currentLoader);
-      }
+      if (currentRef) observer.unobserve(currentRef);
     };
-  }, [loading, hasMore, page, fetchGallery]);
+  }, [page, hasMore, loading, fetchGallery]);
 
   return (
     <>
-      <GalleryImagesDetails gallery={gallery} />
+      <GalleryImagesDetails gallery={gallery} loading={loading} />
 
-      {/* Show empty state only if no items at all */}
+      {/* Empty state */}
       {!loading && gallery.length === 0 && (
         <div className="flex justify-center items-center min-h-[300px]">
           <p className="text-gray-400 text-sm">No gallery items available</p>
         </div>
       )}
 
-      {/* Loader + Status messages */}
-      <div
-        ref={loaderRef}
-        className="h-12 flex justify-center items-center mt-4"
-      >
-        {loading && <p className="text-gray-500 text-sm">Loading more...</p>}
+      <div ref={loaderRef} className="h-12 flex justify-center items-center">
         {!loading && !hasMore && gallery.length > 0 && (
-          <p className="text-gray-400 text-sm">No more items to show</p>
+          <p className="text-lg font-jost font-medium text-primary">
+            No more items to show
+          </p>
         )}
       </div>
     </>

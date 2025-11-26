@@ -2,6 +2,7 @@
 
 import { shortsGalleryTable } from "@/actions/gallery/galleryActions";
 import DataTable from "@/components/custom/data-table/DataTable";
+import DataTablePagination from "@/components/custom/data-table/DataTablePagination";
 import { Galleries } from "@/lib/types";
 import {
   ColumnFiltersState,
@@ -29,6 +30,7 @@ export default function GalleryList({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
+  console.log("galleryList====", galleryList);
 
   // Create table instance
   const table = useReactTable<Galleries>({
@@ -81,6 +83,7 @@ export default function GalleryList({
         table={table}
         onDataChange={handleDataChange}
       />
+      <DataTablePagination table={table} />
     </div>
   );
 }

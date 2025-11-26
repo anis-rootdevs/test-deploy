@@ -9,12 +9,11 @@ export const revalidate = 0;
 const LIMIT = 10;
 
 const GalleryPage = async () => {
-  // ✅ Fetch initial data server-side
   let initialGallery = [];
   let initialHasMore = false;
 
   try {
-    const res = await getAllGalleries(LIMIT, 0);
+    const res = await getAllGalleries(LIMIT, 1);
     initialGallery = res?.data?.docs || [];
     initialHasMore = res?.data?.hasNext ?? false;
   } catch (error) {
@@ -22,18 +21,18 @@ const GalleryPage = async () => {
   }
 
   return (
-    <div>
+    <>
       <MenuHeroSection
         imageSrc="/images/menu-items/mushroom-chaga-coffee-fresh.svg"
         title="Gallery"
       />
 
-      {/* ✅ Client component handles infinite scroll */}
+      {/* Client component handles infinite scroll */}
       <GalleryLoadMore
         initialGallery={initialGallery}
         initialHasMore={initialHasMore}
       />
-    </div>
+    </>
   );
 };
 

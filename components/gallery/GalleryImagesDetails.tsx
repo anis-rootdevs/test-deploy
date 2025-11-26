@@ -12,13 +12,17 @@ function splitIntoColumns(items: Galleries[], columns: number) {
 
 interface GalleryImagesDetailsProps {
   gallery: Galleries[];
+  loading?: boolean;
 }
 
-const GalleryImagesDetails = ({ gallery }: GalleryImagesDetailsProps) => {
-  // ✅ Safety check with default to empty array
+const GalleryImagesDetails = ({
+  gallery,
+  loading,
+}: GalleryImagesDetailsProps) => {
+  // Safety check with default to empty array
   const safeGallery = gallery ?? [];
 
-  // ✅ Early return if no items
+  // Early return if no items
   if (safeGallery.length === 0) {
     return null;
   }
@@ -31,6 +35,7 @@ const GalleryImagesDetails = ({ gallery }: GalleryImagesDetailsProps) => {
       <div className="hidden md:grid md:grid-cols-3 gap-4">
         {columns.map((col, colIndex) => (
           <div key={colIndex} className="flex flex-col gap-4">
+            {/* Actual items */}
             {col.map((item, i) => (
               <div
                 key={item._id || `item-${i}`}
@@ -44,6 +49,17 @@ const GalleryImagesDetails = ({ gallery }: GalleryImagesDetailsProps) => {
                 />
               </div>
             ))}
+
+            {/* Skeletons — MATCH HEIGHTS OF CARDS */}
+            {loading &&
+              Array.from({ length: 2 }).map((_, i) => (
+                <div
+                  key={`skeleton-${i}`}
+                  className={`rounded-md bg-gray-300 animate-pulse ${
+                    i % 2 === 0 ? "h-[449px]" : "h-[272px]"
+                  }`}
+                ></div>
+              ))}
           </div>
         ))}
       </div>

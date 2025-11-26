@@ -3,12 +3,15 @@
 import { apiClient } from "@/lib/api-client";
 import { updateTag } from "next/cache";
 
-export async function getGalleryLists() {
+export async function getGalleryLists(limit: number, page: number) {
   try {
-    const res = await apiClient("/api/admin/gallery", {
-      method: "GET",
-      tags: ["gallery"],
-    });
+    const res = await apiClient(
+      `/api/admin/gallery?limit=${limit}&page=${page}`,
+      {
+        method: "GET",
+        tags: ["gallery"],
+      }
+    );
     return res;
   } catch (error) {
     return {
@@ -147,10 +150,10 @@ export async function getAllFeaturedGallery(limit: number) {
     };
   }
 }
-export async function getAllGalleries(limit: number, skip: number) {
+export async function getAllGalleries(limit: number, page: number) {
   try {
     const res = await apiClient(
-      `/api/gallery/all?limit=${limit}&skip=${skip}`,
+      `/api/gallery/all?limit=${limit}&page=${page}`,
       {
         method: "GET",
         // tags: ["gallery"],
