@@ -60,7 +60,7 @@ export const GET = asyncHandler(async (req: NextRequest) => {
       },
       {
         $sort: {
-          createdAt: -1,
+          position: 1,
         },
       },
       {
