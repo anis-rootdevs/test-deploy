@@ -1,52 +1,105 @@
-import { menuItems } from "@/public/sample-data/landing-page-data";
+// store/useMenuFilterStore.ts
 import { create } from "zustand";
 
-interface MenuItem {
-  id?: number;
-  name?: string;
-  category?: string;
-  description?: string;
-  price?: number;
-  image?: string;
+// API Response Types
+interface Product {
+  _id: string;
+  name: string;
+  shortDesc: string;
+  price: number;
+  createdAt: string;
+  image: string;
 }
 
+interface Category {
+  _id: string;
+  name: string;
+  slug: string;
+  products: Product[];
+}
+
+interface ApiResponse {
+  status: boolean;
+  message: string;
+  data: Category[];
+}
+
+// Store State Types
 interface MenuFilterState {
+  // Data
+  categories: Category[];
+  allProducts: Product[];
+  filteredProducts: Product[];
+
+  // UI State
   activeCategory: string;
-  filteredItems: MenuItem[];
   isLoading: boolean;
-  handleCategoryChange: (category: string) => void;
-  initializeMenu: () => void;
+  error: string | null;
+
+  // Actions
+  initializeMenu: (apiData: ApiResponse) => void;
+  handleCategoryChange: (categorySlug: string) => void;
+  getCategoryBySlug: (slug: string) => Category | undefined;
 }
 
-export const useMenuFilterStore = create<MenuFilterState>((set) => {
-  const init = () => {
-    set({ isLoading: true });
-    setTimeout(() => {
-      set({ filteredItems: menuItems, isLoading: false });
-    }, 500);
-  };
+export const useMenuFilterStore = create<MenuFilterState>((set, get) => ({
+  // Initial State
+  categories: [],
+  allProducts: [],
+  filteredProducts: [],
+  activeCategory: "all",
+  isLoading: true,
+  error: null,
 
-  // Auto-run once
-  init();
+  // Initialize menu with server data
+  initializeMenu: (apiData: ApiResponse) => {
+    if (!apiData.status || !apiData.data) {
+      set({
+        error: apiData.message || "Failed to load menu",
+        isLoading: false,
+      });
+      return;
+    }
 
-  return {
-    activeCategory: "all",
-    filteredItems: [],
-    isLoading: true,
+    const categories = apiData.data;
+    const allProducts = categories.flatMap((cat) => cat.products);
 
-    handleCategoryChange: (category) => {
-      set({ isLoading: true, activeCategory: category.toLowerCase() });
-      setTimeout(() => {
-        if (category.toLowerCase() === "all") {
-          set({ filteredItems: menuItems, isLoading: false });
-        } else {
-          const filtered = menuItems.filter(
-            (item) => item.category.toLowerCase() === category.toLowerCase()
-          );
-          set({ filteredItems: filtered, isLoading: false });
-        }
-      }, 500);
-    },
-    initializeMenu: init,
-  };
-});
+    set({
+      categories,
+      allProducts,
+      filteredProducts: allProducts,
+      isLoading: false,
+      error: null,
+      activeCategory: "all",
+    });
+  },
+
+  // Handle category change - NO DELAY, EVERYTHING UPDATES AT ONCE
+  handleCategoryChange: (categorySlug: string) => {
+    const { categories, allProducts } = get();
+
+    if (categorySlug === "all") {
+      set({
+        activeCategory: "all",
+        filteredProducts: allProducts,
+        isLoading: false,
+      });
+    } else {
+      const category = categories.find((cat) => cat.slug === categorySlug);
+      console.log("category", category);
+      const products = category ? category.products : [];
+      console.log("products", category);
+
+      set({
+        activeCategory: categorySlug,
+        filteredProducts: products,
+        isLoading: false,
+      });
+    }
+  },
+
+  // Helper to get category by slug
+  getCategoryBySlug: (slug: string) => {
+    return get().categories.find((cat) => cat.slug === slug);
+  },
+}));

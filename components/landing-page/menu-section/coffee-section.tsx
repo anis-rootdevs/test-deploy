@@ -1,7 +1,6 @@
 import CustomSeparator from "@/components/custom/custom-separator";
 import { menuItems } from "@/public/sample-data/landing-page-data";
-import React from "react";
-import MenuItemCard from "./menu-items-card";
+import MenuItemCard from "./MenuItemCard";
 
 const CoffeeSection = () => {
   return (

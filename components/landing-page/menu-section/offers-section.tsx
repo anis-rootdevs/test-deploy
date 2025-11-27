@@ -1,9 +1,7 @@
-import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
-import React from "react";
-import MenuItemCard from "./menu-items-card";
-import { menuItems } from "@/public/sample-data/landing-page-data";
 import CustomSeparator from "@/components/custom/custom-separator";
+import { menuItems } from "@/public/sample-data/landing-page-data";
+import Image from "next/image";
+import MenuItemCard from "./MenuItemCard";
 
 const OffersSection = () => {
   return (

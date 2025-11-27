@@ -2,9 +2,13 @@ import { CustomButton } from "@/components/custom/custom-button";
 import { routes } from "@/config/routes";
 import { MostLovedItems } from "@/lib/types";
 import Image from "next/image";
-import MenuItemCard from "./menu-items-card";
+import MenuItemCard from "./MenuItemCard";
 
-const MenuSectionHome2 = ({ featuredProducts }: { featuredProducts: MostLovedItems[] }) => {
+const MenuSectionHome2 = ({
+  featuredProducts,
+}: {
+  featuredProducts: MostLovedItems[];
+}) => {
   return (
     <div className="lg:py-20 py-16 relative">
       {/* Background Image with Overlay */}
