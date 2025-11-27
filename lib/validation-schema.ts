@@ -73,6 +73,13 @@ export const gallerySchema = z.object({
   featured: booleanField("featured", false),
 });
 
+export const shopShowcaseSchema = z.object({
+  heading: requiredStringField("heading"),
+  shortDesc: requiredStringField("shortDesc"),
+  coffeeLovers: requiredNumberField("coffeeLovers"),
+  tagline: requiredStringField("tagline"),
+});
+
 export const outletSchema = z.object({
   name: z.string("name must be string!").min(1, "Required!").trim(),
   location: z.string("location must be string!").min(1, "Required!").trim(),
