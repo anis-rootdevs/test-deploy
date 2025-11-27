@@ -7,6 +7,7 @@ import {
   requiredNumberField,
   requiredObjectIdField,
   requiredStringField,
+  requiredStringFieldLowerCase,
 } from "./utils";
 
 const { PENDING, CONFIRMED, CANCELLED } = RESERVE_TABLE_STATUS;
@@ -54,6 +55,15 @@ export const bannerSchema = z.object({
   heading: requiredStringField("heading"),
   shortDesc: requiredStringField("shortDesc"),
   theme: requiredNumberField("theme", [1, 2, 3, 4]),
+});
+
+export const chefSchema = z.object({
+  name: requiredStringField("name"),
+  tagline: requiredStringField("tagline"),
+  gender: requiredStringFieldLowerCase("gender"),
+  dialCode: requiredStringField("dialCode"),
+  phone: requiredStringField("phone"),
+  status: booleanField("status", true),
 });
 
 export const gallerySchema = z.object({
