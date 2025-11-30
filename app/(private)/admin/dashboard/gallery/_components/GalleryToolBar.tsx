@@ -11,9 +11,7 @@ const breadcrumbItems = [
   { label: "Gallery" },
 ];
 
-export default function GalleryToolBar<TData>({
-  table,
-}: BannerTableToolbarProps<TData>) {
+export default function GalleryToolBar() {
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-col flex-1 gap-2">

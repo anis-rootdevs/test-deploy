@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Galleries } from "@/lib/types";
+import { useTableState } from "@/store/useTableStore";
 import { Loader2, Plus, SquarePen } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -35,6 +36,7 @@ export default function GalleryFormModal({
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const methods = useForm<GalleryFormData>();
+  const { handleRefresh } = useTableState("gallery");
 
   const {
     handleSubmit,
@@ -103,6 +105,7 @@ export default function GalleryFormModal({
             ? "Gallery updated successfully!"
             : "Gallery added successfully!")
       );
+      handleRefresh();
 
       setIsDialogOpen(false);
       reset();

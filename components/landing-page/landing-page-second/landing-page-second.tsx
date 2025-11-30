@@ -7,7 +7,7 @@ import {
 import ImageGalleryLanding from "@/components/gallery/image-gallery-landing";
 import { Suspense } from "react";
 import BookReservationHome2 from "../book-reserve-section/book-reservation-home2";
-import ChefShapeHome from "../chef-shape/chef-shape-home";
+import ChefShapeHome from "../chef-shape/ChefShapeHome";
 import HeroSectionHome from "../hero-section/hero-section-home";
 import HeroSectionLoader from "../hero-section/HeroSectionLoader";
 import { MenuItemCardSkeleton } from "../menu-section/menu-items-card-loader";

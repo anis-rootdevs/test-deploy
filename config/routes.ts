@@ -22,6 +22,7 @@ export const routes = {
       gallery: "/admin/dashboard/gallery",
       outlets: "/admin/dashboard/outlets",
       reserve: "/admin/dashboard/reserve",
+      chefShape: "/admin/dashboard/chef-shape",
       notification: `/admin/notification`,
       contact: `/admin/contact`,
       newsletter: `/admin/newsletter`,

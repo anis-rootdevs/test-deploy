@@ -10,6 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useTableState } from "@/store/useTableStore";
 
 import { Loader2 } from "lucide-react";
 import { ReactNode, useState } from "react";
@@ -27,6 +28,7 @@ export default function GalleryDeleteModal({
 }: ProductDeleteModalProps) {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { handleRefresh } = useTableState("gallery");
 
   const defaultDescription = `This action cannot be undone. This will permanently delete`;
 
@@ -48,7 +50,7 @@ export default function GalleryDeleteModal({
       }
 
       toast.success(response?.message || "Gallery deleted successfully!");
-
+      handleRefresh();
       setIsDeleting(false);
       setOpen(false);
     } catch (error) {
