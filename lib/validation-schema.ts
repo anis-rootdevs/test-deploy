@@ -96,7 +96,7 @@ export const storyShowcaseSchema = z.object({
         _delete: booleanField("_delete", false), // Flag for deletion
       })
     )
-    .min(1, "At least one value is required!"),
+    .optional(),
 });
 
 export const outletSchema = z.object({

@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 import { ReactNode } from "react";
 import { FieldValues, Path } from "react-hook-form";
 import z from "zod";
@@ -239,4 +239,11 @@ export interface IStoryShowcase extends Document {
 export interface IShowcase extends Document {
   shopShowcase: IShopShowcase;
   storyShowcase: IStoryShowcase;
+}
+
+export interface IExistingValue {
+  _id?: mongoose.Types.ObjectId;
+  title: string;
+  shortDesc: string;
+  icon: string;
 }
