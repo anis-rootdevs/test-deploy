@@ -1,3 +1,4 @@
+import { Document } from "mongoose";
 import { ReactNode } from "react";
 import { FieldValues, Path } from "react-hook-form";
 import z from "zod";
@@ -207,3 +208,33 @@ export type ChefShape = {
   name?: string;
   gender?: string;
 };
+
+export interface IShopShowcase extends Document {
+  heading: string;
+  shortDesc: string;
+  coffeeLovers: number;
+  tagline: string;
+  imageOne: string;
+  imageTwo: string;
+  imageThree: string;
+}
+
+export interface IStoryShowcase extends Document {
+  heading: string;
+  shortDesc: string;
+  story: string;
+  tagline: string;
+  imageOne: string;
+  imageTwo: string;
+  imageThree: string;
+  values: {
+    title: string;
+    shortDesc: string;
+    icon: string;
+  }[];
+}
+
+export interface IShowcase extends Document {
+  shopShowcase: IShopShowcase;
+  storyShowcase: IStoryShowcase;
+}

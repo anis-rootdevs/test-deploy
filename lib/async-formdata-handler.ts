@@ -3,7 +3,7 @@ import { JsonWebTokenError } from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { authenticate } from "./authenticate";
-import { apiResponse } from "./utils";
+import { apiResponse, extractFormData } from "./utils";
 
 export type FormDataApiHandler<T, P = Record<string, string>> = (
   req: NextRequest,
@@ -37,13 +37,7 @@ export function asyncFormDataHandler<T, P = Record<string, string>>(
       const formData = await req.formData();
 
       // Extract text fields for validation
-      const textData: Record<string, unknown> = {};
-
-      formData.forEach((value, key) => {
-        if (!(value instanceof File)) {
-          textData[key] = value;
-        }
-      });
+      const textData = extractFormData<Record<string, unknown>>(formData);
 
       // Validate text data with Zod schema
       const validatedData = schema.parse(textData);

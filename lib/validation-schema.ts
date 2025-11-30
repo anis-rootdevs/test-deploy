@@ -2,6 +2,7 @@ import { RESERVE_TABLE_STATUS } from "@/config/constant";
 import { z } from "zod";
 import {
   booleanField,
+  optionalObjectIdField,
   optionalStringField,
   requiredEnumField,
   requiredNumberField,
@@ -78,6 +79,24 @@ export const shopShowcaseSchema = z.object({
   shortDesc: requiredStringField("shortDesc"),
   coffeeLovers: requiredNumberField("coffeeLovers"),
   tagline: requiredStringField("tagline"),
+});
+
+export const storyShowcaseSchema = z.object({
+  heading: requiredStringField("heading"),
+  shortDesc: requiredStringField("shortDesc"),
+  story: requiredStringField("story"),
+  tagline: requiredStringField("tagline"),
+  values: z
+    .array(
+      z.object({
+        _id: optionalObjectIdField("_id"), // If exists = UPDATE, if not = CREATE
+        title: requiredStringField("title"),
+        shortDesc: requiredStringField("shortDesc"),
+        icon: optionalStringField("icon"),
+        _delete: booleanField("_delete", false), // Flag for deletion
+      })
+    )
+    .min(1, "At least one value is required!"),
 });
 
 export const outletSchema = z.object({
