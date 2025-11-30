@@ -9,6 +9,7 @@ export interface IProduct extends Document {
   category: Schema.Types.ObjectId;
   mostLoved: boolean;
   featured: boolean;
+  new: boolean;
 }
 
 const ProductSchema: Schema = new mongoose.Schema(
@@ -21,6 +22,7 @@ const ProductSchema: Schema = new mongoose.Schema(
     category: { type: Schema.Types.ObjectId, ref: "Category" },
     mostLoved: { type: Boolean, default: false },
     featured: { type: Boolean, default: false },
+    new: { type: Boolean, default: false },
   },
   {
     timestamps: true,

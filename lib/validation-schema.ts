@@ -134,6 +134,7 @@ export const productSchema = z.object({
   status: booleanField("status", true),
   mostLoved: booleanField("mostLoved", false),
   featured: booleanField("featured", false),
+  new: booleanField("new", false),
 });
 
 export const dataTableSchema = z.object({
