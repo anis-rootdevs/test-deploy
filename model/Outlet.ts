@@ -8,6 +8,7 @@ export interface IOutlet extends Document {
   phone: string;
   image: string;
   status: boolean;
+  position: number;
 }
 
 const OutletSchema: Schema = new mongoose.Schema(
@@ -19,6 +20,7 @@ const OutletSchema: Schema = new mongoose.Schema(
     phone: { type: String, required: true, trim: true },
     image: { type: String, required: true },
     status: { type: Boolean, default: true },
+    position: { type: Number, default: 0 },
   },
   {
     timestamps: true,
