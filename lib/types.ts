@@ -1,4 +1,3 @@
-import { NextRequest, NextResponse } from "next/server";
 import { ReactNode } from "react";
 import { FieldValues, Path } from "react-hook-form";
 import z from "zod";
@@ -7,13 +6,6 @@ import { newsletterSchema } from "./validation-schema";
 export type AuthUser = {
   _id: string;
 };
-
-export type ApiHandler<T> = (
-  req: NextRequest,
-  data: T
-) => Promise<NextResponse>;
-
-export type SimpleHandler = (req: NextRequest) => Promise<NextResponse>;
 
 export type DecodedToken = {
   email: string;
@@ -201,3 +193,17 @@ export interface ChefCardProps {
   id: number;
   // _id: string;
 }
+export type ChefShape = {
+  _id: string;
+  tagline: string;
+  image: string;
+  position: number;
+  createdAt: string;
+  updatedAt: string;
+  capturedBy: string;
+  status?: boolean;
+  dialCode?: string;
+  phone?: string;
+  name?: string;
+  gender?: string;
+};

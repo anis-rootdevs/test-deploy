@@ -68,7 +68,7 @@ export default function NavMenuItems({ items }: { items: NavItem[] }) {
                       tooltip={item.title}
                       className="font-jost font-medium h-9 rounded-sm"
                     >
-                      {item.icon && <item.icon />}
+                      {item.icon && <item.icon className="!size-5" />}
                       <span
                         className={`font-jost font-medium ${
                           isChildActive ? "text-primary" : ""
@@ -120,7 +120,7 @@ export default function NavMenuItems({ items }: { items: NavItem[] }) {
                       }
                     `}
                   >
-                    {item.icon && <item.icon className="" />}
+                    {item.icon && <item.icon className="!size-5" />}
                     <span>{item.title}</span>
                   </Link>
                 </SidebarMenuButton>

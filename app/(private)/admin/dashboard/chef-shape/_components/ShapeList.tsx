@@ -1,24 +1,27 @@
 "use client";
 
-import { getGalleryLists } from "@/actions/gallery/galleryActions";
+import {
+  getAllShapeLists,
+  shortsShapeTable,
+} from "@/actions/shapeAction/shapeActions";
 import { DataTableWithPagination } from "@/components/custom/data-table/DataTableWithPagination";
-import { Galleries } from "@/lib/types";
+import { ChefShape } from "@/lib/types";
 import { useTableState } from "@/store/useTableStore";
 import { useEffect, useState } from "react";
-import { columns } from "../../gallery/_components/columns";
+import toast from "react-hot-toast";
+import { columns } from "./columns";
+import ShapeToolbar from "./ShapeToolbar";
 
 export function ShapeList() {
-  const tableId = "gallery";
-  const [data, setData] = useState<Galleries[]>([]);
-  const [total, setTotal] = useState(0);
+  const tableId = "shape";
+  const [data, setData] = useState<ChefShape[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { page, limit, refresh } = useTableState(tableId);
+  const { refresh, handleRefresh } = useTableState(tableId);
 
-  const fetchGallery = async (page: number, limit: number) => {
+  const fetchShapeLists = async () => {
     try {
-      const result = await getGalleryLists(page, limit);
-      setData(result?.data?.docs);
-      setTotal(result?.data.totalDocs);
+      const result = await getAllShapeLists();
+      setData(result?.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -28,24 +31,42 @@ export function ShapeList() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchGallery(page, limit);
-  }, [page, limit]);
+    fetchShapeLists();
+  }, []);
 
   useEffect(() => {
-    fetchGallery(page, limit);
+    fetchShapeLists();
   }, [refresh]);
+
+  // Handle drag & drop
+  const handleDataChange = async (sortedIds: string[]) => {
+    try {
+      const response = await shortsShapeTable({ sortedIds });
+
+      if (!response.status) {
+        toast.error(response.message || "Failed to update gallery order");
+        return;
+      }
+
+      toast.success("Gallery order updated successfully!");
+      handleRefresh();
+    } catch (error) {
+      toast.error("Failed to update gallery order");
+    }
+  };
 
   return (
     <div className="space-y-8">
       {/* <NewsFilters tableId={tableId} /> */}
+      <ShapeToolbar />
       <DataTableWithPagination
         data={data}
         columns={columns}
-        total={total}
+        // total={total}
         tableId={tableId}
         isLoading={isLoading}
-        // onSortEnd={}
-        pagination={true}
+        onSortEnd={handleDataChange}
+        pagination={false}
       />
     </div>
   );

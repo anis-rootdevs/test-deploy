@@ -29,6 +29,7 @@ export default function PhoneInputField({
   const {
     control,
     setValue,
+    watch,
     formState: { errors },
   } = useFormContext();
 
@@ -45,29 +46,43 @@ export default function PhoneInputField({
         control={control}
         defaultValue=""
         rules={required ? { required: "Required!" } : undefined}
-        render={({ field }) => (
-          <PhoneInput
-            country={defaultCountry}
-            value={field.value}
-            onChange={(value, country) => {
-              field.onChange(value);
-              if (country && "dialCode" in country) {
-                setValue(dialCodeName, `+${country.dialCode}`);
-              }
-            }}
-            placeholder={placeholder}
-            disabled={disabled}
-            containerClass="w-full"
-            inputClass={`!w-full !h-11 !text-sm !rounded-md !bg-input !text-foreground !border !border-border focus:!border-primary
-              ${error ? "!border-destructive" : ""}
-              ${disabled ? "!opacity-50 !cursor-not-allowed" : ""}`}
-            buttonClass={`!rounded-l-md !bg-muted !text-foreground !border !border-border ${
-              error ? "!border-destructive" : ""
-            } ${disabled ? "!opacity-50 !cursor-not-allowed" : ""}`}
-            dropdownClass="!bg-popover !text-foreground !border !border-border"
-          />
-        )}
+        render={({ field }) => {
+          const dialCode = watch(dialCodeName) || "";
+          const phoneNumber = field.value || "";
+          const fullNumber = dialCode.replace("+", "") + phoneNumber;
+
+          return (
+            <PhoneInput
+              country={defaultCountry}
+              value={fullNumber}
+              onChange={(value, country) => {
+                if (country && "dialCode" in country) {
+                  // Extract phone number without dial code
+                  const phoneWithoutDialCode = value.replace(
+                    country.dialCode,
+                    ""
+                  );
+                  field.onChange(phoneWithoutDialCode);
+                  setValue(dialCodeName, `+${country.dialCode}`);
+                } else {
+                  field.onChange(value);
+                }
+              }}
+              placeholder={placeholder}
+              disabled={disabled}
+              containerClass="w-full"
+              inputClass={`!w-full !h-11 !text-sm !rounded-md !bg-input !text-foreground !border !border-border focus:!border-primary
+            ${error ? "!border-destructive" : ""}
+            ${disabled ? "!opacity-50 !cursor-not-allowed" : ""}`}
+              buttonClass={`!rounded-l-md !bg-muted !text-foreground !border !border-border ${
+                error ? "!border-destructive" : ""
+              } ${disabled ? "!opacity-50 !cursor-not-allowed" : ""}`}
+              dropdownClass="!bg-popover !text-foreground !border !border-border"
+            />
+          );
+        }}
       />
+
       {error && (
         <div className="flex items-center mt-2 gap-1">
           {errorBadge && <BadgeAlert className="text-red-500 h-4 w-4" />}

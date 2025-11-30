@@ -1,6 +1,6 @@
 "use client";
 
-import { createOutlets, updateOutlets } from "@/actions/outlets/outletsActions";
+import { createShape, updateShape } from "@/actions/shapeAction/shapeActions";
 import PhoneInputField from "@/components/custom/PhoneInputField";
 import InputField from "@/components/form/InputField";
 import { Button } from "@/components/ui/button";
@@ -12,61 +12,80 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Outlets } from "@/lib/types";
-import { BadgeAlert, Loader2, Plus, SquarePen } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ChefShape } from "@/lib/types";
+import { useTableState } from "@/store/useTableStore";
+import { Loader2, Plus, SquarePen } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import "react-phone-input-2/lib/style.css";
 import FileUploadComponent from "../../_components/FileUploadComponent";
 
-interface ProductsFormModalProps {
-  outlet?: Outlets | null;
+interface ShapeFormData {
+  tagline: string;
+  _id: string;
+  name: string;
+  location?: string;
+  dialCode?: string;
+  phone?: string;
+  image?: string;
+  gender?: string;
+  status?: boolean;
+}
+
+interface ShapeFormModalProps {
+  shape?: ChefShape | null;
   isEditMode?: boolean;
 }
 
-export default function OutletsFormModal({
-  outlet,
+export default function ShapeFormModal({
+  shape,
   isEditMode = false,
-}: ProductsFormModalProps) {
+}: ShapeFormModalProps) {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const methods = useForm<Outlets>();
+  const methods = useForm<ShapeFormData>();
+  const { handleRefresh } = useTableState("shape");
 
   const {
     handleSubmit,
     reset,
     control,
-    formState: { isSubmitting, errors },
+    formState: { errors, isSubmitting },
   } = methods;
 
   // Reset form when dialog opens
   useEffect(() => {
     if (isDialogOpen) {
-      if (isEditMode && outlet) {
+      if (isEditMode && shape) {
         reset({
-          name: outlet.name,
-          location: outlet.location,
-          phone: outlet.phone,
-          dialCode: outlet.dialCode,
+          tagline: shape.tagline,
+          name: shape.name,
+          phone: shape.phone,
+          dialCode: shape.dialCode,
+          gender: shape.gender,
         });
       } else {
         reset({
+          tagline: "",
           name: "",
-          location: "",
           phone: "",
-          dialCode: "",
+          dialCode: "+880",
+          gender: "",
           image: undefined,
         });
       }
       setImageFiles([]);
     }
-  }, [isDialogOpen, outlet, isEditMode, reset]);
+  }, [isDialogOpen, shape, isEditMode, reset]);
 
-  const onSubmit = async (data: Outlets) => {
+  const onSubmit = async (data: ShapeFormData) => {
     // Validate image only for add mode
     if (!isEditMode && imageFiles.length === 0) {
       toast.error("Please upload an image!");
@@ -75,8 +94,8 @@ export default function OutletsFormModal({
 
     try {
       const formData = new FormData();
-      formData.append("name", data.name || "");
-      formData.append("location", data.location || "");
+      formData.append("tagline", data.tagline);
+      formData.append("name", data.name);
 
       let cleanPhone = String(data.phone || "");
       const dialCode = String(data.dialCode || "").replace("+", "");
@@ -88,39 +107,43 @@ export default function OutletsFormModal({
 
       formData.append("phone", cleanPhone);
       formData.append("dialCode", String(data.dialCode || ""));
+      formData.append("gender", data.gender || "");
 
       // Add image if selected
       if (imageFiles.length > 0) {
-        formData.append("image", imageFiles[0]);
+        const file = imageFiles[0];
+        formData.append("image", file, file.name);
       }
 
       const loadingToast = toast.loading(
-        isEditMode ? "Updating outlet..." : "Adding outlet..."
+        isEditMode ? "Updating Shape..." : "Adding Shape..."
       );
 
       const result = isEditMode
-        ? await updateOutlets(outlet?._id || "", formData)
-        : await createOutlets(formData);
+        ? await updateShape(shape?._id || "", formData)
+        : await createShape(formData);
 
       toast.dismiss(loadingToast);
 
       if (!result.status) {
-        toast.error(result.message || "Failed to save outlet");
+        toast.error(result.message || "Failed to save Shape");
         return;
       }
 
       toast.success(
         result.message ||
           (isEditMode
-            ? "Outlet updated successfully!"
-            : "Outlet added successfully!")
+            ? "Shape updated successfully!"
+            : "Shape added successfully!")
       );
+      handleRefresh();
 
       setIsDialogOpen(false);
       reset();
       setImageFiles([]);
     } catch (error: any) {
-      toast.error("Error saving outlet!");
+      console.error(error);
+      toast.error("Error saving shape!");
     }
   };
 
@@ -128,7 +151,7 @@ export default function OutletsFormModal({
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         {isEditMode ? (
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" className="cursor-pointer">
             <SquarePen className="h-4 w-4" />
           </Button>
         ) : (
@@ -137,31 +160,70 @@ export default function OutletsFormModal({
             className="font-jost font-medium rounded-sm h-9 cursor-pointer"
           >
             <Plus className="h-4 w-4" />
-            Add New Outlet
+            Add New Shape
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {isEditMode ? "Edit Outlet" : "Add New Outlet"}
+            {isEditMode ? "Edit Shape Details" : "Add New Shape"}
           </DialogTitle>
           <DialogDescription>
             {isEditMode
-              ? "Update the outlet details below."
-              : "Fill in the details to create a new outlet."}
+              ? "Update the Shape details below."
+              : "Fill in the details to create a new Shape."}
           </DialogDescription>
         </DialogHeader>
 
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Tagline */}
+            <InputField
+              name="tagline"
+              label="Tagline"
+              placeholder="WHERE COMFORT MEETS AROMA"
+              rules={{ required: "Tagline is required!" }}
+            />
+
             {/* Name */}
             <InputField
               name="name"
               label="Name"
-              placeholder="outlet name"
-              rules={{ required: "Required!" }}
+              placeholder="Mr. Chef Doctor"
+              rules={{ required: "Name is required!" }}
             />
+
+            {/* Gender */}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium">Gender</label>
+              <Controller
+                name="gender"
+                control={control}
+                rules={{ required: "Gender is required!" }}
+                render={({ field }) => (
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full !h-11">
+                      <SelectValue placeholder="Select gender" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.gender && (
+                <p className="text-sm text-red-500">
+                  {errors.gender.message as string}
+                </p>
+              )}
+            </div>
 
             {/* Phone Number */}
             <PhoneInputField
@@ -174,51 +236,22 @@ export default function OutletsFormModal({
               errorBadge={false}
             />
 
-            {/* Location */}
-            <div>
-              <Label className="text-sm font-jost font-medium mb-1 block">
-                Location
-              </Label>
-              <Controller
-                name="location"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Required!" }}
-                render={({ field }) => (
-                  <Textarea
-                    placeholder="Espresso, steamed milk, caramel syrup..."
-                    {...field}
-                    className={`h-24 rounded-[4px] text-[16px] font-semibold tracking-[0.5px] font-mono focus-visible:ring-2 ${
-                      errors.location
-                        ? "focus-visible:ring-red-500 border-red-500"
-                        : "focus-visible:ring-blue-500"
-                    }`}
-                  />
-                )}
-              />
-              {errors.location && (
-                <div className="flex items-center mt-2 gap-1">
-                  <BadgeAlert className="text-red-500 h-4 w-4" />
-                  <p className="text-red-500 text-xs">
-                    {errors.location.message}
-                  </p>
-                </div>
-              )}
-            </div>
-
             {/* Image Upload */}
             <div>
-              <label className="block text-sm font-medium mb-1">
-                Outlet Image
+              <label className="block text-sm font-medium mb-2">
+                Shape Image
               </label>
               <FileUploadComponent
                 accept="image"
-                maxSize={15}
+                maxSize={10}
                 maxFiles={1}
                 onFilesChange={setImageFiles}
                 existingImageUrl={
-                  isEditMode && outlet?.image ? outlet.image : undefined
+                  isEditMode && shape?.image ? shape.image : undefined
                 }
+                onRemoveExisting={() => {
+                  console.log("Existing image removed");
+                }}
               />
             </div>
 
@@ -239,9 +272,9 @@ export default function OutletsFormModal({
                     {isEditMode ? "Updating..." : "Adding..."}
                   </>
                 ) : isEditMode ? (
-                  "Update Outlet"
+                  "Update Shape"
                 ) : (
-                  "Add Outlet"
+                  "Add Shape"
                 )}
               </Button>
             </div>
