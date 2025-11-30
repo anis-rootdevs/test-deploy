@@ -1,18 +1,5 @@
-import mongoose, { Document, Schema } from "mongoose";
-
-export interface IShopShowcase extends Document {
-  heading: string;
-  shortDesc: string;
-  coffeeLovers: number;
-  tagline: string;
-  imageOne: string;
-  imageTwo: string;
-  imageThree: string;
-}
-
-export interface IShowcase extends Document {
-  shopShowcase: IShopShowcase;
-}
+import { IShowcase } from "@/lib/types";
+import mongoose, { Schema } from "mongoose";
 
 const shopShowcase = new mongoose.Schema(
   {
@@ -29,9 +16,32 @@ const shopShowcase = new mongoose.Schema(
   }
 );
 
+const storyShowcaseValue = new mongoose.Schema({
+  title: { type: String, required: true, trim: true },
+  shortDesc: { type: String, required: true, trim: true },
+  icon: { type: String, required: true, trim: true },
+});
+
+const storyShowcase = new mongoose.Schema(
+  {
+    heading: { type: String, required: true, trim: true },
+    shortDesc: { type: String, required: true, trim: true },
+    story: { type: String, required: true, trim: true },
+    tagline: { type: String, required: true, trim: true },
+    imageOne: { type: String, required: true, trim: true },
+    imageTwo: { type: String, required: true, trim: true },
+    imageThree: { type: String, required: true, trim: true },
+    values: [storyShowcaseValue],
+  },
+  {
+    _id: false,
+  }
+);
+
 const ShowcaseSchema: Schema = new mongoose.Schema(
   {
     shopShowcase: shopShowcase,
+    storyShowcase: storyShowcase,
   },
   {
     timestamps: true,

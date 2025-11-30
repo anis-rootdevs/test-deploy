@@ -85,6 +85,95 @@ export const makePaginate = <T>(
 export const toObjectId = (id?: string | null) =>
   id ? Types.ObjectId.createFromHexString(id) : undefined;
 
+export const convertToFormData = (data: Record<string, any>): FormData => {
+  const formData = new FormData();
+
+  Object.entries(data).forEach(([key, value]) => {
+    // Handle File objects
+    if (value instanceof File) {
+      formData.append(key, value);
+    }
+    // Handle arrays
+    else if (Array.isArray(value)) {
+      value.forEach((item, index) => {
+        if (
+          typeof item === "object" &&
+          item !== null &&
+          !(item instanceof File)
+        ) {
+          // Handle array of objects
+          Object.entries(item).forEach(([nestedKey, nestedValue]) => {
+            formData.append(
+              `${key}[${index}].${nestedKey}`,
+              String(nestedValue)
+            );
+          });
+        } else if (item instanceof File) {
+          // Handle array of files
+          formData.append(`${key}[${index}]`, item);
+        } else {
+          // Handle array of primitives
+          formData.append(`${key}[${index}]`, String(item));
+        }
+      });
+    }
+    // Handle nested objects (non-array)
+    else if (typeof value === "object" && value !== null) {
+      Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+        formData.append(`${key}.${nestedKey}`, String(nestedValue));
+      });
+    }
+    // Handle primitive values
+    else {
+      formData.append(key, String(value));
+    }
+  });
+
+  return formData;
+};
+
+export const extractFormData = <
+  T extends Record<string, unknown> = Record<string, unknown>
+>(
+  formData: FormData
+): T => {
+  const textData: Record<string, unknown> = {};
+  const arrays: Record<string, unknown[]> = {};
+
+  formData.forEach((value, key) => {
+    if (!(value instanceof File)) {
+      const arrayMatch = key.match(/^(.+)\[(\d+)\]\.?(.*)$/);
+
+      if (arrayMatch) {
+        const [, arrayName, index, nestedKey] = arrayMatch;
+        const idx = parseInt(index, 10);
+
+        if (!arrays[arrayName]) {
+          arrays[arrayName] = [];
+        }
+
+        if (nestedKey) {
+          if (!arrays[arrayName][idx]) {
+            arrays[arrayName][idx] = {};
+          }
+          (arrays[arrayName][idx] as Record<string, unknown>)[nestedKey] =
+            value;
+        } else {
+          arrays[arrayName][idx] = value;
+        }
+      } else {
+        textData[key] = value;
+      }
+    }
+  });
+
+  Object.entries(arrays).forEach(([key, value]) => {
+    textData[key] = value;
+  });
+
+  return textData as T;
+};
+
 export const requiredStringField = (fieldName: string) =>
   z
     .string({
