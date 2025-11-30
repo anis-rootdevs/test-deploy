@@ -51,6 +51,7 @@ export default function BannerLists({ data }: { data: Banner[] }) {
   // Handle drag and drop position changes
   const handleDataChange = async (newData: Banner[]) => {
     const sortedIds = newData.map((banner) => banner._id);
+    console.log(sortedIds);
 
     try {
       const response = await shortsTable({ sortedIds });

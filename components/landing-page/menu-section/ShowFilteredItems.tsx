@@ -2,7 +2,7 @@
 import { useMenuFilterStore } from "@/store/useMenuFilterStore";
 import VisitHomeSection from "../visit-us-section/visit-home-section";
 import MenuItemCard from "./MenuItemCard";
-import OffersSection from "./offers-section";
+import OffersSection from "./OffersSection";
 
 const ShowFilteredItems = () => {
   const { filteredProducts, activeCategory } = useMenuFilterStore();

@@ -39,7 +39,7 @@ const ChefCard = ({
           {/* Main Content */}
           <div className="relative overflow-hidden ">
             {/* Image Section */}
-            <div className="relative h-[400px] md:h-[450px]  overflow-hidden">
+            <div className="relative h-[400px] md:h-[430px]  overflow-hidden">
               <Image
                 src={image}
                 alt={name}

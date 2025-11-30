@@ -193,3 +193,11 @@ export interface CreateReverseTableInput {
   status: "pending" | "confirmed" | "cancelled";
   createdAt: string;
 }
+
+export interface ChefCardProps {
+  image: string;
+  name: string;
+  tagline: string;
+  id: number;
+  // _id: string;
+}

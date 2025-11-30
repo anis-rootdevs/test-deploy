@@ -1,5 +1,4 @@
 "use client";
-import DragHandle from "@/components/custom/data-table/DragHandle";
 import { Button } from "@/components/ui/button";
 import { Galleries } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -9,11 +8,11 @@ import GalleryFormModal from "./GalleryFormModal";
 import GalleryToggleSwitch from "./GalleryToggleSwitch";
 
 export const columns: ColumnDef<Galleries>[] = [
-  {
-    id: "drag",
-    header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original._id} />,
-  },
+  // {
+  //   id: "drag",
+  //   header: () => null,
+  //   cell: ({ row }) => <DragHandle id={row.original._id} />,
+  // },
   {
     id: "image",
     header: "Image",

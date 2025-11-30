@@ -11,6 +11,7 @@ import { BsShop } from "react-icons/bs";
 import { FaImages } from "react-icons/fa6";
 import { MdLibraryBooks } from "react-icons/md";
 import { PiHamburgerDuotone } from "react-icons/pi";
+import { SiCodechef } from "react-icons/si";
 import { TbCategory, TbSlideshow } from "react-icons/tb";
 
 // nav items
@@ -282,6 +283,11 @@ export const adminDashboardMenu = {
       icon: MdLibraryBooks,
     },
     {
+      title: "Chef Shape",
+      url: routes.privateRoutes.admin.chefShape,
+      icon: SiCodechef,
+    },
+    {
       title: "Models",
       url: "#",
       icon: Bot,
@@ -361,6 +367,18 @@ export const chefs = [
     name: "CHEF SARAH MITCHELL",
     tagline: "PASSION MEETS PERFECTION IN EVERY DISH.",
   },
+  // {
+  //   id: 3,
+  //   image: "/images/chef-shape/chef-rafiul.svg",
+  //   name: "CHEF MITCHELL SARAH ",
+  //   tagline: "PASSION MEETS PERFECTION IN EVERY DISH.",
+  // },
+  // {
+  //   id: 4,
+  //   image: "/images/chef-shape/chef-arif.svg",
+  //   name: "CHEF ARIF RAHMAN",
+  //   tagline: "CRAFTING COMFORT WITH EVERY CREATION.",
+  // },
 ];
 
 // footer section link

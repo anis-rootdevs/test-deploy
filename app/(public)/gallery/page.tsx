@@ -1,7 +1,7 @@
 // app/(public)/gallery/page.tsx
 import { getAllGalleries } from "@/actions/gallery/galleryActions";
 import GalleryLoadMore from "@/components/gallery/GalleryLoadMore";
-import MenuHeroSection from "@/components/landing-page/menu-section/menu-hero-section";
+import MenuHeroSection from "@/components/landing-page/menu-section/MenuHeroSection";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

@@ -3,7 +3,7 @@
 import { apiClient } from "@/lib/api-client";
 import { updateTag } from "next/cache";
 
-export async function getGalleryLists(limit: number, page: number) {
+export async function getGalleryLists(page: number, limit: number) {
   try {
     const res = await apiClient(
       `/api/admin/gallery?limit=${limit}&page=${page}`,
@@ -12,6 +12,7 @@ export async function getGalleryLists(limit: number, page: number) {
         tags: ["gallery"],
       }
     );
+
     return res;
   } catch (error) {
     return {
@@ -112,7 +113,7 @@ export async function changeGalleryStatus(id: string, status: boolean) {
     };
   }
 }
-export async function shortsGalleryTable(data: any) {
+export async function shortsGalleryTable(data: { sortedIds: string[] }) {
   try {
     const res = await apiClient("/api/admin/gallery/sort", {
       method: "PUT",
