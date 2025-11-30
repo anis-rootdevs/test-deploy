@@ -193,7 +193,7 @@ export interface ChefCardProps {
   id: number;
   // _id: string;
 }
-export type ChefShape = {
+export type Chef = {
   _id: string;
   tagline: string;
   image: string;

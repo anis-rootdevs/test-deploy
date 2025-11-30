@@ -1,13 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { ChefShape } from "@/lib/types";
+import { Chef } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Trash2 } from "lucide-react";
-import ShapeDeleteModal from "./ShapeDeleteModal";
-import ShapeFormModal from "./ShapeFormModal";
-import ShapeToggleSwitch from "./ShapeToggleSwitch";
 
-export const columns: ColumnDef<ChefShape>[] = [
+import ChefDeleteModal from "./ChefDeleteModal";
+import ChefFormModal from "./ChefFormModal";
+import ChefToggleSwitch from "./ChefToggleSwitch";
+
+export const columns: ColumnDef<Chef>[] = [
   {
     id: "image",
     header: "Image",
@@ -58,11 +59,11 @@ export const columns: ColumnDef<ChefShape>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const shape = row.original;
+      const chef = row.original;
       return (
-        <ShapeToggleSwitch
-          shapeId={shape._id}
-          initialStatus={shape.status || false}
+        <ChefToggleSwitch
+          shapeId={chef._id}
+          initialStatus={chef.status || false}
           onStatusChange={(newStatus) => {}}
         />
       );
@@ -72,14 +73,14 @@ export const columns: ColumnDef<ChefShape>[] = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const shape = row.original;
+      const chef = row.original;
 
       return (
         <div className="flex items-center gap-2">
-          <ShapeFormModal isEditMode={true} shape={shape} />
+          <ChefFormModal isEditMode={true} chef={chef} />
 
-          <ShapeDeleteModal
-            shapeId={shape._id}
+          <ChefDeleteModal
+            chefId={chef._id}
             trigger={
               <Button
                 variant="destructive"

@@ -1,6 +1,6 @@
 "use client";
 
-import { changeShapeStatus } from "@/actions/shapeAction/shapeActions";
+import { changeChefStatus } from "@/actions/shapeAction/shapeActions";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -10,7 +10,7 @@ interface ToggleSwitchProps {
   initialStatus: boolean;
   onStatusChange?: (newStatus: boolean) => void;
 }
-export default function ShapeToggleSwitch({
+export default function ChefToggleSwitch({
   shapeId,
   initialStatus,
   onStatusChange,
@@ -21,7 +21,7 @@ export default function ShapeToggleSwitch({
   const handleStatusToggle = async (checked: boolean) => {
     if (loading) return;
     try {
-      const response = await changeShapeStatus(shapeId, checked);
+      const response = await changeChefStatus(shapeId, checked);
 
       if (!response.status) {
         throw new Error("Failed to update status");

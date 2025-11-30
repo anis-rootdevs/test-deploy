@@ -283,7 +283,7 @@ export const adminDashboardMenu = {
       icon: MdLibraryBooks,
     },
     {
-      title: "Chef Shape",
+      title: "Chef",
       url: routes.privateRoutes.admin.chefShape,
       icon: SiCodechef,
     },
