@@ -284,7 +284,7 @@ export const adminDashboardMenu = {
     },
     {
       title: "Chef",
-      url: routes.privateRoutes.admin.chefShape,
+      url: routes.privateRoutes.admin.chef,
       icon: SiCodechef,
     },
     {

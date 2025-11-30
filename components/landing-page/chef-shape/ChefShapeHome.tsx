@@ -1,29 +1,30 @@
 "use client";
-import { chefs } from "@/public/sample-data/landing-page-data";
+import { Chef } from "@/lib/types";
 import ChefCard from "./ChefCard";
 import ChefCardSlider from "./ChefCardSlider";
 
-const ChefShapeHome = () => {
-  const total = chefs.length;
+const ChefShapeHome = ({ chefList }: { chefList: Chef[] }) => {
+  const total = chefList.length;
+  console.log(chefList);
 
   const renderContent = () => {
     // 👉 Case 1: Only 1 item → center it
     if (total === 1) {
-      const c = chefs[0];
+      const c = chefList[0];
       return (
         <div className="flex justify-center max-w-[1024px] mx-auto px-4">
-          <ChefCard image={c.image} name={c.name} tagline={c.tagline} />
+          <ChefCard image={c.image} name={c.name || ""} tagline={c.tagline} />
         </div>
       );
     }
     if (total === 2) {
       return (
         <div className="grid grid-cols-2 gap-[130px] max-w-[1024px] mx-auto px-4">
-          {chefs.map((chef) => (
+          {chefList.map((chef) => (
             <ChefCard
-              key={chef.id}
+              key={chef._id}
               image={chef.image}
-              name={chef.name}
+              name={chef.name || ""}
               tagline={chef.tagline}
             />
           ))}
@@ -35,11 +36,11 @@ const ChefShapeHome = () => {
     if (total <= 3) {
       return (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-8 lg:gap-[50px] max-w-[1320px] mx-auto px-4">
-          {chefs.map((chef) => (
+          {chefList.map((chef) => (
             <ChefCard
-              key={chef.id}
+              key={chef._id}
               image={chef.image}
-              name={chef.name}
+              name={chef.name || ""}
               tagline={chef.tagline}
             />
           ))}
@@ -48,7 +49,7 @@ const ChefShapeHome = () => {
     }
 
     // 👉 Case 3: More than 3 items → Swiper Carousel
-    return <ChefCardSlider chefs={chefs} />;
+    return <ChefCardSlider chefList={chefList} />;
   };
 
   return (

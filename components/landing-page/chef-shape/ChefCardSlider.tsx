@@ -2,12 +2,12 @@
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 // import "swiper/css/pagination";
-import { ChefCardProps } from "@/lib/types";
+import { Chef } from "@/lib/types";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ChefCard from "./ChefCard";
 
-export default function ChefCardSlider({ chefs }: { chefs: ChefCardProps[] }) {
+export default function ChefCardSlider({ chefList }: { chefList: Chef[] }) {
   return (
     <div className="max-w-[1320px] mx-auto">
       <Swiper
@@ -35,11 +35,11 @@ export default function ChefCardSlider({ chefs }: { chefs: ChefCardProps[] }) {
         loop={true}
         modules={[EffectCoverflow, Autoplay]}
       >
-        {chefs.map((chef: ChefCardProps) => (
-          <SwiperSlide key={chef.id}>
+        {chefList.map((chef: Chef) => (
+          <SwiperSlide key={chef._id}>
             <ChefCard
               image={chef.image}
-              name={chef.name}
+              name={chef.name || ""}
               tagline={chef.tagline}
             />
           </SwiperSlide>
