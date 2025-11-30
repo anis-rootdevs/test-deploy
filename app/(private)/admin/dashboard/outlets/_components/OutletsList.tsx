@@ -1,54 +1,72 @@
 "use client";
 
-import DataTable from "@/components/custom/data-table/DataTable";
-import { Outlets } from "@/lib/types";
 import {
-  ColumnFiltersState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
-} from "@tanstack/react-table";
-import { useState } from "react";
+  getOutletsList,
+  shortsOutletsTable,
+} from "@/actions/outlets/outletsActions";
+import { DataTableWithPagination } from "@/components/custom/data-table/DataTableWithPagination";
+import { Outlets } from "@/lib/types";
+import { useTableState } from "@/store/useTableStore";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { columns } from "./columns";
 import OutletsTableToolbar from "./OutletsTableToolbar";
 
-export default function OutletsList({ outlets }: { outlets: Outlets[] }) {
-  const [rowSelection, setRowSelection] = useState({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
+export default function OutletsList() {
+  const tableId = "outlets";
+  const [data, setData] = useState<Outlets[]>([]);
 
-  const table = useReactTable<Outlets>({
-    data: outlets,
-    columns: columns,
-    initialState: {
-      pagination: {
-        pageSize: 10,
-      },
-    },
-    state: { sorting, columnVisibility, rowSelection, columnFilters },
-    enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-  });
+  const [isLoading, setIsLoading] = useState(true);
+  const { page, limit, refresh, handleRefresh } = useTableState(tableId);
+
+  const fetchOutlets = async () => {
+    try {
+      const result = await getOutletsList();
+      setData(result?.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchOutlets();
+  }, [page, limit]);
+
+  useEffect(() => {
+    fetchOutlets();
+  }, [refresh]);
+
+  // Handle drag & drop
+  const handleDataChange = async (sortedIds: string[]) => {
+    try {
+      const response = await shortsOutletsTable({ sortedIds });
+
+      if (!response.status) {
+        toast.error(response.message || "Failed to update outlets order");
+        return;
+      }
+
+      toast.success("Outlets order updated successfully!");
+      handleRefresh();
+    } catch (error) {
+      toast.error("Failed to update outlets order");
+    }
+  };
   return (
     <div className="flex flex-col gap-6">
-      <OutletsTableToolbar table={table} />
-      <DataTable
-        data={outlets}
+      <OutletsTableToolbar />
+
+      <DataTableWithPagination
+        data={data}
         columns={columns}
-        getRowId={(row) => row._id}
-        table={table}
+        // total={total}
+        tableId={tableId}
+        isLoading={isLoading}
+        onSortEnd={handleDataChange}
+        pagination={false}
       />
     </div>
   );

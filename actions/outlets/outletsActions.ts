@@ -109,11 +109,33 @@ export async function changeOutletsStatus(id: string, status: boolean) {
     };
   }
 }
-export async function getAllOutlets(limit: number) {
+
+export async function shortsOutletsTable(data: { sortedIds: string[] }) {
   try {
-    const res = await apiClient(`/api/outlet/all?limit=${limit}`, {
+    const res = await apiClient("/api/admin/outlet/sort", {
+      method: "PUT",
+      body: data,
+    });
+    if (res?.status) {
+      updateTag("outlets");
+    }
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Failed to shorts outlets",
+      data: null,
+    };
+  }
+}
+
+export async function getAllOutlets() {
+  try {
+    const res = await apiClient(`/api/outlet/all`, {
       method: "GET",
-      // tags: ["banners"],
+      // tags: ["outlets"],
       cache: "no-store",
     });
     return res;

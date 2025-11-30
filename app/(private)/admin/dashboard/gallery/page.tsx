@@ -7,7 +7,7 @@ export default async function GalleryHome() {
 
   const docs = galleryList?.data?.docs ?? [];
   const totalPages = galleryList?.data?.totalPage ?? 0;
-  console.log("totalPages", totalPages);
+
   return (
     <>
       <GalleryList galleryList={docs} initialTotalPages={totalPages} />

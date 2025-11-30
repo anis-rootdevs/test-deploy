@@ -11,6 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useTableState } from "@/store/useTableStore";
 import { Loader2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import toast from "react-hot-toast";
@@ -28,6 +29,8 @@ export default function OutletDeleteModal({
 }: ProductDeleteModalProps) {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const tableId = "outlets";
+  const { handleRefresh } = useTableState(tableId);
 
   const defaultDescription = `This action cannot be undone. This will permanently delete`;
 
@@ -49,7 +52,7 @@ export default function OutletDeleteModal({
       }
 
       toast.success(response?.message || "Outlet deleted successfully!");
-
+      handleRefresh();
       setIsDeleting(false);
       setOpen(false);
     } catch (error) {

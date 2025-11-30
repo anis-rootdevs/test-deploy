@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Outlets } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { Trash2 } from "lucide-react";
+import { ExternalLink, Trash2 } from "lucide-react";
 import Image from "next/image";
 import OutletDeleteModal from "./OutletDeleteModal";
 import OutletsChangeStatus from "./OutletsChangeStatus";
@@ -37,6 +37,24 @@ export const columns: ColumnDef<Outlets>[] = [
   {
     accessorKey: "location",
     header: "Locations",
+  },
+  {
+    accessorKey: "googleMapLink",
+    header: "Google Map Link",
+    cell: ({ row }) => {
+      const googleMapLink = row.original.googleMapLink;
+
+      if (!googleMapLink) return "-";
+
+      return (
+        <button
+          onClick={() => window.open(googleMapLink, "_blank")}
+          className="flex items-center gap-1 cursor-pointer"
+        >
+          Open Map <ExternalLink className="w-4 h-4 text-primary" />
+        </button>
+      );
+    },
   },
 
   {

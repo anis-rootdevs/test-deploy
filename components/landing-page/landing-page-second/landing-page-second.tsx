@@ -4,6 +4,7 @@ import {
   getFeaturedProducts,
   getMostLovedProducts,
 } from "@/actions/product/productActions";
+import { getAllChefList } from "@/actions/shapeAction/shapeActions";
 import ImageGalleryLanding from "@/components/gallery/image-gallery-landing";
 import { Suspense } from "react";
 import BookReservationHome2 from "../book-reserve-section/book-reservation-home2";
@@ -21,6 +22,7 @@ const LandingPageSecond = async () => {
   const mostLovedProducts = await getMostLovedProducts(5);
   const featuredProducts = await getFeaturedProducts(6);
   const gallery = await getAllFeaturedGallery(6);
+  const chefList = await getAllChefList();
   return (
     <>
       <Suspense fallback={<HeroSectionLoader />}>
@@ -28,15 +30,17 @@ const LandingPageSecond = async () => {
       </Suspense>
       <StorySectionHome />
       <VisitHomeSection2 />
-      <Suspense fallback={<p>loading..................</p>}>
+      <Suspense fallback={<p>loading....</p>}>
         <PopularItemsCard mostLovedProducts={mostLovedProducts.data || []} />
       </Suspense>
 
       <Suspense fallback={<MenuItemCardSkeleton />}>
         <MenuSectionHome2 featuredProducts={featuredProducts?.data || []} />
       </Suspense>
+      <Suspense fallback={<p>Loading...</p>}>
+        <ChefShapeHome chefList={chefList?.data} />
+      </Suspense>
 
-      <ChefShapeHome />
       <Suspense fallback={<p>Loading...</p>}>
         <ImageGalleryLanding gallery={gallery?.data || []} />
       </Suspense>

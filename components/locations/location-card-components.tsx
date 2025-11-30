@@ -37,6 +37,7 @@ const LocationCardComponents = ({
             phone={`${cafeData.dialCode || ""} ${cafeData.phone || ""}`}
             openingHours={[]}
             onReserveClick={handleReserve}
+            googleMapLink={cafeData.googleMapLink || ""}
           />
         </div>
 
