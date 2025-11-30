@@ -83,13 +83,17 @@ export const shopShowcaseSchema = z.object({
 export const outletSchema = z.object({
   name: z.string("name must be string!").min(1, "Required!").trim(),
   location: z.string("location must be string!").min(1, "Required!").trim(),
+  googleMapLink: z
+    .string("googleMapLink must be string!")
+    .min(1, "Required!")
+    .trim(),
   dialCode: z.string("dialCode must be string!").min(1, "Required!").trim(),
   phone: z.string("phone must be string!").min(1, "Required!").trim(),
-  status: z.boolean("status must be boolean!").optional(),
+  status: z.coerce.boolean("status must be boolean!").optional(),
 });
 
 export const statusSchema = z.object({
-  status: z.boolean("Value must be boolean!"),
+  status: z.coerce.boolean("Value must be boolean!"),
 });
 
 export const categorySchema = z.object({
@@ -134,6 +138,7 @@ export const productSchema = z.object({
   status: booleanField("status", true),
   mostLoved: booleanField("mostLoved", false),
   featured: booleanField("featured", false),
+  new: booleanField("new", false),
 });
 
 export const dataTableSchema = z.object({
