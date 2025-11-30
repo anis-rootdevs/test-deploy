@@ -1,22 +1,17 @@
 "use client";
 
 import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
-import { Input } from "@/components/ui/input";
-import { Category, FilterType } from "@/lib/types";
-import { Table } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import { routes } from "@/config/routes";
+import { Category } from "@/lib/types";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useTransition } from "react";
-import ProductFilter from "./ProductFilter";
-import ProductsFormModal from "./ProductsFormModal";
+import { useTransition } from "react";
 
 interface ProductsTableToolbarProps<TData> {
-  table: Table<TData>;
   categories: Category[];
-  search: string;
-  setSearch: (value: string) => void;
-  filter: FilterType;
-  setFilter: (value: FilterType) => void;
-  isLoading: boolean;
+  tableId: string;
 }
 
 const breadcrumbItems = [
@@ -26,46 +21,12 @@ const breadcrumbItems = [
 ];
 
 export default function ProductTableToolbar<TData>({
-  table,
   categories,
-  search,
-  setSearch,
-  filter,
-  setFilter,
-  isLoading,
+  tableId,
 }: ProductsTableToolbarProps<TData>) {
   const router = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
-
-  // Update URL params when search/filter changes
-  useEffect(() => {
-    const delay = setTimeout(() => {
-      const params = new URLSearchParams();
-
-      // if (search) {
-      //   params.set("search", search);
-      // }
-
-      if (filter && filter !== "all") {
-        params.set("filter", filter);
-      }
-      const queryString = params.toString();
-      const newUrl = queryString ? `${pathname}?${queryString}` : pathname;
-
-      startTransition(() => {
-        router.replace(newUrl, { scroll: false });
-      });
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [search, filter, pathname, router]);
-
-  const handleRefresh = useCallback(() => {
-    startTransition(() => {
-      router.refresh();
-    });
-  }, [router]);
 
   return (
     <div>
@@ -75,7 +36,7 @@ export default function ProductTableToolbar<TData>({
           <h2 className="font-jost font-medium text-lg">Manage Products</h2>
           <DynamicBreadcrumb items={breadcrumbItems} />
           <div className="flex items-center gap-4">
-            <Input
+            {/* <Input
               placeholder="Search products..."
               value={
                 (table.getColumn("name")?.getFilterValue() as string) ?? ""
@@ -90,15 +51,25 @@ export default function ProductTableToolbar<TData>({
               filter={filter}
               setFilter={setFilter}
               disabled={isLoading || isPending}
-            />
+            /> */}
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <ProductsFormModal
+          {/* <ProductsFormModal
             isEditMode={false}
             categories={categories}
             onSuccess={handleRefresh}
-          />
+          /> */}
+
+          <Link href={routes.privateRoutes.admin.products.create}>
+            <Button
+              size="sm"
+              className="font-jost font-medium rounded-sm h-9 cursor-pointer"
+            >
+              <Plus className="h-4 w-4" />
+              Add New Product
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

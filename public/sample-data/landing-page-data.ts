@@ -264,7 +264,7 @@ export const adminDashboardMenu = {
     },
     {
       title: "Products",
-      url: routes.privateRoutes.admin.products,
+      url: routes.privateRoutes.admin.products.home,
       icon: PiHamburgerDuotone,
     },
     {

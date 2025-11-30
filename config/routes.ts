@@ -17,8 +17,13 @@ export const routes = {
         create: "/admin/dashboard/banner/create",
         edit: (id: string) => `/admin/dashboard/banner/edit/${id}`,
       },
+      products: {
+        home: "/admin/dashboard/products",
+        create: "/admin/dashboard/products/create",
+        edit: (id: string) => `/admin/dashboard/products/edit/${id}`,
+      },
       categories: "/admin/dashboard/categories",
-      products: "/admin/dashboard/products",
+
       gallery: "/admin/dashboard/gallery",
       outlets: "/admin/dashboard/outlets",
       reserve: "/admin/dashboard/reserve",
