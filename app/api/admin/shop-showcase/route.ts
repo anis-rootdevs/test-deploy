@@ -90,4 +90,4 @@ export const GET = asyncHandler(async () => {
     "Shop showcase has been fetched successfully!",
     data
   );
-});
+}, true);
