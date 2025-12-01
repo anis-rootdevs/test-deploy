@@ -71,6 +71,9 @@ export const PUT = asyncFormDataHandler(
     for (let i = 0; i < values.length; i++) {
       const value = values[i];
       let iconPublicId = value.icon;
+      if (value._id && existingValuesMap.get(value._id)) {
+        iconPublicId = existingValuesMap.get(value._id)?.icon || "";
+      }
 
       // Handle icon upload
       const iconFile = formData.get(`values[${i}].icon`);
@@ -79,10 +82,7 @@ export const PUT = asyncFormDataHandler(
         const { valid, error } = fileValidator(iconFile, {
           required: false,
         });
-
-        if (!valid) {
-          return apiResponse(false, 400, error!);
-        }
+        if (!valid) return apiResponse(false, 400, error!);
 
         // Delete existing icon if updating
         if (value._id) {
@@ -169,8 +169,6 @@ export const PUT = asyncFormDataHandler(
       "storyShowcase.values": finalValues,
     };
 
-    console.log({ updateFields });
-
     await Showcase.findOneAndUpdate(
       {},
       { $set: updateFields },
@@ -197,7 +195,9 @@ export const GET = asyncHandler(async () => {
     values: [
       ...storyShowcase.values.map((value: { icon: string }) => ({
         ...value,
-        icon: `${CLOUDINARY_SECURE_URL_BASE}/${value.icon}`,
+        ...(value.icon && {
+          icon: `${CLOUDINARY_SECURE_URL_BASE}/${value.icon}`,
+        }),
       })),
     ],
   };
