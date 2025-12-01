@@ -38,10 +38,24 @@ const storyShowcase = new mongoose.Schema(
   }
 );
 
+const offerShowcase = new mongoose.Schema(
+  {
+    heading: { type: String, required: true, trim: true },
+    tagline: { type: String, required: true, trim: true },
+    deadline: { type: Date, required: true },
+    image: { type: String, required: true, trim: true },
+    products: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+  },
+  {
+    _id: false,
+  }
+);
+
 const ShowcaseSchema: Schema = new mongoose.Schema(
   {
-    shopShowcase: shopShowcase,
-    storyShowcase: storyShowcase,
+    shopShowcase,
+    storyShowcase,
+    offerShowcase,
   },
   {
     timestamps: true,
