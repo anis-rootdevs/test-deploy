@@ -5,7 +5,6 @@ import ChefCardSlider from "./ChefCardSlider";
 
 const ChefShapeHome = ({ chefList }: { chefList: Chef[] }) => {
   const total = chefList.length;
-  console.log(chefList);
 
   const renderContent = () => {
     // 👉 Case 1: Only 1 item → center it
