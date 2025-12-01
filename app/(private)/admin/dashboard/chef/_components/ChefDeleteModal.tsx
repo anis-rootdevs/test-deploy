@@ -1,6 +1,5 @@
 "use client";
-
-import { deleteShape } from "@/actions/shapeAction/shapeActions";
+import { deleteChef } from "@/actions/shapeAction/shapeActions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,18 +17,18 @@ import toast from "react-hot-toast";
 
 interface ShapeDeleteModalProps {
   trigger: ReactNode;
-  shapeId: string;
+  chefId: string;
   title?: string;
 }
 
-export default function ShapeDeleteModal({
+export default function ChefDeleteModal({
   trigger,
-  shapeId,
-  title = "Delete Chef Shape?",
+  chefId,
+  title = "Delete Chef chef?",
 }: ShapeDeleteModalProps) {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const { handleRefresh } = useTableState("shape");
+  const { handleRefresh } = useTableState("chef");
 
   const defaultDescription = `This action cannot be undone. This will permanently delete`;
 
@@ -37,26 +36,26 @@ export default function ShapeDeleteModal({
     try {
       setIsDeleting(true);
 
-      const loadingToast = toast.loading("Deleting Gallery...");
+      const loadingToast = toast.loading("Deleting Chef...");
 
-      const response = await deleteShape(shapeId);
+      const response = await deleteChef(chefId);
 
       toast.dismiss(loadingToast);
 
       // Check if response indicates success
       if (!response?.status === true) {
-        toast.error(response?.message || "Failed to delete shape");
+        toast.error(response?.message || "Failed to delete Chef");
         setIsDeleting(false);
         return;
       }
 
-      toast.success(response?.message || "Shape deleted successfully!");
+      toast.success(response?.message || "Chef deleted successfully!");
       handleRefresh();
       setIsDeleting(false);
       setOpen(false);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete Shape"
+        error instanceof Error ? error.message : "Failed to delete Chef"
       );
       setIsDeleting(false);
     }

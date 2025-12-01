@@ -1,6 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
-import React from "react";
 interface ChefCardProps {
   image: string;
   name: string;
@@ -40,11 +37,9 @@ const ChefCard = ({
           <div className="relative overflow-hidden ">
             {/* Image Section */}
             <div className="relative h-[400px] md:h-[430px]  overflow-hidden">
-              <Image
+              <img
                 src={image}
                 alt={name}
-                width={100}
-                height={100}
                 className={`object-cover h-full w-full ${imageClassName}`}
               />
             </div>

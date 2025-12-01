@@ -113,8 +113,8 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
             name="outlet"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-jost text-base font-medium">
-                  Outlets Name
+                <FormLabel className="font-jost text-sm font-medium">
+                  Outlets
                 </FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
@@ -145,7 +145,7 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
             name="reason"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-jost text-base font-medium">
+                <FormLabel className="font-jost text-sm font-medium">
                   Reservation Reason
                 </FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
@@ -177,7 +177,7 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-jost text-base font-medium">
+                <FormLabel className="font-jost text-sm font-medium">
                   Your Name
                 </FormLabel>
                 <FormControl>
@@ -197,7 +197,7 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-jost text-base font-medium">
+                  <FormLabel className="font-jost text-sm font-medium">
                     Your Email
                   </FormLabel>
                   <FormControl>
@@ -219,7 +219,8 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
               label="Phone Number"
               required={true}
               defaultCountry="bd"
-              className="mt-2"
+              labelClass="font-jost text-sm font-medium"
+              className="mt-1"
               errorBadge={false}
             />
           </div>
@@ -245,6 +246,7 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
                   error={form.formState.errors.reservedAt}
                   containerClassName="w-full "
                   errorBadge={false}
+                  labelClassName="text-sm"
                 />
               </FormItem>
             )}
@@ -256,7 +258,7 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
             name="numOfPeople"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-jost text-base font-medium">
+                <FormLabel className="font-jost text-sm font-medium">
                   Number of People
                 </FormLabel>
                 <FormControl>
@@ -279,7 +281,7 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-jost text-base font-medium">
+                <FormLabel className="font-jost text-sm font-medium">
                   Your Message
                 </FormLabel>
                 <FormControl>

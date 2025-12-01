@@ -12,24 +12,10 @@ interface GetProductListParams {
   tag?: string;
 }
 
-export async function getProductList(params: GetProductListParams = {}) {
+export async function getProductList(page: number, limit: number) {
   try {
-    const { page = 1, limit = 10, search, sortBy, category, tag } = params;
-
-    // Build query parameters
-    const queryParams = new URLSearchParams({
-      page: page.toString(),
-      limit: limit.toString(),
-    });
-
-    // Add optional parameters only if they exist
-    if (search) queryParams.append("search", search);
-    if (sortBy) queryParams.append("sortBy", sortBy);
-    if (category) queryParams.append("category", category);
-    if (tag) queryParams.append("tag", tag);
-
     const res = await apiClient(
-      `/api/admin/product?${queryParams.toString()}`,
+      `/api/admin/product?page=${page}&limit=${limit}`,
       {
         method: "GET",
         tags: ["product"],
@@ -193,6 +179,25 @@ export async function getFeaturedProducts(limit: number) {
         error instanceof Error
           ? error.message
           : "Failed to get featured products",
+      data: null,
+    };
+  }
+}
+
+export async function getProductById(id: string) {
+  try {
+    const res = await apiClient(`/api/admin/product/${id}`, {
+      method: "GET",
+      cache: "no-store",
+      tags: ["product"],
+    });
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Failed to fetch product data",
       data: null,
     };
   }

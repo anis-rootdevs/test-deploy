@@ -6,7 +6,7 @@ import { updateTag } from "next/cache";
 export async function getGalleryLists(page: number, limit: number) {
   try {
     const res = await apiClient(
-      `/api/admin/gallery?limit=${limit}&page=${page}`,
+      `/api/admin/gallery?page=${page}&limit=${limit}`,
       {
         method: "GET",
         tags: ["gallery"],

@@ -264,7 +264,7 @@ export const adminDashboardMenu = {
     },
     {
       title: "Products",
-      url: routes.privateRoutes.admin.products,
+      url: routes.privateRoutes.admin.products.home,
       icon: PiHamburgerDuotone,
     },
     {
@@ -283,8 +283,8 @@ export const adminDashboardMenu = {
       icon: MdLibraryBooks,
     },
     {
-      title: "Chef Shape",
-      url: routes.privateRoutes.admin.chefShape,
+      title: "Chef",
+      url: routes.privateRoutes.admin.chef,
       icon: SiCodechef,
     },
     {

@@ -14,6 +14,7 @@ interface PhoneInputFieldProps {
   disabled?: boolean;
   className?: string;
   errorBadge?: boolean;
+  labelClass?: string;
 }
 export default function PhoneInputField({
   name = "phone",
@@ -25,6 +26,7 @@ export default function PhoneInputField({
   disabled = false,
   className = "",
   errorBadge = true,
+  labelClass = "text-sm",
 }: PhoneInputFieldProps) {
   const {
     control,
@@ -37,7 +39,7 @@ export default function PhoneInputField({
 
   return (
     <div className={className}>
-      <Label className="text-sm font-jost font-medium mb-1.5 block">
+      <Label className={`font-jost font-medium mb-1.5 block ${labelClass}`}>
         {label}
         {/* {required && <span className="text-red-500 ml-1">*</span>} */}
       </Label>

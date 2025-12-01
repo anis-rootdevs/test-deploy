@@ -1,6 +1,7 @@
 "use client";
 import { changeOutletsStatus } from "@/actions/outlets/outletsActions";
 import { Switch } from "@/components/ui/switch";
+import { useTableState } from "@/store/useTableStore";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -15,8 +16,10 @@ export default function OutletsChangeStatus({
   outletId,
   onStatusChange,
 }: ToggleSwitchProps) {
+  const tableId = "outlets";
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(initialStatus);
+  const { handleRefresh } = useTableState(tableId);
 
   const handleStatusToggle = async (checked: boolean) => {
     setLoading(true);
@@ -34,6 +37,7 @@ export default function OutletsChangeStatus({
       toast.success(
         response.message || "Category status has been updated successfully!"
       );
+      handleRefresh();
     } catch (error) {
       toast.error("Failed to update status");
     } finally {

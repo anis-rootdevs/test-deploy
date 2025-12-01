@@ -4,6 +4,7 @@ import {
   getFeaturedProducts,
   getMostLovedProducts,
 } from "@/actions/product/productActions";
+import { getAllChefList } from "@/actions/shapeAction/shapeActions";
 import { Suspense } from "react";
 import ImageGalleryLanding from "../gallery/image-gallery-landing";
 import BookReserveHome from "./book-reserve-section/book-reserve-home";
@@ -21,6 +22,7 @@ const LandingPage = async () => {
   const mostLovedProducts = await getMostLovedProducts(5);
   const featuredProducts = await getFeaturedProducts(6);
   const gallery = await getAllFeaturedGallery(6);
+  const chefList = await getAllChefList();
 
   return (
     <>
@@ -36,7 +38,10 @@ const LandingPage = async () => {
         <MenuHome featuredProducts={featuredProducts?.data || []} />
       </Suspense>
       <VisitHomeSection />
-      <ChefShapeHome />
+      <Suspense fallback={<p>Loading...</p>}>
+        <ChefShapeHome chefList={chefList?.data} />
+      </Suspense>
+
       <Suspense fallback={<p>Loading...</p>}>
         <ImageGalleryLanding gallery={gallery?.data || []} />
       </Suspense>

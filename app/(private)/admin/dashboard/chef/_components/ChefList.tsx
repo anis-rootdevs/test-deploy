@@ -1,26 +1,26 @@
 "use client";
 
 import {
-  getAllShapeLists,
-  shortsShapeTable,
+  getAllChefLists,
+  shortsChefTable,
 } from "@/actions/shapeAction/shapeActions";
 import { DataTableWithPagination } from "@/components/custom/data-table/DataTableWithPagination";
-import { ChefShape } from "@/lib/types";
+import { Chef } from "@/lib/types";
 import { useTableState } from "@/store/useTableStore";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import ChefToolbar from "./ChefToolbar";
 import { columns } from "./columns";
-import ShapeToolbar from "./ShapeToolbar";
 
-export function ShapeList() {
-  const tableId = "shape";
-  const [data, setData] = useState<ChefShape[]>([]);
+export function ChefList() {
+  const tableId = "chef";
+  const [data, setData] = useState<Chef[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { refresh, handleRefresh } = useTableState(tableId);
 
   const fetchShapeLists = async () => {
     try {
-      const result = await getAllShapeLists();
+      const result = await getAllChefLists();
       setData(result?.data);
     } catch (error) {
       console.error(error);
@@ -41,7 +41,7 @@ export function ShapeList() {
   // Handle drag & drop
   const handleDataChange = async (sortedIds: string[]) => {
     try {
-      const response = await shortsShapeTable({ sortedIds });
+      const response = await shortsChefTable({ sortedIds });
 
       if (!response.status) {
         toast.error(response.message || "Failed to update gallery order");
@@ -58,7 +58,7 @@ export function ShapeList() {
   return (
     <div className="space-y-8">
       {/* <NewsFilters tableId={tableId} /> */}
-      <ShapeToolbar />
+      <ChefToolbar />
       <DataTableWithPagination
         data={data}
         columns={columns}

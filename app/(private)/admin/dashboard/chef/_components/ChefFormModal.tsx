@@ -1,6 +1,6 @@
 "use client";
 
-import { createShape, updateShape } from "@/actions/shapeAction/shapeActions";
+import { createChef, updateChef } from "@/actions/shapeAction/shapeActions";
 import PhoneInputField from "@/components/custom/PhoneInputField";
 import InputField from "@/components/form/InputField";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChefShape } from "@/lib/types";
+import { Chef } from "@/lib/types";
 import { useTableState } from "@/store/useTableStore";
 import { Loader2, Plus, SquarePen } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -27,7 +27,7 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import FileUploadComponent from "../../_components/FileUploadComponent";
 
-interface ShapeFormData {
+interface ChefFormData {
   tagline: string;
   _id: string;
   name: string;
@@ -39,19 +39,19 @@ interface ShapeFormData {
   status?: boolean;
 }
 
-interface ShapeFormModalProps {
-  shape?: ChefShape | null;
+interface ChefFormModalProps {
+  chef?: Chef | null;
   isEditMode?: boolean;
 }
 
-export default function ShapeFormModal({
-  shape,
+export default function ChefFormModal({
+  chef,
   isEditMode = false,
-}: ShapeFormModalProps) {
+}: ChefFormModalProps) {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const methods = useForm<ShapeFormData>();
-  const { handleRefresh } = useTableState("shape");
+  const methods = useForm<ChefFormData>();
+  const { handleRefresh } = useTableState("chef");
 
   const {
     handleSubmit,
@@ -63,13 +63,13 @@ export default function ShapeFormModal({
   // Reset form when dialog opens
   useEffect(() => {
     if (isDialogOpen) {
-      if (isEditMode && shape) {
+      if (isEditMode && chef) {
         reset({
-          tagline: shape.tagline,
-          name: shape.name,
-          phone: shape.phone,
-          dialCode: shape.dialCode,
-          gender: shape.gender,
+          tagline: chef.tagline,
+          name: chef.name,
+          phone: chef.phone,
+          dialCode: chef.dialCode,
+          gender: chef.gender,
         });
       } else {
         reset({
@@ -83,9 +83,9 @@ export default function ShapeFormModal({
       }
       setImageFiles([]);
     }
-  }, [isDialogOpen, shape, isEditMode, reset]);
+  }, [isDialogOpen, chef, isEditMode, reset]);
 
-  const onSubmit = async (data: ShapeFormData) => {
+  const onSubmit = async (data: ChefFormData) => {
     // Validate image only for add mode
     if (!isEditMode && imageFiles.length === 0) {
       toast.error("Please upload an image!");
@@ -116,25 +116,25 @@ export default function ShapeFormModal({
       }
 
       const loadingToast = toast.loading(
-        isEditMode ? "Updating Shape..." : "Adding Shape..."
+        isEditMode ? "Updating Chef..." : "Adding Chef..."
       );
 
       const result = isEditMode
-        ? await updateShape(shape?._id || "", formData)
-        : await createShape(formData);
+        ? await updateChef(chef?._id || "", formData)
+        : await createChef(formData);
 
       toast.dismiss(loadingToast);
 
       if (!result.status) {
-        toast.error(result.message || "Failed to save Shape");
+        toast.error(result.message || "Failed to save Chef");
         return;
       }
 
       toast.success(
         result.message ||
           (isEditMode
-            ? "Shape updated successfully!"
-            : "Shape added successfully!")
+            ? "Chef updated successfully!"
+            : "Chef added successfully!")
       );
       handleRefresh();
 
@@ -143,7 +143,7 @@ export default function ShapeFormModal({
       setImageFiles([]);
     } catch (error: any) {
       console.error(error);
-      toast.error("Error saving shape!");
+      toast.error("Error saving chef!");
     }
   };
 
@@ -160,19 +160,19 @@ export default function ShapeFormModal({
             className="font-jost font-medium rounded-sm h-9 cursor-pointer"
           >
             <Plus className="h-4 w-4" />
-            Add New Shape
+            Add New Chef
           </Button>
         )}
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {isEditMode ? "Edit Shape Details" : "Add New Shape"}
+            {isEditMode ? "Edit Chef Details" : "Add New chef"}
           </DialogTitle>
           <DialogDescription>
             {isEditMode
-              ? "Update the Shape details below."
-              : "Fill in the details to create a new Shape."}
+              ? "Update the chef details below."
+              : "Fill in the details to create a new chef."}
           </DialogDescription>
         </DialogHeader>
 
@@ -182,8 +182,8 @@ export default function ShapeFormModal({
             <InputField
               name="tagline"
               label="Tagline"
-              placeholder="WHERE COMFORT MEETS AROMA"
-              rules={{ required: "Tagline is required!" }}
+              placeholder="tagline"
+              rules={{ required: "Required!" }}
             />
 
             {/* Name */}
@@ -191,7 +191,7 @@ export default function ShapeFormModal({
               name="name"
               label="Name"
               placeholder="Mr. Chef Doctor"
-              rules={{ required: "Name is required!" }}
+              rules={{ required: "Required!" }}
             />
 
             {/* Gender */}
@@ -200,7 +200,7 @@ export default function ShapeFormModal({
               <Controller
                 name="gender"
                 control={control}
-                rules={{ required: "Gender is required!" }}
+                rules={{ required: "Required!" }}
                 render={({ field }) => (
                   <Select
                     onValueChange={field.onChange}
@@ -239,7 +239,7 @@ export default function ShapeFormModal({
             {/* Image Upload */}
             <div>
               <label className="block text-sm font-medium mb-2">
-                Shape Image
+                Chef Image
               </label>
               <FileUploadComponent
                 accept="image"
@@ -247,7 +247,7 @@ export default function ShapeFormModal({
                 maxFiles={1}
                 onFilesChange={setImageFiles}
                 existingImageUrl={
-                  isEditMode && shape?.image ? shape.image : undefined
+                  isEditMode && chef?.image ? chef.image : undefined
                 }
                 onRemoveExisting={() => {
                   console.log("Existing image removed");
@@ -272,9 +272,9 @@ export default function ShapeFormModal({
                     {isEditMode ? "Updating..." : "Adding..."}
                   </>
                 ) : isEditMode ? (
-                  "Update Shape"
+                  "Update Chef"
                 ) : (
-                  "Add Shape"
+                  "Add Chef"
                 )}
               </Button>
             </div>

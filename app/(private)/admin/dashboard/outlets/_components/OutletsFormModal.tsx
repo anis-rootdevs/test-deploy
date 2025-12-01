@@ -15,6 +15,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Outlets } from "@/lib/types";
+import { useTableState } from "@/store/useTableStore";
 import { BadgeAlert, Loader2, Plus, SquarePen } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
@@ -32,7 +33,9 @@ export default function OutletsFormModal({
   isEditMode = false,
 }: ProductsFormModalProps) {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const tableId = "outlets";
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { handleRefresh } = useTableState(tableId);
 
   const methods = useForm<Outlets>();
 
@@ -52,6 +55,7 @@ export default function OutletsFormModal({
           location: outlet.location,
           phone: outlet.phone,
           dialCode: outlet.dialCode,
+          googleMapLink: outlet.googleMapLink,
         });
       } else {
         reset({
@@ -59,6 +63,7 @@ export default function OutletsFormModal({
           location: "",
           phone: "",
           dialCode: "",
+          googleMapLink: "",
           image: undefined,
         });
       }
@@ -77,6 +82,7 @@ export default function OutletsFormModal({
       const formData = new FormData();
       formData.append("name", data.name || "");
       formData.append("location", data.location || "");
+      formData.append("googleMapLink", data.googleMapLink || "");
 
       let cleanPhone = String(data.phone || "");
       const dialCode = String(data.dialCode || "").replace("+", "");
@@ -93,6 +99,7 @@ export default function OutletsFormModal({
       if (imageFiles.length > 0) {
         formData.append("image", imageFiles[0]);
       }
+      console.log("formData", formData);
 
       const loadingToast = toast.loading(
         isEditMode ? "Updating outlet..." : "Adding outlet..."
@@ -116,6 +123,8 @@ export default function OutletsFormModal({
             : "Outlet added successfully!")
       );
 
+      handleRefresh();
+
       setIsDialogOpen(false);
       reset();
       setImageFiles([]);
@@ -128,7 +137,7 @@ export default function OutletsFormModal({
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         {isEditMode ? (
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" className="cursor-pointer">
             <SquarePen className="h-4 w-4" />
           </Button>
         ) : (
@@ -160,6 +169,12 @@ export default function OutletsFormModal({
               name="name"
               label="Name"
               placeholder="outlet name"
+              rules={{ required: "Required!" }}
+            />
+            <InputField
+              name="googleMapLink"
+              label="GoogleMap Link"
+              placeholder="googleMapLink"
               rules={{ required: "Required!" }}
             />
 

@@ -41,6 +41,7 @@ export interface Outlets {
   dialCode?: string;
   phone?: string;
   image?: string;
+  googleMapLink?: string;
   status?: boolean;
 }
 
@@ -64,6 +65,7 @@ export interface CafeInfoCardProps {
   buttonText?: string;
   onReserveClick?: () => void;
   className?: string;
+  googleMapLink?: string;
 }
 
 export interface OurValueItem {
@@ -194,7 +196,7 @@ export interface ChefCardProps {
   id: number;
   // _id: string;
 }
-export type ChefShape = {
+export type Chef = {
   _id: string;
   tagline: string;
   image: string;

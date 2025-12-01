@@ -11,6 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useTableState } from "@/store/useTableStore";
 
 import { Loader2 } from "lucide-react";
 import { ReactNode, useState } from "react";
@@ -20,17 +21,17 @@ interface ProductDeleteModalProps {
   trigger: ReactNode;
   productId: string;
   title?: string;
-  onSuccess?: () => void;
 }
 
 export default function ProductDeleteModal({
   trigger,
   productId,
   title = "Delete Product?",
-  onSuccess,
 }: ProductDeleteModalProps) {
+  const tableId = "product";
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { handleRefresh } = useTableState(tableId);
 
   const defaultDescription = `This action cannot be undone. This will permanently delete`;
 
@@ -46,24 +47,19 @@ export default function ProductDeleteModal({
 
       // Check if response indicates success
       if (!response?.status === true) {
-        toast.error(response?.message || "Failed to delete banner");
+        toast.error(response?.message || "Failed to delete Product");
         setIsDeleting(false);
         return;
       }
 
-      toast.success(response?.message || "Banner deleted successfully!");
-
-      // Trigger refresh callback
-      if (onSuccess) {
-        onSuccess();
-      }
-
+      toast.success(response?.message || "Product deleted successfully!");
+      handleRefresh();
       // Close modal on success
       setIsDeleting(false);
       setOpen(false);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete banner"
+        error instanceof Error ? error.message : "Failed to delete product"
       );
       setIsDeleting(false);
     }

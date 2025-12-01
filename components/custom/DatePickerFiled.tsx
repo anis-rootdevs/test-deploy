@@ -38,6 +38,7 @@ interface DatePickerFieldProps<T extends FieldValues> {
   defaultHour?: number;
   defaultMinute?: number;
   errorBadge?: boolean;
+  labelClassName?: string;
 }
 
 export default function DatePickerField<T extends FieldValues>({
@@ -63,6 +64,7 @@ export default function DatePickerField<T extends FieldValues>({
   defaultHour = 12,
   defaultMinute = 0,
   errorBadge = true,
+  labelClassName = "text-base",
 }: DatePickerFieldProps<T>) {
   const inputRef = useRef<HTMLInputElement>(null);
   const flatpickrInstanceRef = useRef<flatpickr.Instance | null>(null);
@@ -70,7 +72,9 @@ export default function DatePickerField<T extends FieldValues>({
   return (
     <div className={containerClassName}>
       {label && (
-        <Label className="font-jost text-base font-medium mb-1.5 block">
+        <Label
+          className={`font-jost font-medium mb-1.5 block ${labelClassName}`}
+        >
           {label}
         </Label>
       )}

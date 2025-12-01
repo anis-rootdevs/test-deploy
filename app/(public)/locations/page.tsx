@@ -5,8 +5,8 @@ import LocationCardComponents from "@/components/locations/location-card-compone
 import { Outlets } from "@/lib/types";
 
 const LocationsHomePage = async () => {
-  const allOutlets = await getAllOutlets(2);
-  const data: Outlets[] = allOutlets?.data?.docs || [];
+  const allOutlets = await getAllOutlets();
+  const data: Outlets[] = allOutlets?.data || [];
 
   return (
     <div className="">

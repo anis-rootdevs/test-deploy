@@ -3,11 +3,11 @@
 import { apiClient } from "@/lib/api-client";
 import { updateTag } from "next/cache";
 
-export async function getAllShapeLists() {
+export async function getAllChefLists() {
   try {
     const res = await apiClient(`/api/admin/chef?limit`, {
       method: "GET",
-      tags: ["shape"],
+      tags: ["chef"],
     });
 
     return res;
@@ -15,13 +15,13 @@ export async function getAllShapeLists() {
     return {
       ok: false,
       message:
-        error instanceof Error ? error.message : "Failed to get shape list",
+        error instanceof Error ? error.message : "Failed to get chef list",
       data: null,
     };
   }
 }
 
-export async function createShape(data: FormData) {
+export async function createChef(data: FormData) {
   try {
     const res = await apiClient("/api/admin/chef", {
       method: "POST",
@@ -29,20 +29,20 @@ export async function createShape(data: FormData) {
       isFormData: true,
     });
     if (res?.status) {
-      updateTag("shape");
+      updateTag("chef");
     }
     return res;
   } catch (error) {
     return {
       ok: false,
       message:
-        error instanceof Error ? error.message : "Failed to create new shape",
+        error instanceof Error ? error.message : "Failed to create new chef",
       data: null,
     };
   }
 }
 
-export async function updateShape(id: string, data: FormData) {
+export async function updateChef(id: string, data: FormData) {
   try {
     const res = await apiClient(`/api/admin/chef/${id}`, {
       method: "PUT",
@@ -51,41 +51,39 @@ export async function updateShape(id: string, data: FormData) {
     });
 
     if (res?.status) {
-      updateTag("shape");
+      updateTag("chef");
     }
 
     return res;
   } catch (error) {
     return {
       ok: false,
-      message:
-        error instanceof Error ? error.message : "Failed to update Shape",
+      message: error instanceof Error ? error.message : "Failed to update chef",
       data: null,
     };
   }
 }
 
-export async function deleteShape(id: string) {
+export async function deleteChef(id: string) {
   try {
     const res = await apiClient(`/api/admin/chef/${id}`, {
       method: "DELETE",
     });
 
     if (res?.status) {
-      updateTag("shape");
+      updateTag("chef");
     }
 
     return res;
   } catch (error) {
     return {
       ok: false,
-      message:
-        error instanceof Error ? error.message : "Failed to delete shape",
+      message: error instanceof Error ? error.message : "Failed to delete chef",
       data: null,
     };
   }
 }
-export async function changeShapeStatus(id: string, status: boolean) {
+export async function changeChefStatus(id: string, status: boolean) {
   try {
     const res = await apiClient(`/api/admin/chef/status/${id}`, {
       method: "PUT",
@@ -94,7 +92,7 @@ export async function changeShapeStatus(id: string, status: boolean) {
     });
 
     if (res?.status) {
-      updateTag("shape");
+      updateTag("chef");
     }
 
     return res;
@@ -102,29 +100,44 @@ export async function changeShapeStatus(id: string, status: boolean) {
     return {
       ok: false,
       message:
-        error instanceof Error
-          ? error.message
-          : "Failed to update shape status",
+        error instanceof Error ? error.message : "Failed to update chef status",
       data: null,
     };
   }
 }
-export async function shortsShapeTable(data: { sortedIds: string[] }) {
+export async function shortsChefTable(data: { sortedIds: string[] }) {
   try {
     const res = await apiClient("/api/admin/chef/sort", {
       method: "PUT",
       body: data,
     });
     if (res?.status) {
-      updateTag("shape");
+      updateTag("chef");
     }
 
     return res;
   } catch (error) {
     return {
       ok: false,
+      message: error instanceof Error ? error.message : "Failed to shorts chef",
+      data: null,
+    };
+  }
+}
+
+export async function getAllChefList() {
+  try {
+    const res = await apiClient(`/api/chef`, {
+      method: "GET",
+      // tags: ["chef"],
+      cache: "no-store",
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
       message:
-        error instanceof Error ? error.message : "Failed to shorts shape",
+        error instanceof Error ? error.message : "Failed to get all chef",
       data: null,
     };
   }
