@@ -17,11 +17,13 @@ export default function OutletsList() {
   const [data, setData] = useState<Outlets[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  const { page, limit, refresh, handleRefresh } = useTableState(tableId);
+  const { page, limit, refresh, handleRefresh, search } =
+    useTableState(tableId);
 
-  const fetchOutlets = async () => {
+  const fetchOutlets = async (page: number, limit: number, search: string) => {
     try {
-      const result = await getOutletsList();
+      const result = await getOutletsList(page, limit, search);
+      console.log(result, "result outleft");
       setData(result?.data);
     } catch (error) {
       console.error(error);
@@ -32,12 +34,12 @@ export default function OutletsList() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchOutlets();
-  }, [page, limit]);
+    fetchOutlets(page, limit, search);
+  }, [page, limit, search]);
 
   useEffect(() => {
-    fetchOutlets();
-  }, [refresh]);
+    fetchOutlets(page, limit, search);
+  }, [page, limit, search]);
 
   // Handle drag & drop
   const handleDataChange = async (sortedIds: string[]) => {
@@ -57,7 +59,7 @@ export default function OutletsList() {
   };
   return (
     <div className="flex flex-col gap-6">
-      <OutletsTableToolbar />
+      <OutletsTableToolbar tableId={tableId} />
 
       <DataTableWithPagination
         data={data}

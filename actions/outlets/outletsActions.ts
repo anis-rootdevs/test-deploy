@@ -3,9 +3,18 @@
 import { apiClient } from "@/lib/api-client";
 import { updateTag } from "next/cache";
 
-export async function getOutletsList() {
+export async function getOutletsList(
+  page: number,
+  limit: number,
+  search: string
+) {
   try {
-    const res = await apiClient("/api/admin/outlet", {
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+      search: search || "",
+    });
+    const res = await apiClient(`/api/admin/outlet?${params.toString()}`, {
       method: "GET",
       tags: ["outlets"],
     });
