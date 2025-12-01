@@ -59,7 +59,7 @@ import {
 } from "lucide-react";
 import { useEffect, useId, useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import TableSkeleton from "./TableSkeleton";
+import TableBodySkeleton from "./TableBodySkeleton";
 
 type WithId<T> = T & { _id: string };
 
@@ -228,60 +228,60 @@ export function DataTableWithPagination<T>({
           sensors={sensors}
           id={sortableId}
         >
-          {isLoading ? (
-            <TableSkeleton
-              columns={table.getHeaderGroups()[0].headers.length}
-              rows={limit}
-              pagination={false}
-            />
-          ) : (
-            <Table>
-              <TableHeader className="bg-muted/70 sticky top-0 z-10">
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {draggable && <TableHead>{null}</TableHead>}
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      );
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody className="**:data-[slot=table-cell]:first:w-8">
-                {table.getRowModel().rows?.length ? (
-                  <SortableContext
-                    items={dataIds}
-                    strategy={verticalListSortingStrategy}
+          <Table>
+            <TableHeader className="bg-muted/70 sticky top-0 z-10">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {draggable && <TableHead>{null}</TableHead>}
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody className="**:data-[slot=table-cell]:first:w-8">
+              {isLoading ? (
+                <TableBodySkeleton
+                  columns={
+                    table.getHeaderGroups()[0].headers.length +
+                    (draggable ? 1 : 0)
+                  }
+                  rows={limit}
+                />
+              ) : table.getRowModel().rows?.length ? (
+                <SortableContext
+                  items={dataIds}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {table.getRowModel().rows.map((row) => (
+                    <DraggableRow
+                      key={row.id}
+                      row={row}
+                      draggable={draggable}
+                    />
+                  ))}
+                </SortableContext>
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length + (draggable ? 1 : 0)}
+                    className="h-24 text-center"
                   >
-                    {table.getRowModel().rows.map((row) => (
-                      <DraggableRow
-                        key={row.id}
-                        row={row}
-                        draggable={draggable}
-                      />
-                    ))}
-                  </SortableContext>
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      No results.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          )}
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </DndContext>
       </div>
       {showPagination && (
