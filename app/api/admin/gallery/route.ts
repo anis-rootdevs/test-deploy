@@ -45,6 +45,7 @@ export const GET = asyncHandler(async (req: NextRequest) => {
   const page = searchParams.get("page") || 1;
   const limit = searchParams.get("limit") || 10;
   const search = searchParams.get("search") || undefined;
+  const featured = searchParams.get("featured") || undefined;
 
   const skip: number = (Number(page) - 1) * Number(limit);
   const query: Record<string, any> = search
@@ -53,6 +54,43 @@ export const GET = asyncHandler(async (req: NextRequest) => {
       }
     : {};
 
+  if (featured) {
+    const docs = await Gallery.aggregate([
+      {
+        $match: {
+          featured: true,
+        },
+      },
+      {
+        $sort: {
+          position: 1,
+        },
+      },
+      {
+        $addFields: {
+          image: {
+            $cond: {
+              if: { $ne: ["$image", null] }, // Check if image exists
+              then: {
+                $concat: [CLOUDINARY_SECURE_URL_BASE, "/", "$image"],
+              },
+              else: null, // or a default image URL
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          updatedAt: 0,
+        },
+      },
+    ]);
+
+    return apiResponse(true, 200, "Galleries have been fetched successfully!", {
+      docs,
+    });
+  }
+
   const [docs, total] = await Promise.all([
     Gallery.aggregate([
       {
@@ -60,7 +98,7 @@ export const GET = asyncHandler(async (req: NextRequest) => {
       },
       {
         $sort: {
-          position: 1,
+          createdAt: -1,
         },
       },
       {
