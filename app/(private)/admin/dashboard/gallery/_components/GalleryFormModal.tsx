@@ -150,7 +150,7 @@ export default function GalleryFormModal({
             <InputField
               name="tagline"
               label="Tagline"
-              placeholder="gallery"
+              placeholder="Image Tagline"
               rules={{ required: "Required!" }}
             />
 
@@ -162,7 +162,7 @@ export default function GalleryFormModal({
               rules={{ required: "Required!" }}
             />
             <FormSwitch
-              label="Mark as Featured"
+              label="Featured"
               name="featured"
               description="Show this gallery in the Featured Gallery section"
             />

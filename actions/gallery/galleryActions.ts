@@ -3,15 +3,26 @@
 import { apiClient } from "@/lib/api-client";
 import { updateTag } from "next/cache";
 
-export async function getGalleryLists(page: number, limit: number) {
+export async function getGalleryLists(
+  page: number,
+  limit: number,
+  filters: Record<string, unknown>
+) {
   try {
-    const res = await apiClient(
-      `/api/admin/gallery?page=${page}&limit=${limit}`,
-      {
-        method: "GET",
-        tags: ["gallery"],
-      }
-    );
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+    });
+
+    // Append filters dynamically
+    Object.entries(filters).forEach(([k, v]) => {
+      if (v) params.append(k, String(v));
+    });
+
+    const res = await apiClient(`/api/admin/gallery?${params.toString()}`, {
+      method: "GET",
+      tags: ["gallery"],
+    });
 
     return res;
   } catch (error) {
