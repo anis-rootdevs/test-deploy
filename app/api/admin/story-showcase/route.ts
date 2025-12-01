@@ -208,4 +208,4 @@ export const GET = asyncHandler(async () => {
     "Story showcase has been fetched successfully!",
     data
   );
-});
+}, true);
