@@ -250,6 +250,22 @@ export interface IShowcase extends Document {
   offerShowcase: IOfferShowcase;
 }
 
+export interface IGeneral extends Document {
+  companyName: string;
+  companyDialCode: string;
+  companyPhone: string;
+  companyAddress: string;
+  logo: string;
+  favicon: string;
+  supportEmail: string;
+  ownerName: string;
+  ownerEmail: string;
+}
+
+export interface ISettings extends Document {
+  general: IGeneral;
+}
+
 export interface IExistingValue {
   _id?: mongoose.Types.ObjectId;
   title: string;

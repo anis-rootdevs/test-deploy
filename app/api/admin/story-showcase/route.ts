@@ -34,10 +34,7 @@ export const PUT = asyncFormDataHandler(
         const { valid, error } = fileValidator(file as File, {
           required: false,
         });
-
-        if (!valid) {
-          return apiResponse(false, 400, error!);
-        }
+        if (!valid) return apiResponse(false, 400, error!);
 
         // Delete existing image from Cloudinary if it exists
         if (existingShowcase?.[field]) {

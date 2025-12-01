@@ -4,25 +4,24 @@ import { asyncFormDataHandler } from "@/lib/async-formdata-handler";
 import { asyncHandler } from "@/lib/async-handler";
 import { fileValidator } from "@/lib/file-validator";
 import { apiResponse } from "@/lib/utils";
-import { shopShowcaseSchema } from "@/lib/validation-schema";
-import Showcase from "@/model/Showcase";
+import { settingsGeneralSchema } from "@/lib/validation-schema";
+import Settings from "@/model/Settings";
 import { NextRequest } from "next/server";
 import z from "zod";
 
-// Update Shop Showcase
+// Update General Settings
 export const PUT = asyncFormDataHandler(
-  shopShowcaseSchema,
+  settingsGeneralSchema,
   async (
     req: NextRequest,
-    data: z.infer<typeof shopShowcaseSchema>,
+    data: z.infer<typeof settingsGeneralSchema>,
     formData: FormData
   ) => {
-    const imageFields = ["imageOne", "imageTwo", "imageThree"] as const;
+    const imageFields = ["logo", "favicon"] as const;
     const uploadedImages: Record<string, string> = {};
 
     // Fetch existing showcase data
-    const showcase = await Showcase.findOne({});
-    const existingShowcase = showcase?.shopShowcase;
+    const { general } = (await Settings.findOne({})) || {};
 
     for (const field of imageFields) {
       const file = formData.get(field);
@@ -34,13 +33,13 @@ export const PUT = asyncFormDataHandler(
         if (!valid) return apiResponse(false, 400, error!);
 
         // Delete existing image from Cloudinary if it exists
-        if (existingShowcase?.[field]) {
-          await deleteFromCloudinary(existingShowcase[field]);
+        if (general?.[field]) {
+          await deleteFromCloudinary(general[field]);
         }
 
         // Upload new image to Cloudinary
         const { public_id } = await uploadToCloudinary(file as File, {
-          folder: `${process.env.CLOUDINARY_FOLDER}/showcase`,
+          folder: `${process.env.CLOUDINARY_FOLDER}/settings`,
         });
 
         uploadedImages[field] = public_id;
@@ -50,13 +49,13 @@ export const PUT = asyncFormDataHandler(
     // Build $set object with only the fields being updated
     const updateFields = Object.entries({ ...data, ...uploadedImages }).reduce(
       (acc, [key, value]) => {
-        acc[`shopShowcase.${key}`] = value;
+        acc[`general.${key}`] = value;
         return acc;
       },
       {} as Record<string, any>
     );
 
-    await Showcase.findOneAndUpdate(
+    await Settings.findOneAndUpdate(
       {},
       { $set: updateFields },
       { upsert: true }
@@ -65,26 +64,33 @@ export const PUT = asyncFormDataHandler(
     return apiResponse(
       true,
       200,
-      "Shop Showcase has been updated successfully!"
+      "General settings has been updated successfully!"
     );
   },
   true
 );
 
 export const GET = asyncHandler(async () => {
-  const { shopShowcase } = (await Showcase.findOne({})).toObject();
+  const { general } = (await Settings.findOne({})) || {};
+
+  if (!general) {
+    return apiResponse(false, 404, "General settings not found!");
+  }
 
   const data = {
-    ...shopShowcase,
-    imageOne: `${CLOUDINARY_SECURE_URL_BASE}/${shopShowcase?.imageOne}`,
-    imageTwo: `${CLOUDINARY_SECURE_URL_BASE}/${shopShowcase?.imageTwo}`,
-    imageThree: `${CLOUDINARY_SECURE_URL_BASE}/${shopShowcase?.imageThree}`,
+    ...general.toObject(),
+    logo: general?.logo
+      ? `${CLOUDINARY_SECURE_URL_BASE}/${general?.logo}`
+      : null,
+    favicon: general?.favicon
+      ? `${CLOUDINARY_SECURE_URL_BASE}/${general?.favicon}`
+      : null,
   };
 
   return apiResponse(
     true,
     200,
-    "Shop showcase has been fetched successfully!",
+    "General settings has been fetched successfully!",
     data
   );
 }, true);

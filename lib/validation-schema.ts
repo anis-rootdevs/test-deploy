@@ -81,6 +81,18 @@ export const shopShowcaseSchema = z.object({
   tagline: requiredStringField("tagline"),
 });
 
+export const settingsGeneralSchema = z.object({
+  companyName: requiredStringField("companyName"),
+  companyDialCode: requiredStringField("companyDialCode"),
+  companyPhone: requiredStringField("companyPhone"),
+  companyAddress: requiredStringField("companyAddress"),
+  supportEmail: requiredStringField("supportEmail"),
+  ownerName: requiredStringField("ownerName"),
+  ownerEmail: requiredStringField("ownerEmail"),
+  logo: optionalStringField("logo"),
+  favicon: optionalStringField("favicon"),
+});
+
 export const offerShowcaseSchema = z.object({
   heading: requiredStringField("heading"),
   tagline: requiredStringField("tagline"),
