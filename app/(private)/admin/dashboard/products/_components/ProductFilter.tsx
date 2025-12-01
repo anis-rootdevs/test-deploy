@@ -7,41 +7,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FilterType } from "@/lib/types";
 
-interface ProductFilterProps<TData> {
-  filter: FilterType;
-  setFilter: (value: FilterType) => void;
-  disabled?: boolean;
+const TYPE_OPTIONS = [
+  { value: "all", label: "All Products" },
+  { value: "mostLoved", label: "Most Loved Products" },
+  { value: "featured", label: "Featured Products" },
+];
+interface ProductsTypeFilterProps {
+  value: string;
+  onChange: (value: string, label: string) => void;
 }
 
-export default function ProductFilter<TData>({
-  filter,
-  setFilter,
-  disabled = false,
-}: ProductFilterProps<TData>) {
-  const getDisplayValue = () => {
-    switch (filter) {
-      case "mostLoved":
-        return "Most Loved";
-      case "featured":
-        return "Featured";
-      default:
-        return "All Products";
-    }
-  };
-
+export default function ProductFilter({
+  value,
+  onChange,
+}: ProductsTypeFilterProps) {
   return (
-    <Select value={filter} onValueChange={setFilter} disabled={disabled}>
-      <SelectTrigger className="h-10 w-[180px] rounded-[4px]">
-        <SelectValue placeholder="Filter by...">
-          {getDisplayValue()}
-        </SelectValue>
+    <Select
+      value={value || "all"}
+      onValueChange={(value) =>
+        onChange(value, TYPE_OPTIONS.find((t) => t.value === value)?.label!)
+      }
+    >
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Type" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">All Products</SelectItem>
-        <SelectItem value="mostLoved">Most Loved</SelectItem>
-        <SelectItem value="featured">Featured</SelectItem>
+        {TYPE_OPTIONS.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );

@@ -94,7 +94,7 @@ export const useTableStore = create<TableStore>((set, get) => ({
           [id]: undefined as any,
         },
       }));
-    }, 400);
+    }, 500);
 
     set((state) => ({
       searchTimers: {

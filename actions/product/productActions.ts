@@ -12,16 +12,29 @@ interface GetProductListParams {
   tag?: string;
 }
 
-export async function getProductList(page: number, limit: number) {
+export async function getProductList(
+  page: number,
+  limit: number,
+  search: string,
+  filters: Record<string, unknown>
+) {
   try {
-    const res = await apiClient(
-      `/api/admin/product?page=${page}&limit=${limit}`,
-      {
-        method: "GET",
-        tags: ["product"],
-        cache: "no-store",
-      }
-    );
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+      search: search || "",
+    });
+
+    // Append filters dynamically
+    Object.entries(filters).forEach(([k, v]) => {
+      if (v) params.append(k, String(v));
+    });
+
+    const res = await apiClient(`/api/admin/product?${params.toString()}`, {
+      method: "GET",
+      tags: ["product"],
+      cache: "no-store",
+    });
 
     return res;
   } catch (error) {
