@@ -20,7 +20,7 @@ const CategoriesItemsSection = () => {
   };
 
   return (
-    <div className="max-w-[1320px] mx-auto pt-10 px-4">
+    <div className="max-w-[1320px] mx-auto pt-5 px-4">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-2xl font-jost uppercase font-semibold text-center mb-2.5">
           Our Menu

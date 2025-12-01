@@ -36,7 +36,6 @@ export default function PhoneInputField({
   } = useFormContext();
 
   const error = errors[name];
-
   return (
     <div className={className}>
       <Label className={`font-jost font-medium mb-1.5 block ${labelClass}`}>
@@ -73,12 +72,12 @@ export default function PhoneInputField({
               placeholder={placeholder}
               disabled={disabled}
               containerClass="w-full"
-              inputClass={`!w-full !h-11 !text-sm !rounded-md !bg-input !text-foreground !border !border-border focus:!border-primary
-            ${error ? "!border-destructive" : ""}
-            ${disabled ? "!opacity-50 !cursor-not-allowed" : ""}`}
-              buttonClass={`!rounded-l-md !bg-muted !text-foreground !border !border-border ${
-                error ? "!border-destructive" : ""
-              } ${disabled ? "!opacity-50 !cursor-not-allowed" : ""}`}
+              inputClass={`!w-full !h-11 !text-sm !rounded-md !bg-input !text-foreground !border
+  ${error ? "!border-red-500" : "!border-border focus:!border-primary"}
+  ${disabled ? "!opacity-50 !cursor-not-allowed" : ""}`}
+              buttonClass={`!rounded-l-md !hover:rounded-l-md !bg-muted !text-foreground !border
+                ${error ? "!border-red-500" : "!border-border"}
+                ${disabled ? "!opacity-50 !cursor-not-allowed" : ""}`}
               dropdownClass="!bg-popover !text-foreground !border !border-border"
             />
           );
@@ -86,9 +85,9 @@ export default function PhoneInputField({
       />
 
       {error && (
-        <div className="flex items-center mt-2 gap-1">
+        <div className="flex items-center mt-1 gap-1">
           {errorBadge && <BadgeAlert className="text-red-500 h-4 w-4" />}
-          <p className="text-red-500 text-xs">{error.message as string}</p>
+          <p className="text-red-500 text-sm">{error.message as string}</p>
         </div>
       )}
     </div>

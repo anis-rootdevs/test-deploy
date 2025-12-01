@@ -93,10 +93,10 @@ const GalleryLoadMore = ({
         </div>
       )}
 
-      <div ref={loaderRef} className="h-12 flex justify-center items-center">
+      <div ref={loaderRef} className="flex justify-center items-center">
         {!loading && !hasMore && gallery.length > 0 && (
           <p className="text-lg font-jost font-medium text-primary">
-            No more items to show
+            {/* No more items to show */}
           </p>
         )}
       </div>

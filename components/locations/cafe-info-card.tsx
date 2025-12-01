@@ -1,8 +1,10 @@
 "use client";
 import { routes } from "@/config/routes";
 import { CafeInfoCardProps } from "@/lib/types";
+import { useOutletStore } from "@/store/useOutletStore";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { CustomButton } from "../custom/custom-button";
 import { Icons } from "../custom/icons";
 
@@ -14,7 +16,27 @@ const CafeInfoCard = ({
   onReserveClick,
   className = "",
   googleMapLink = "",
+  locationId,
 }: CafeInfoCardProps) => {
+  const router = useRouter();
+  const setSelectedOutletId = useOutletStore(
+    (state) => state.setSelectedOutletId
+  );
+
+  const handleReserveClick = () => {
+    // Set the outlet ID in Zustand store
+    if (locationId) {
+      setSelectedOutletId(locationId);
+    }
+
+    // Call the original onReserveClick if provided
+    if (onReserveClick) {
+      onReserveClick();
+    }
+
+    // Navigate to reserve page
+    router.push(routes.publicRoutes.reserveTable);
+  };
   return (
     <div className={`border-0 ${className}`}>
       <div className="p-6 md:p-8">
@@ -51,11 +73,7 @@ const CafeInfoCard = ({
         </div>
 
         {/* Reserve Button */}
-        <CustomButton
-          onClick={onReserveClick}
-          className="mt-[30px]"
-          href={routes.publicRoutes.reserveTable}
-        >
+        <CustomButton onClick={handleReserveClick} className="mt-[30px]">
           {buttonText}
         </CustomButton>
       </div>

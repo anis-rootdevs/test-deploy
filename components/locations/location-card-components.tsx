@@ -17,6 +17,7 @@ const LocationCardComponents = ({
     // console.log("Reserve button clicked for:", cafeData.name);
     // Add your reservation logic here
   };
+  console.log("cafeData", cafeData);
 
   const isImageRight = imagePosition === "right";
   return (
@@ -38,6 +39,7 @@ const LocationCardComponents = ({
             openingHours={[]}
             onReserveClick={handleReserve}
             googleMapLink={cafeData.googleMapLink || ""}
+            locationId={cafeData._id || ""}
           />
         </div>
 
