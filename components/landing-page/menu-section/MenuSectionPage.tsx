@@ -39,6 +39,7 @@ interface MenuSectionPageProps {
 const MenuSectionPage = ({ initialMenuData }: MenuSectionPageProps) => {
   const { activeCategory, isLoading, error, initializeMenu } =
     useMenuFilterStore();
+  console.log("initialMenuData", initialMenuData);
 
   // Initialize store with server data
   useEffect(() => {

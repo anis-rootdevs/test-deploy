@@ -1,15 +1,17 @@
 "use client";
+import CustomSeparator from "@/components/custom/custom-separator";
 import { useMenuFilterStore } from "@/store/useMenuFilterStore";
 import VisitHomeSection from "../visit-us-section/visit-home-section";
 import MenuItemCard from "./MenuItemCard";
 import OffersSection from "./OffersSection";
 
 const ShowFilteredItems = () => {
-  const { filteredProducts, activeCategory } = useMenuFilterStore();
+  const { filteredProducts, activeCategory, categories } = useMenuFilterStore();
 
+  const isAllCategory = activeCategory === "all";
   return (
     <div>
-      <div className="max-w-[1320px] mx-auto py-4 px-4">
+      <div className="max-w-[1320px] mx-auto py-1 px-4">
         {/* Empty State */}
         {filteredProducts.length === 0 ? (
           <div className="text-center py-20">
@@ -19,25 +21,47 @@ const ShowFilteredItems = () => {
           </div>
         ) : (
           <>
-            {/* Product Grid */}
-            {activeCategory === "all" && <OffersSection />}
+            {isAllCategory ? (
+              <>
+                <OffersSection />
+                {categories.map((category) => (
+                  <div key={category._id}>
+                    {/* Category Separator */}
+                    <CustomSeparator title={category.name} />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 py-10">
-              {filteredProducts.map((product) => (
-                <MenuItemCard
-                  key={product._id}
-                  image={product.image}
-                  title={product.name}
-                  description={product.shortDesc}
-                  price={`$${product.price.toFixed(2)}`}
-                  className="bg-[#FAF8F5] dark:bg-[#181C20]"
-                />
-              ))}
-            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-5">
+                      {category.products.map((product) => (
+                        <MenuItemCard
+                          key={product._id}
+                          image={product.image}
+                          title={product.name}
+                          description={product.shortDesc}
+                          price={`$${product.price.toFixed(2)}`}
+                          className="bg-[#FAF8F5] dark:bg-[#181C20]"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              // Show single category filtered products
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-5">
+                {filteredProducts.map((product) => (
+                  <MenuItemCard
+                    key={product._id}
+                    image={product.image}
+                    title={product.name}
+                    description={product.shortDesc}
+                    price={`$${product.price.toFixed(2)}`}
+                    className="bg-[#FAF8F5] dark:bg-[#181C20]"
+                  />
+                ))}
+              </div>
+            )}
           </>
         )}
       </div>
-
       <VisitHomeSection />
     </div>
   );

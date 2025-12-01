@@ -5,6 +5,7 @@ import { Suspense } from "react";
 export const dynamic = "force-dynamic";
 const MenuHome = async () => {
   const menuList = await getMenuList();
+  console.log({ menuList });
 
   return (
     <Suspense fallback={<CategorySectionSkeleton />}>

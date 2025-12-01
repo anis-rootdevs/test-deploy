@@ -66,6 +66,7 @@ export interface CafeInfoCardProps {
   onReserveClick?: () => void;
   className?: string;
   googleMapLink?: string;
+  locationId?: string;
 }
 
 export interface OurValueItem {

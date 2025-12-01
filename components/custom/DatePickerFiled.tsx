@@ -155,7 +155,7 @@ export default function DatePickerField<T extends FieldValues>({
                   placeholder:text-gray-400 border-[#E2E2E2] dark:border-[#0F141B]
                   disabled:bg-gray-50 disabled:opacity-60 disabled:cursor-not-allowed
                   focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#1B2A41] outline-none
-                  ${error ? "!border-[#830E0E]" : ""}
+                  ${error ? "!border-red-500" : ""}
                 `}
               />
 
@@ -175,7 +175,7 @@ export default function DatePickerField<T extends FieldValues>({
       {error && (
         <div className="flex items-center mt-2 gap-1">
           {errorBadge && <BadgeAlert className="text-red-500 h-4 w-4" />}
-          <p className="text-red-500 text-xs">{error.message as string}</p>
+          <p className="text-red-500 text-sm">{error.message as string}</p>
         </div>
       )}
     </div>

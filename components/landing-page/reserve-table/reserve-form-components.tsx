@@ -22,27 +22,34 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Outlets } from "@/lib/types";
+import { useOutletStore } from "@/store/useOutletStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 
 const reservationSchema = z.object({
-  outlet: z.string().min(1, "Please select an outlet"),
-  reason: z.string().min(1, "Please select a reservation reason"),
-  name: z.string().min(2, "Name is required"),
-  email: z.string().email("Enter a valid email"),
-  phone: z.string().min(1, "Phone number is required"),
+  outlet: z.string().min(1, "Please select an outlet!"),
+  reason: z.string().min(1, "Please select a reservation reason!"),
+  name: z.string().min(2, "Name is required!"),
+  email: z.string().email("Enter a valid email!"),
+  phone: z.string().min(1, "Phone number is required!"),
   dialCode: z.string().optional(),
-  reservedAt: z.string().min(1, "Please select a date"),
-  numOfPeople: z.string().min(1, "Number of people is required"),
+  reservedAt: z.string().min(1, "Please select a date!"),
+  numOfPeople: z.string().min(1, "Number of people is required!"),
   message: z.string().optional(),
 });
 
 type ReservationFormValues = z.infer<typeof reservationSchema>;
 
 const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
+  const { selectedOutletId, clearSelectedOutletId, _hasHydrated } =
+    useOutletStore();
+
   const form = useForm<ReservationFormValues>({
+    mode: "onChange",
+
     resolver: zodResolver(reservationSchema),
     defaultValues: {
       outlet: "",
@@ -56,6 +63,17 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
       message: "",
     },
   });
+
+  // Pre-select outlet when component mounts and store is hydrated
+  useEffect(() => {
+    const exists = outlets.some(
+      (outlet) => String(outlet._id) === String(selectedOutletId)
+    );
+
+    if (exists) {
+      form.setValue("outlet", String(selectedOutletId));
+    }
+  }, [selectedOutletId, outlets, _hasHydrated]);
 
   const onSubmit = async (values: ReservationFormValues) => {
     try {
@@ -97,11 +115,13 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
       toast.success(result.message || "Reservation created successfully!");
 
       // Reset form after success
+      clearSelectedOutletId();
       form.reset();
     } catch (error: any) {
       toast.error(error?.message || "Error making reservation!");
     }
   };
+  if (!_hasHydrated) return null;
 
   return (
     <div className="w-full bg-[#FAF8F5] dark:bg-[#222831] p-8 md:p-12 xl:max-w-3xl lg:max-w-[550px] mx-auto shadow-[0_0_10px_0_rgba(0,0,0,0.15)]">
@@ -114,9 +134,13 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-jost text-sm font-medium">
-                  Outlets
+                  Outlet
                 </FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  value={field.value || selectedOutletId || ""}
+                  defaultValue={selectedOutletId || ""}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full min-h-[2.8rem] border border-[#E2E2E2] dark:border-[#0F141B] bg-transparent focus:ring-0 focus:ring-offset-0 focus:border-[#1B2A41] outline-none">
                       <SelectValue placeholder="Select Outlet" />
@@ -125,8 +149,8 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
                   <SelectContent>
                     {outlets?.map((outlet: Outlets) => (
                       <SelectItem
-                        key={outlet._id}
-                        value={outlet._id}
+                        key={String(outlet._id)}
+                        value={String(outlet._id)}
                         className="hover:bg-primary hover:text-black"
                       >
                         {outlet.name}
@@ -177,12 +201,12 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-jost text-sm font-medium">
+                <FormLabel className="font-jost text-sm font-medium ">
                   Your Name
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Afrin"
+                    placeholder="John Doe"
                     {...field}
                     className="h-11 border border-[#E2E2E2] dark:border-[#0F141B] bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#1B2A41] outline-none"
                   />
@@ -202,7 +226,7 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="sadia@gmail.com"
+                      placeholder="john@email.com"
                       type="email"
                       {...field}
                       className="h-11 border border-[#E2E2E2] dark:border-[#0F141B] bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#1B2A41] outline-none"
@@ -212,17 +236,18 @@ const ReserveFormComponents = ({ outlets }: { outlets: Outlets[] }) => {
                 </FormItem>
               )}
             />
-
-            <PhoneInputField
-              name="phone"
-              dialCodeName="dialCode"
-              label="Phone Number"
-              required={true}
-              defaultCountry="bd"
-              labelClass="font-jost text-sm font-medium"
-              className="mt-1"
-              errorBadge={false}
-            />
+            <div>
+              <PhoneInputField
+                name="phone"
+                dialCodeName="dialCode"
+                label="Phone Number"
+                required={true}
+                defaultCountry="bd"
+                labelClass="font-jost text-sm font-medium"
+                className="mt-1"
+                errorBadge={false}
+              />
+            </div>
           </div>
 
           {/* Date - With Calendar Picker */}
