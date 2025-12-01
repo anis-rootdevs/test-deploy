@@ -81,6 +81,15 @@ export const shopShowcaseSchema = z.object({
   tagline: requiredStringField("tagline"),
 });
 
+export const offerShowcaseSchema = z.object({
+  heading: requiredStringField("heading"),
+  tagline: requiredStringField("tagline"),
+  deadline: z.coerce.date("deadline must be a valid date!"),
+  products: z
+    .array(requiredObjectIdField("products"))
+    .min(1, "At least one product is required!"),
+});
+
 export const storyShowcaseSchema = z.object({
   heading: requiredStringField("heading"),
   shortDesc: requiredStringField("shortDesc"),

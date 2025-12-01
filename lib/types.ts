@@ -237,9 +237,18 @@ export interface IStoryShowcase extends Document {
   }[];
 }
 
+export interface IOfferShowcase extends Document {
+  heading: string;
+  tagline: string;
+  deadline: Date;
+  image: string;
+  products: mongoose.Types.ObjectId[];
+}
+
 export interface IShowcase extends Document {
   shopShowcase: IShopShowcase;
   storyShowcase: IStoryShowcase;
+  offerShowcase: IOfferShowcase;
 }
 
 export interface IExistingValue {
