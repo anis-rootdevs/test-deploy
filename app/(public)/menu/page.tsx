@@ -3,15 +3,12 @@ import { CategorySectionSkeleton } from "@/components/landing-page/menu-section/
 import MenuSectionPage from "@/components/landing-page/menu-section/MenuSectionPage";
 import { Suspense } from "react";
 export const dynamic = "force-dynamic";
-const MenuHome = async () => {
-  const menuList = await getMenuList();
-  console.log({ menuList });
 
+export default async function MenuHome() {
+  const menuList = await getMenuList();
   return (
     <Suspense fallback={<CategorySectionSkeleton />}>
-      <MenuSectionPage initialMenuData={menuList} />
+      <MenuSectionPage initialMenuData={menuList || []} />
     </Suspense>
   );
-};
-
-export default MenuHome;
+}

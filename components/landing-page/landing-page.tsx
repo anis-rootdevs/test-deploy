@@ -3,6 +3,7 @@ import { getAllFeaturedGallery } from "@/actions/gallery/galleryActions";
 import {
   getFeaturedProducts,
   getMostLovedProducts,
+  getNewProducts,
 } from "@/actions/product/productActions";
 import { getAllChefList } from "@/actions/shapeAction/shapeActions";
 import { getShowcase } from "@/actions/showcase/showcaseActions";
@@ -15,8 +16,8 @@ import HeroSectionLoader from "./hero-section/HeroSectionLoader";
 import MenuHome from "./menu-section/menu-home";
 import { MenuItemCardSkeleton } from "./menu-section/menu-items-card-loader";
 import PopularItemsCard from "./populat-items/popular-items-card";
-import StorySectionHome from "./story-section/story-section-home";
-import VisitHomeSection from "./visit-us-section/visit-home-section";
+import StorySectionHome from "./story-section/StorySectionHome";
+import VisitHomeSection from "./visit-us-section/VisitHomeSection";
 
 const LandingPage = async () => {
   const banners = await getBanner();
@@ -25,6 +26,7 @@ const LandingPage = async () => {
   const gallery = await getAllFeaturedGallery(6);
   const chefList = await getAllChefList();
   const showCase = await getShowcase();
+  const newProducts = await getNewProducts(5);
 
   return (
     <>
@@ -40,7 +42,9 @@ const LandingPage = async () => {
       <Suspense fallback={<MenuItemCardSkeleton />}>
         <MenuHome featuredProducts={featuredProducts?.data || []} />
       </Suspense>
-      <VisitHomeSection />
+      <Suspense fallback={<p>loading..................</p>}>
+        <VisitHomeSection newProducts={newProducts?.data} />
+      </Suspense>
       <Suspense fallback={<p>Loading...</p>}>
         <ChefShapeHome chefList={chefList?.data} />
       </Suspense>

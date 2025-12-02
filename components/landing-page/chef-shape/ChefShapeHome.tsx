@@ -18,7 +18,7 @@ const ChefShapeHome = ({ chefList }: { chefList: Chef[] }) => {
     }
     if (total === 2) {
       return (
-        <div className="grid grid-cols-2 gap-[130px] max-w-[1024px] mx-auto px-4">
+        <div className="grid md:grid-cols-2 grid-cols-1 md:gap-[130px] gap-10 max-w-[1024px] mx-auto px-4">
           {chefList.map((chef) => (
             <ChefCard
               key={chef._id}
@@ -34,7 +34,7 @@ const ChefShapeHome = ({ chefList }: { chefList: Chef[] }) => {
     // 👉 Case 2: <= 3 items → use grid
     if (total <= 3) {
       return (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-8 lg:gap-[50px] max-w-[1320px] mx-auto px-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-16 md:gap-8 lg:gap-[50px] max-w-[1320px] mx-auto px-4">
           {chefList.map((chef) => (
             <ChefCard
               key={chef._id}
