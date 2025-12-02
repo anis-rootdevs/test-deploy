@@ -13,7 +13,7 @@ export type FormDataApiHandler<T, P = Record<string, string>> = (
 ) => Promise<NextResponse>;
 
 export function asyncFormDataHandler<T, P = Record<string, string>>(
-  schema: z.ZodSchema<T>,
+  schema: z.ZodSchema<T> | null,
   handler: FormDataApiHandler<T, P>,
   checkAuth: boolean = false
 ): (
@@ -36,11 +36,18 @@ export function asyncFormDataHandler<T, P = Record<string, string>>(
       // Parse FormData
       const formData = await req.formData();
 
-      // Extract text fields for validation
-      const textData = extractFormData<Record<string, unknown>>(formData);
+      let validatedData: T;
 
-      // Validate text data with Zod schema
-      const validatedData = schema.parse(textData);
+      if (schema) {
+        // Extract text fields for validation
+        const textData = extractFormData<Record<string, unknown>>(formData);
+
+        // Validate text data with Zod schema
+        validatedData = schema.parse(textData);
+      } else {
+        // If no schema, pass empty object as validated data
+        validatedData = {} as T;
+      }
 
       // Pass params to handler
       return await handler(req, validatedData, formData, params);

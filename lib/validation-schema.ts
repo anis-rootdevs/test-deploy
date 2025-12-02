@@ -81,6 +81,12 @@ export const shopShowcaseSchema = z.object({
   tagline: requiredStringField("tagline"),
 });
 
+export const reservationShowcaseSchema = z.object({
+  cta: requiredStringField("cta"),
+  heading: requiredStringField("heading"),
+  tagline: requiredStringField("tagline"),
+});
+
 export const settingsGeneralSchema = z.object({
   companyName: requiredStringField("companyName"),
   companyDialCode: requiredStringField("companyDialCode"),
