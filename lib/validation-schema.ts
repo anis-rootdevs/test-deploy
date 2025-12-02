@@ -105,6 +105,10 @@ export const settingsGeneralSchema = z.object({
   ownerEmail: requiredStringField("ownerEmail"),
   logo: optionalStringField("logo"),
   favicon: optionalStringField("favicon"),
+  facebook: optionalStringField("facebook"),
+  instagram: optionalStringField("instagram"),
+  twitter: optionalStringField("twitter"),
+  youtube: optionalStringField("youtube"),
 });
 
 export const businessHourSchema = z.object({

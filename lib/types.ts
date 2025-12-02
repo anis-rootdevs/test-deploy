@@ -269,6 +269,10 @@ export interface IGeneral extends Document {
   supportEmail: string;
   ownerName: string;
   ownerEmail: string;
+  facebook: string;
+  instagram: string;
+  twitter: string;
+  youtube: string;
 }
 
 export interface IBusinessHours {
