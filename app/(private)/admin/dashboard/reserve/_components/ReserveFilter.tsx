@@ -5,44 +5,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ReverseFilterType } from "@/lib/types";
 
-interface ReserveFilterProps<TData> {
-  filter: ReverseFilterType;
-  setFilter: (value: ReverseFilterType) => void;
-  disabled?: boolean;
+const TYPE_OPTIONS = [
+  { value: "all", label: "All Reserve" },
+  { value: "pending", label: "Pending Lists" },
+  { value: "confirmed", label: "Confirmed Lists" },
+  { value: "cancelled", label: "Cancelled Lists" },
+];
+interface ReverseTypeFilterProps {
+  value: string;
+  onChange: (value: string, label: string) => void;
 }
 
-const getDisplayValue = (filter: ReverseFilterType) => {
-  switch (filter) {
-    case "pending":
-      return "Pending";
-    case "confirmed":
-      return "Confirmed";
-    case "cancelled":
-      return "Cancelled";
-    default:
-      return "All List";
-  }
-};
-
-export default function ReserveFilter<TData>({
-  filter,
-  setFilter,
-  disabled = false,
-}: ReserveFilterProps<TData>) {
+export default function ReserveFilter({
+  value,
+  onChange,
+}: ReverseTypeFilterProps) {
   return (
-    <Select value={filter} onValueChange={setFilter} disabled={disabled}>
-      <SelectTrigger className="h-10 w-[180px] rounded-[4px]">
-        <SelectValue placeholder="Filter by...">
-          {getDisplayValue(filter)}
-        </SelectValue>
+    <Select
+      value={value || "all"}
+      onValueChange={(value) =>
+        onChange(value, TYPE_OPTIONS.find((t) => t.value === value)?.label!)
+      }
+    >
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Type" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">All List</SelectItem>
-        <SelectItem value="pending">Pending</SelectItem>
-        <SelectItem value="cancelled">Cancelled</SelectItem>
-        <SelectItem value="confirmed">Confirmed</SelectItem>
+        {TYPE_OPTIONS.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );

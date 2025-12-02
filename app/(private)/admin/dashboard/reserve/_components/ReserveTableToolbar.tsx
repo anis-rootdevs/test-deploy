@@ -1,17 +1,11 @@
 "use client";
 import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
-import { Input } from "@/components/ui/input";
-import { ReverseFilterType } from "@/lib/types";
-import { Table } from "@tanstack/react-table";
-import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useTransition } from "react";
+import { useTableState } from "@/store/useTableStore";
 import ReserveFilter from "./ReserveFilter";
+import SearchBar from "./SearchBar";
 
-interface ReserveTableToolbarProps<TData> {
-  table: Table<TData>;
-  filter: ReverseFilterType;
-  setFilter: (value: ReverseFilterType) => void;
-  isLoading: boolean;
+interface ReserveTableToolbarProps {
+  tableId: string;
 }
 
 const breadcrumbItems = [
@@ -20,64 +14,65 @@ const breadcrumbItems = [
   { label: "Reserve" },
 ];
 
-export default function ReserveTableToolbar<TData>({
-  table,
-  filter,
-  setFilter,
-  isLoading,
-}: ReserveTableToolbarProps<TData>) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [isPending, startTransition] = useTransition();
+export default function ReserveTableToolbar({
+  tableId,
+}: ReserveTableToolbarProps) {
+  const {
+    search,
+    searchInput,
+    filters,
+    localState,
+    setSearch,
+    setSearchInput,
+    setFilter,
+    setLocalState,
+  } = useTableState(tableId);
 
-  // Update URL params when search/filter changes
-  useEffect(() => {
-    const delay = setTimeout(() => {
-      const params = new URLSearchParams();
+  const handleClearFilters = () => {
+    setSearch("");
+    setFilter("type", "all");
+  };
 
-      if (filter && filter !== "all") {
-        params.set("status", filter);
-      }
-      const queryString = params.toString();
-      const newUrl = queryString ? `${pathname}?${queryString}` : pathname;
+  const activeFilters = [];
 
-      startTransition(() => {
-        router.replace(newUrl, { scroll: false });
-      });
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [filter, pathname, router]);
-
-  const handleRefresh = useCallback(() => {
-    startTransition(() => {
-      router.refresh();
+  if (search) {
+    activeFilters.push({
+      label: `Search: ${search}`,
+      key: "search",
+      onRemove: () => setSearch(""),
     });
-  }, [router]);
-
+  }
+  if (filters.type && filters.type !== "all") {
+    activeFilters.push({
+      label: `Type: ${localState.type}`,
+      key: "status",
+      onRemove: () => {
+        setFilter("type", "all");
+        setLocalState("type", "");
+      },
+    });
+  }
   return (
     <div>
       {" "}
       <div className="flex items-center justify-between">
         <div className="flex flex-col flex-1 gap-2">
-          <h2 className="font-jost font-medium text-lg">Manage Reserve</h2>
+          <h2 className="font-jost font-medium text-lg">
+            Manage Reserve Table
+          </h2>
           <DynamicBreadcrumb items={breadcrumbItems} />
           <div className="flex items-center gap-4">
-            <Input
-              placeholder="Search products..."
-              value={
-                (table.getColumn("name")?.getFilterValue() as string) ?? ""
-              }
-              onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
-              }
-              className="h-10 w-[150px] lg:w-[250px] rounded-[4px]"
-              disabled={isLoading || isPending}
+            <SearchBar
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
+
             <ReserveFilter
-              filter={filter}
-              setFilter={setFilter}
-              disabled={isLoading || isPending}
+              value={(filters.type as string) || "all"}
+              onChange={(value, label) => {
+                setFilter("type", value);
+                setLocalState("type", label);
+              }}
             />
           </div>
         </div>

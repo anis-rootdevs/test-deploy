@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTableState } from "@/store/useTableStore";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -23,6 +24,8 @@ export default function ReservationStatusChange({
 }: ReservationStatusChangeProps) {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(initialStatus);
+  const tableId = "reserve";
+  const { handleRefresh } = useTableState(tableId);
 
   const statusConfig = {
     pending: {
@@ -59,6 +62,7 @@ export default function ReservationStatusChange({
       toast.success(
         response.message || "Reservation status updated successfully!"
       );
+      handleRefresh();
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Failed to update status"

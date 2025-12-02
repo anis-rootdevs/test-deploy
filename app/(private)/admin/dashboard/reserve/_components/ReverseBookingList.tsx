@@ -1,228 +1,76 @@
 "use client";
-import DataTable from "@/components/custom/data-table/DataTable";
-import DataTablePagination from "@/components/custom/data-table/DataTablePagination";
-import TableSkeleton from "@/components/custom/data-table/TableSkeleton";
-import { Button } from "@/components/ui/button";
 import { ReverseFilterType, ReverseTable } from "@/lib/types";
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
-} from "@tanstack/react-table";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { getReversedList } from "@/actions/reverse/reverseTableActions";
+import { DataTableWithPagination } from "@/components/custom/data-table/DataTableWithPagination";
 
-import { formatReservationDate } from "@/lib/date-format";
-import { Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import ReservationStatusChange from "./ReservedStatusChange";
+import { useTableState } from "@/store/useTableStore";
+import { useEffect, useState } from "react";
+import { columns } from "./columns";
 import ReserveTableToolbar from "./ReserveTableToolbar";
-import ReverseListDeleteModal from "./ReverseListDeleteModal";
+
 interface ProductsListProps {
   initialReverseList: ReverseTable[];
   initialSearch?: string;
   initialFilter?: ReverseFilterType;
 }
 
-export default function ReverseBookingList({
-  initialReverseList,
-  initialFilter = "all",
-}: ProductsListProps) {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+export default function ReverseBookingList() {
+  const tableId = "reserve";
+  const [data, setData] = useState<ReverseTable[]>([]);
+  const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const { page, limit, search, filters, refresh } = useTableState(tableId);
 
-  const [rowSelection, setRowSelection] = useState({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [filter, setFilter] = useState<ReverseFilterType>(initialFilter);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  // Function to trigger refresh
-  const refreshReserveTable = () => {
-    startTransition(() => {
-      router.refresh();
-    });
+  const fetchProducts = async (
+    page: number,
+    limit: number,
+    search: string,
+    filters: Record<string, unknown>
+  ) => {
+    try {
+      const cleanedFilters = Object.fromEntries(
+        Object.entries(filters).filter(
+          ([key, value]) => !!value && value !== "all" && key !== "type"
+        )
+      );
+      const result = await getReversedList(page, limit, search, {
+        ...cleanedFilters,
+        ...(filters.type && filters.type !== "all"
+          ? { status: filters.type }
+          : {}),
+      });
+      setData(result?.data?.docs);
+      setTotal(result?.data.totalDocs);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const columns: ColumnDef<ReverseTable>[] = [
-    {
-      accessorKey: "name",
-      header: "Name",
-      enableColumnFilter: true,
-    },
-    {
-      accessorKey: "outlet",
-      header: "Outlet",
-      cell: ({ row }) => {
-        const outlet = row.original?.outlet;
-        const outletName =
-          typeof outlet === "object" && outlet !== null
-            ? outlet.name
-            : outlet || "N/A";
-        return <span>{outletName}</span>;
-      },
-    },
+  useEffect(() => {
+    setIsLoading(true);
+    fetchProducts(page, limit, search, filters);
+  }, [page, limit, search, filters]);
 
-    {
-      accessorKey: "email",
-      header: "Email",
-    },
-    {
-      accessorKey: "numOfPeople",
-      header: "People",
-    },
-    {
-      accessorKey: "reservedAt",
-      header: "Reserved Date",
-      cell: ({ row }) => {
-        return (
-          <div className="flex items-center gap-1">
-            <span className="">
-              {formatReservationDate(row.original.reservedAt, "MMM dd, yyyy")}
-            </span>
-            <span className="">
-              ({formatReservationDate(row.original.reservedAt, "hh:mm a")})
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "createdAt",
-      header: "Created Date",
-      cell: ({ row }) => {
-        return formatReservationDate(row.original.createdAt, "MMM dd, yyyy");
-      },
-    },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => {
-        const reserved = row.original;
-        return (
-          <ReservationStatusChange
-            reservedId={reserved._id || ""}
-            initialStatus={
-              (reserved.status as unknown as
-                | "pending"
-                | "confirmed"
-                | "cancelled") || "pending"
-            }
-            onStatusChange={() => {
-              refreshReserveTable();
-            }}
-          />
-        );
-      },
-    },
-    {
-      id: "actions",
-      header: "Actions",
-      cell: ({ row }) => {
-        const reserve = row.original;
-        const isCancelled = reserve.status === "cancelled";
-
-        return (
-          <div className="flex items-center gap-2">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div>
-                    <ReverseListDeleteModal
-                      reserveId={reserve._id || ""}
-                      onSuccess={refreshReserveTable}
-                      trigger={
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          className="cursor-pointer"
-                          disabled={!isCancelled}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      }
-                    />
-                  </div>
-                </TooltipTrigger>
-                {!isCancelled && (
-                  <TooltipContent>
-                    <p className="text-xs">Cancel reservation first</p>
-                  </TooltipContent>
-                )}
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-        );
-      },
-    },
-  ];
-  let limit = 10;
-
-  // Create table instance
-  const table = useReactTable<ReverseTable>({
-    data: initialReverseList,
-    columns: columns,
-    initialState: {
-      pagination: {
-        pageSize: 10,
-      },
-    },
-    state: {
-      sorting,
-      columnVisibility,
-      rowSelection,
-      columnFilters,
-    },
-    enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    // Force table to update when data changes
-    manualPagination: false,
-  });
+  useEffect(() => {
+    fetchProducts(page, limit, search, filters);
+  }, [page, limit, search, filters, refresh]);
 
   return (
     <div className="flex flex-col gap-6">
-      <ReserveTableToolbar
-        table={table}
-        filter={filter}
-        setFilter={setFilter}
-        isLoading={isPending}
-      />
+      <ReserveTableToolbar tableId={tableId} />
 
-      {isPending ? (
-        <TableSkeleton
-          columns={table.getHeaderGroups()[0].headers.length}
-          rows={limit}
-          pagination={false}
-        />
-      ) : (
-        <>
-          <DataTable
-            data={initialReverseList}
-            columns={columns}
-            getRowId={(row) => row._id || ""}
-            table={table}
-          />
-          <DataTablePagination table={table} />
-        </>
-      )}
+      <DataTableWithPagination
+        data={data}
+        columns={columns}
+        total={total}
+        tableId={tableId}
+        isLoading={isLoading}
+        // onSortEnd={handleDataChange}
+        pagination={true}
+      />
     </div>
   );
 }

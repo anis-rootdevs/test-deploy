@@ -13,24 +13,26 @@ interface GetReversedParams {
   status?: string;
 }
 
-export async function getReversedList(params: GetReversedParams = {}) {
+export async function getReversedList(
+  page: number,
+  limit: number,
+  search: string,
+  filters: Record<string, unknown>
+) {
   try {
-    const { page = 1, limit = 10, search, sortBy, category, status } = params;
-
-    // Build query parameters
-    const queryParams = new URLSearchParams({
-      page: page.toString(),
-      limit: limit.toString(),
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(limit),
+      search: search || "",
     });
 
-    // Add optional parameters only if they exist
-    if (search) queryParams.append("search", search);
-    if (sortBy) queryParams.append("sortBy", sortBy);
-    if (category) queryParams.append("category", category);
-    if (status) queryParams.append("status", status);
+    // Append filters dynamically
+    Object.entries(filters).forEach(([k, v]) => {
+      if (v) params.append(k, String(v));
+    });
 
     const res = await apiClient(
-      `/api/admin/reserve-table?${queryParams.toString()}`,
+      `/api/admin/reserve-table?${params.toString()}`,
       {
         method: "GET",
         tags: ["reserve"],
