@@ -43,10 +43,24 @@ const pageBanner = new mongoose.Schema(
   }
 );
 
+const cloudinary = new mongoose.Schema(
+  {
+    cloudName: { type: String, required: true, trim: true },
+    apiKey: { type: String, required: true, trim: true },
+    apiSecret: { type: String, required: true, trim: true },
+    folder: { type: String, required: true, trim: true },
+    secureUrlBase: { type: String, required: true, trim: true },
+  },
+  {
+    _id: false,
+  }
+);
+
 const SettingsSchema: Schema = new mongoose.Schema(
   {
     general,
     pageBanner,
+    cloudinary,
     businessHours: {
       type: [businessHour],
       default: [

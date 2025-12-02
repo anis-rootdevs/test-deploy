@@ -3,9 +3,8 @@ import { CLOUDINARY_SECURE_URL_BASE } from "@/config/constant";
 import { asyncFormDataHandler } from "@/lib/async-formdata-handler";
 import { asyncHandler } from "@/lib/async-handler";
 import { fileValidator } from "@/lib/file-validator";
-import { apiResponse, formatBusinessHours } from "@/lib/utils";
+import { apiResponse } from "@/lib/utils";
 import { reservationShowcaseSchema } from "@/lib/validation-schema";
-import Settings from "@/model/Settings";
 import Showcase from "@/model/Showcase";
 import { NextRequest } from "next/server";
 import z from "zod";
@@ -75,22 +74,10 @@ export const PUT = asyncFormDataHandler(
 export const GET = asyncHandler(async () => {
   const { reservationShowcase } = (await Showcase.findOne({})).toObject();
 
-  const settings = await Settings.findOne({}).select("businessHours");
-
-  if (!settings || !settings.businessHours) {
-    return apiResponse(true, 200, "No business hour settings found!");
-  }
-
-  // Sort business hours by dayOfWeek for consistent response
-  const sortedBusinessHours = [...settings.businessHours].sort(
-    (a, b) => a.dayOfWeek - b.dayOfWeek
-  );
-
   const data = {
     ...reservationShowcase,
     lightImage: `${CLOUDINARY_SECURE_URL_BASE}/${reservationShowcase?.lightImage}`,
     darkImage: `${CLOUDINARY_SECURE_URL_BASE}/${reservationShowcase?.darkImage}`,
-    businessHour: formatBusinessHours(sortedBusinessHours),
   };
 
   return apiResponse(

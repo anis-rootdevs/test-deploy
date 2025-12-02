@@ -87,6 +87,14 @@ export const reservationShowcaseSchema = z.object({
   tagline: requiredStringField("tagline"),
 });
 
+export const cloudinarySchema = z.object({
+  cloudName: requiredStringField("cloudName"),
+  apiKey: requiredStringField("apiKey"),
+  apiSecret: requiredStringField("apiSecret"),
+  folder: requiredStringField("folder"),
+  secureUrlBase: requiredStringField("secureUrlBase"),
+});
+
 export const settingsGeneralSchema = z.object({
   companyName: requiredStringField("companyName"),
   companyDialCode: requiredStringField("companyDialCode"),
