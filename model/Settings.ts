@@ -18,13 +18,25 @@ const general = new mongoose.Schema(
   }
 );
 
-const businessHoursSchema = new mongoose.Schema(
+const businessHour = new mongoose.Schema(
   {
     // 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday
     dayOfWeek: { type: Number, required: true, min: 0, max: 6 },
-    openTime: { type: Number, required: true, min: 0, max: 1439 }, // Max minutes in a day (23:59)
+    openTime: { type: Number, required: true, min: 0, max: 1439 }, // Max minutes in a day (23:59 = (24*60)-1 = 1439)
     closeTime: { type: Number, required: true, min: 0, max: 1439 },
     isClosed: { type: Boolean, default: false },
+  },
+  {
+    _id: false,
+  }
+);
+
+const pageBanner = new mongoose.Schema(
+  {
+    menu: { type: String, required: true, trim: true },
+    location: { type: String, required: true, trim: true },
+    gallery: { type: String, required: true, trim: true },
+    reserveTable: { type: String, required: true, trim: true },
   },
   {
     _id: false,
@@ -34,8 +46,9 @@ const businessHoursSchema = new mongoose.Schema(
 const SettingsSchema: Schema = new mongoose.Schema(
   {
     general,
+    pageBanner,
     businessHours: {
-      type: [businessHoursSchema],
+      type: [businessHour],
       default: [
         { dayOfWeek: 0, openTime: 540, closeTime: 1320, isClosed: false }, // Sunday
         { dayOfWeek: 1, openTime: 540, closeTime: 1320, isClosed: false }, // Monday

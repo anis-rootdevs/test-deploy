@@ -278,8 +278,16 @@ export interface IBusinessHours {
   isClosed: boolean;
 }
 
+export interface IPageBanner {
+  menu: string;
+  location: string;
+  gallery: string;
+  reserveTable: string;
+}
+
 export interface ISettings extends Document {
   general: IGeneral;
+  pageBanner: IPageBanner;
   businessHours: IBusinessHours[];
   createdAt?: Date;
   updatedAt?: Date;
