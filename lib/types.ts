@@ -263,8 +263,18 @@ export interface IGeneral extends Document {
   ownerEmail: string;
 }
 
+export interface IBusinessHours {
+  dayOfWeek: number; // 0-6 (Sunday-Saturday)
+  openTime: number; // Minutes from midnight (0-1439)
+  closeTime: number; // Minutes from midnight (0-1439)
+  isClosed: boolean;
+}
+
 export interface ISettings extends Document {
   general: IGeneral;
+  businessHours: IBusinessHours[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface IExistingValue {

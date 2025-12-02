@@ -93,6 +93,29 @@ export const settingsGeneralSchema = z.object({
   favicon: optionalStringField("favicon"),
 });
 
+export const businessHourSchema = z.object({
+  businessHour: z.array(
+    z.object({
+      dayOfWeek: z
+        .number("Day of week must be a number!")
+        .int("Day of week must be an integer")
+        .min(0, "Day of week must be between 0 and 6")
+        .max(6, "Day of week must be between 0 and 6"),
+      openTime: z
+        .number("Open time must be a number!")
+        .int("Open time must be an integer")
+        .min(0, "Open time must be between 0 and 1439")
+        .max(1439, "Open time must be between 0 and 1439"),
+      closeTime: z
+        .number("Close time must be a number!")
+        .int("Close time must be an integer")
+        .min(0, "Close time must be between 0 and 1439")
+        .max(1439, "Close time must be between 0 and 1439"),
+      isClosed: booleanField("isClosed", false),
+    })
+  ),
+});
+
 export const offerShowcaseSchema = z.object({
   heading: requiredStringField("heading"),
   tagline: requiredStringField("tagline"),
