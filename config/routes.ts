@@ -28,6 +28,12 @@ export const routes = {
       outlets: "/admin/dashboard/outlets",
       reserve: "/admin/dashboard/reserve",
       chef: "/admin/dashboard/chef",
+
+      showcase: {
+        shopShowcase: "/admin/dashboard/shop",
+        storyShowcase: "/admin/dashboard/story",
+        offerShowcase: "/admin/dashboard/offer",
+      },
       notification: `/admin/notification`,
       contact: `/admin/contact`,
       newsletter: `/admin/newsletter`,

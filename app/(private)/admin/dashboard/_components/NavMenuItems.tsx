@@ -66,14 +66,12 @@ export default function NavMenuItems({ items }: { items: NavItem[] }) {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
                       tooltip={item.title}
-                      className="font-jost font-medium h-9 rounded-sm"
+                      className={`font-jost font-medium h-9 rounded-sm flex items-center gap-2 ${
+                        isChildActive ? "text-primary" : ""
+                      }`}
                     >
                       {item.icon && <item.icon className="!size-5" />}
-                      <span
-                        className={`font-jost font-medium ${
-                          isChildActive ? "text-primary" : ""
-                        }`}
-                      >
+                      <span className={`font-jost font-medium `}>
                         {item.title}
                       </span>
                       <ChevronRight
@@ -92,10 +90,10 @@ export default function NavMenuItems({ items }: { items: NavItem[] }) {
                             <SidebarMenuSubButton asChild>
                               <Link
                                 href={sub.url!}
-                                className={` font-jost font-medium h-9 rounded-sm ${
+                                className={` font-jost font-medium h-9 rounded-sm  ${
                                   subActive
-                                    ? "text-primary font-semibold"
-                                    : "hover:text-primary"
+                                    ? "text-white bg-primary hover:!bg-primary hover:text-white px-4"
+                                    : "hover:bg-accent hover:text-accent-foreground"
                                 }`}
                               >
                                 {sub.title}

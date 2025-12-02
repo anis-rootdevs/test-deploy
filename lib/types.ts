@@ -283,3 +283,14 @@ export interface IExistingValue {
   shortDesc: string;
   icon: string;
 }
+
+export type ShopShowcase = {
+  _id: string;
+  tagline: string;
+  heading: string;
+  shortDesc: string;
+  coffeeLovers: string;
+  imageOne?: string;
+  imageTwo?: string;
+  imageThree?: string;
+};
