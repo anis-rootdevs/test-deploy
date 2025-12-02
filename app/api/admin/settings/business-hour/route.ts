@@ -135,7 +135,7 @@ export const GET = asyncHandler(async () => {
   const settings = await Settings.findOne({}).select("businessHours");
 
   if (!settings || !settings.businessHours) {
-    return apiResponse(true, 200, "No business hour settings found");
+    return apiResponse(true, 200, "No business hour settings found!");
   }
 
   // Sort business hours by dayOfWeek for consistent response

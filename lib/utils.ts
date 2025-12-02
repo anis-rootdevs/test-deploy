@@ -4,6 +4,7 @@ import { Types } from "mongoose";
 import { NextResponse } from "next/server";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
+import { IBusinessHours } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -173,6 +174,112 @@ export const extractFormData = <
 
   return textData as T;
 };
+
+function minutesToTime(minutes: number): string {
+  if (minutes < 0 || minutes > 1439) {
+    throw new Error("Minutes must be between 0 and 1439");
+  }
+
+  let hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+
+  const period = hours >= 12 ? "PM" : "AM";
+
+  // Convert to 12-hour format
+  if (hours === 0) {
+    hours = 12;
+  } else if (hours > 12) {
+    hours -= 12;
+  }
+
+  // Only include minutes if they're not zero
+  if (mins === 0) {
+    return `${hours} ${period}`;
+  }
+
+  return `${hours}:${mins.toString().padStart(2, "0")} ${period}`;
+}
+
+function getDayName(dayOfWeek: number): string {
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return days[dayOfWeek];
+}
+
+function formatGroup(group: IBusinessHours[], schedule: string): string {
+  if (group.length === 1) {
+    return `${getDayName(group[0].dayOfWeek)} - ${schedule}`;
+  }
+
+  // Check if days are consecutive
+  const isConsecutive = group.every((day, index) => {
+    if (index === 0) return true;
+    return day.dayOfWeek === group[index - 1].dayOfWeek + 1;
+  });
+
+  if (isConsecutive) {
+    // Format as range: "Monday to Friday"
+    return `${getDayName(group[0].dayOfWeek)} to ${getDayName(
+      group[group.length - 1].dayOfWeek
+    )} - ${schedule}`;
+  } else {
+    // Format as list: "Monday & Wednesday & Friday"
+    const dayNames = group.map((day) => getDayName(day.dayOfWeek));
+    return `${dayNames.join(" & ")} - ${schedule}`;
+  }
+}
+
+export function formatBusinessHours(businessHours: IBusinessHours[]): string[] {
+  if (!businessHours || businessHours.length === 0) {
+    return [];
+  }
+
+  // Sort by dayOfWeek
+  const sorted = [...businessHours].sort((a, b) => a.dayOfWeek - b.dayOfWeek);
+
+  const result: string[] = [];
+  let currentGroup: IBusinessHours[] = [];
+  let currentSchedule = "";
+
+  for (let i = 0; i < sorted.length; i++) {
+    const current = sorted[i];
+    const schedule = current.isClosed
+      ? "Closed"
+      : `${minutesToTime(current.openTime)} - ${minutesToTime(
+          current.closeTime
+        )}`;
+
+    // Start a new group
+    if (currentGroup.length === 0) {
+      currentGroup.push(current);
+      currentSchedule = schedule;
+    }
+    // Continue current group if schedule matches
+    else if (schedule === currentSchedule) {
+      currentGroup.push(current);
+    }
+    // Save current group and start new one
+    else {
+      result.push(formatGroup(currentGroup, currentSchedule));
+      currentGroup = [current];
+      currentSchedule = schedule;
+    }
+  }
+
+  // Add the last group
+  if (currentGroup.length > 0) {
+    result.push(formatGroup(currentGroup, currentSchedule));
+  }
+
+  return result;
+}
 
 export const requiredStringField = (fieldName: string) =>
   z

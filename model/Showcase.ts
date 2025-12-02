@@ -51,11 +51,25 @@ const offerShowcase = new mongoose.Schema(
   }
 );
 
+const reservationShowcase = new mongoose.Schema(
+  {
+    cta: { type: String, required: true, trim: true },
+    heading: { type: String, required: true, trim: true },
+    tagline: { type: String, required: true, trim: true },
+    darkImage: { type: String, required: true, trim: true },
+    lightImage: { type: String, required: true, trim: true },
+  },
+  {
+    _id: false,
+  }
+);
+
 const ShowcaseSchema: Schema = new mongoose.Schema(
   {
     shopShowcase,
     storyShowcase,
     offerShowcase,
+    reservationShowcase,
   },
   {
     timestamps: true,

@@ -244,11 +244,19 @@ export interface IOfferShowcase extends Document {
   image: string;
   products: mongoose.Types.ObjectId[];
 }
+export interface IReservationShowcase extends Document {
+  cta: string;
+  heading: string;
+  tagline: string;
+  darkImage: string;
+  lightImage: string;
+}
 
 export interface IShowcase extends Document {
   shopShowcase: IShopShowcase;
   storyShowcase: IStoryShowcase;
   offerShowcase: IOfferShowcase;
+  reservationShowcase: IReservationShowcase;
 }
 
 export interface IGeneral extends Document {
