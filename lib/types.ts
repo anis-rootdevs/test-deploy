@@ -285,9 +285,18 @@ export interface IPageBanner {
   reserveTable: string;
 }
 
+export interface ICloudinary {
+  cloudName: string;
+  apiKey: string;
+  apiSecret: string;
+  folder: string;
+  secureUrlBase: string;
+}
+
 export interface ISettings extends Document {
   general: IGeneral;
   pageBanner: IPageBanner;
+  cloudinary: ICloudinary;
   businessHours: IBusinessHours[];
   createdAt?: Date;
   updatedAt?: Date;
