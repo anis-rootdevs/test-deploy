@@ -1,8 +1,9 @@
 import { routes } from "@/config/routes";
+import { ShopShowcase } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 
-const StorySectionHome = () => {
+const StorySectionHome = ({ showCase }: { showCase: ShopShowcase }) => {
   return (
     <section className="w-full  py-12 md:py-20 lg:py-24">
       <div className="max-w-[1320px] mx-auto px-4">
@@ -12,24 +13,23 @@ const StorySectionHome = () => {
           <div className="space-y-6 col-span-2">
             <div>
               <h2 className="text-[32px] xl:text-[50px] font-jost uppercase font-medium">
-                A STORY BREWED
+                {showCase.heading?.split(" ").slice(0, 3).join(" ")}
                 <br />
-                <span className="ms-[245px]">WITH PASSION</span>
+                <span className="ms-[245px]">
+                  {" "}
+                  {showCase.heading?.split(" ").slice(3).join(" ")}
+                </span>
               </h2>
               <p className="font-jost text-base xl:text-lg leading-[40px] max-w-[640px] line-clamp-3 ">
-                Brew & Bite Café brings people together over freshly brewed{" "}
-                <br />
-                coffee and handmade treats. Every sip and bite is crafted to{" "}
-                <br />
-                make your day cozy and delightful.
+                {showCase.shortDesc}
               </p>
             </div>
 
             <div className="flex gap-[20px] items-end">
               <div>
                 <Image
-                  src="/images/story/loft-style-opens-story.svg"
-                  alt="Cafe Interior"
+                  src={showCase.imageOne || ""}
+                  alt="Showcase 1"
                   width={100}
                   height={100}
                   className="h-[360px] w-full object-cover rounded-md"
@@ -37,8 +37,8 @@ const StorySectionHome = () => {
               </div>
               <div>
                 <Image
-                  src="/images/story/coffee-cups.svg"
-                  alt="Coffee Latte Art"
+                  src={showCase.imageTwo || ""}
+                  alt="Showcase 2"
                   width={100}
                   height={100}
                   className="h-[420px] w-full object-cover rounded-md"
@@ -52,7 +52,7 @@ const StorySectionHome = () => {
             {/* Bottom Right - Cafe Seating with Badge */}
             <div className="relative h-[630px] rounded-lg">
               <Image
-                src="/images/story/coffee-shop-interior.svg"
+                src={showCase.imageThree || ""}
                 alt="Cafe Seating"
                 fill
                 className="object-cover"
@@ -64,10 +64,10 @@ const StorySectionHome = () => {
                   Everyday
                 </p>
                 <p className="text-[50px] font-jost font-semibold leading-[40px]">
-                  100+
+                  {showCase.coffeeLovers}+
                 </p>
                 <p className="font-jost text-sm uppercase leading-7 font-semibold mt-1">
-                  Coffee Lovers
+                  coffee lovers
                 </p>
                 <Link
                   href={routes.publicRoutes.locations}
@@ -80,7 +80,7 @@ const StorySectionHome = () => {
             {/* Bottom Text */}
             <div className="mt-4">
               <p className=" font-jost italic text-[28px] font-medium  leading-[34px]">
-                Find your favorite corner and unwind.
+                {showCase.tagline}
               </p>
             </div>
           </div>
@@ -89,20 +89,17 @@ const StorySectionHome = () => {
         <div className=" block lg:hidden">
           <div>
             <h2 className="text-[32px] font-jost uppercase font-medium">
-              A STORY BREWED <br /> WITH PASSION
+              {showCase.heading}
             </h2>
             <p className="font-jost text-[15px] leading-[28px] ">
-              Brew & Bite Café brings people together over freshly brewed <br />
-              coffee and handmade treats. Every sip and bite is crafted to{" "}
-              <br />
-              make your day cozy and delightful.
+              {showCase.shortDesc}
             </p>
           </div>
           <div className="grid grid-cols-2 gap-3 mt-[18px]">
             <div className="grid-cols-1">
               <Image
-                src="/images/story/loft-style-opens-story.svg"
-                alt="Cafe Interior"
+                src={showCase.imageOne || ""}
+                alt="Showcase 1"
                 width={100}
                 height={100}
                 className="h-full w-full object-cover rounded-md"
@@ -110,8 +107,8 @@ const StorySectionHome = () => {
             </div>
             <div className="grid-cols-1">
               <Image
-                src="/images/story/coffee-cups.svg"
-                alt="Coffee Latte Art"
+                src={showCase.imageTwo || ""}
+                alt="Showcase 2"
                 width={100}
                 height={100}
                 className="h-full w-full object-cover rounded-md"
@@ -123,7 +120,7 @@ const StorySectionHome = () => {
                   Everyday
                 </p>
                 <p className="text-[50px] font-jost font-semibold leading-[40px]">
-                  100+
+                  {showCase.coffeeLovers}+
                 </p>
                 <p className="font-jost text-sm uppercase leading-7 font-semibold mt-1">
                   Coffee Lovers
@@ -140,8 +137,8 @@ const StorySectionHome = () => {
             </div>
             <div className="grid-cols-1">
               <Image
-                src="/images/story/coffee-shop-interior.svg"
-                alt="Coffee Latte Art"
+                src={showCase.imageThree || ""}
+                alt="Showcase 3"
                 width={100}
                 height={100}
                 className="h-full w-full object-cover rounded-md"

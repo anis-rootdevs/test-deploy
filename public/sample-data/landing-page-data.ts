@@ -1,9 +1,9 @@
 import { routes } from "@/config/routes";
 import {
   BookOpen,
-  Bot,
   Frame,
   GalleryVerticalEnd,
+  Images,
   PieChart,
   Settings2,
 } from "lucide-react";
@@ -288,21 +288,21 @@ export const adminDashboardMenu = {
       icon: SiCodechef,
     },
     {
-      title: "Models",
+      title: "Showcase",
       url: "#",
-      icon: Bot,
+      icon: Images,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Shop Showcase",
+          url: routes.privateRoutes.admin.showcase.shopShowcase,
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: "Story Showcase",
+          url: routes.privateRoutes.admin.showcase.storyShowcase,
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: "Offer Showcase",
+          url: routes.privateRoutes.admin.showcase.offerShowcase,
         },
       ],
     },
