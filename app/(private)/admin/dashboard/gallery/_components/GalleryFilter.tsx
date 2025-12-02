@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Select,
   SelectContent,
@@ -7,20 +9,18 @@ import {
 } from "@/components/ui/select";
 
 const TYPE_OPTIONS = [
-  { value: "all", label: "All Reserve" },
-  { value: "pending", label: "Pending Lists" },
-  { value: "confirmed", label: "Confirmed Lists" },
-  { value: "cancelled", label: "Cancelled Lists" },
+  { value: "all", label: "All Gallery" },
+  { value: "1", label: "Featured Gallery" },
 ];
-interface ReverseTypeFilterProps {
+interface GalleryTypeFilterProps {
   value: string;
   onChange: (value: string, label: string) => void;
 }
 
-export default function ReserveFilter({
+export default function GalleryFilter({
   value,
   onChange,
-}: ReverseTypeFilterProps) {
+}: GalleryTypeFilterProps) {
   return (
     <Select
       value={value || "all"}
@@ -28,7 +28,7 @@ export default function ReserveFilter({
         onChange(value, TYPE_OPTIONS.find((t) => t.value === value)?.label!)
       }
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[160px]">
         <SelectValue placeholder="Type" />
       </SelectTrigger>
       <SelectContent>

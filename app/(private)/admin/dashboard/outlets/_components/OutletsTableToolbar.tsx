@@ -1,6 +1,11 @@
 "use client";
 import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useTableState } from "@/store/useTableStore";
+import { X } from "lucide-react";
 import OutletsFormModal from "./OutletsFormModal";
+import SearchBar from "./SearchBar";
 
 const breadcrumbItems = [
   { label: "Home", href: "/" },
@@ -8,17 +13,86 @@ const breadcrumbItems = [
   { label: "Outlets" },
 ];
 
-export default function OutletsTableToolbar() {
+interface OutletsTableToolbarProps {
+  tableId: string;
+}
+
+export default function OutletsTableToolbar({
+  tableId,
+}: OutletsTableToolbarProps) {
+  const { search, searchInput, setSearch, setSearchInput, setFilter } =
+    useTableState(tableId);
+
+  const handleClearFilters = () => {
+    setSearch("");
+    setFilter("type", "all");
+  };
+
+  const activeFilters = [];
+
+  if (search) {
+    activeFilters.push({
+      label: `Search: ${search}`,
+      key: "search",
+      onRemove: () => setSearch(""),
+    });
+  }
+
+  const hasActiveFilters = activeFilters.length > 0;
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-col flex-1 gap-2">
-        <h2 className="font-jost font-medium text-lg">Manage Outlets</h2>
-        <div className="mb-1">
-          <DynamicBreadcrumb items={breadcrumbItems} />
+        <div className="mb-2 flex items-start justify-between flex-wrap space-y-2">
+          <div>
+            <h2 className="font-jost font-medium text-lg">Manage Outlets</h2>
+            <DynamicBreadcrumb items={breadcrumbItems} />
+          </div>
+
+          <div className="">
+            <OutletsFormModal isEditMode={false} />
+          </div>
         </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <OutletsFormModal isEditMode={false} />
+        <div className="flex items-center gap-4 flex-wrap">
+          <SearchBar
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+          <div>
+            {hasActiveFilters && (
+              <div className="flex items-center gap-2 mt-2 md:mt-0">
+                <span className="text-sm font-medium text-muted-foreground">
+                  Active Search :
+                </span>
+                {activeFilters.map((filter) => (
+                  <Badge
+                    key={filter.key}
+                    variant="secondary"
+                    className="gap-1 pr-1 text-xs capitalize"
+                  >
+                    {filter.label}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="size-4 hover:bg-transparent hover:text-background/70"
+                      onClick={filter.onRemove}
+                    >
+                      <X className="size-3 !hover:text-primary" />
+                      <span className="sr-only">Remove filter</span>
+                    </Button>
+                  </Badge>
+                ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleClearFilters}
+                  className="h-6 gap-1 text-xs"
+                >
+                  Clear all
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

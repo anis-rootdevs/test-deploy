@@ -12,22 +12,32 @@ import toast from "react-hot-toast";
 import { columns } from "./columns";
 import GalleryToolBar from "./GalleryToolBar";
 
-export default function GalleryList({
-  galleryList,
-  initialTotalPages,
-}: {
-  galleryList: Galleries[];
-  initialTotalPages: number;
-}) {
+export default function GalleryList() {
   const tableId = "gallery";
   const [data, setData] = useState<Galleries[]>([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const { page, limit, refresh, handleRefresh } = useTableState(tableId);
+  const { page, limit, refresh, handleRefresh, filters } =
+    useTableState(tableId);
 
-  const fetchGallery = async (page: number, limit: number) => {
+  const fetchGallery = async (
+    page: number,
+    limit: number,
+    filters: Record<string, unknown>
+  ) => {
     try {
-      const result = await getGalleryLists(page, limit);
+      const cleanedFilters = Object.fromEntries(
+        Object.entries(filters).filter(
+          ([key, value]) => !!value && value !== "all" && key !== "type"
+        )
+      );
+      const result = await getGalleryLists(page, limit, {
+        ...cleanedFilters,
+        ...(filters.type && filters.type !== "all"
+          ? { featured: filters.type }
+          : {}),
+      });
+
       setData(result?.data?.docs);
       setTotal(result?.data.totalDocs);
     } catch (error) {
@@ -39,12 +49,12 @@ export default function GalleryList({
 
   useEffect(() => {
     setIsLoading(true);
-    fetchGallery(page, limit);
-  }, [page, limit]);
+    fetchGallery(page, limit, filters);
+  }, [page, limit, filters]);
 
   useEffect(() => {
-    fetchGallery(page, limit);
-  }, [refresh]);
+    fetchGallery(page, limit, filters);
+  }, [refresh, page, limit, filters]);
 
   // Handle drag & drop
   const handleDataChange = async (sortedIds: string[]) => {
@@ -65,7 +75,7 @@ export default function GalleryList({
 
   return (
     <div className="flex flex-col gap-6">
-      <GalleryToolBar />
+      <GalleryToolBar tableId={tableId} />
 
       <DataTableWithPagination
         data={data}
@@ -73,8 +83,8 @@ export default function GalleryList({
         total={total}
         tableId={tableId}
         isLoading={isLoading}
-        onSortEnd={handleDataChange}
-        pagination={true}
+        onSortEnd={filters.type === "1" ? handleDataChange : undefined}
+        pagination={filters.type === "all"}
       />
     </div>
   );
