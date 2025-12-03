@@ -215,3 +215,21 @@ export async function getProductById(id: string) {
     };
   }
 }
+
+export async function getNewProducts(limit: number) {
+  try {
+    const res = await apiClient(`/api/product/new?limit=${limit}`, {
+      method: "GET",
+      tags: ["product"],
+      // cache: "no-store",
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Failed to get new products",
+      data: null,
+    };
+  }
+}

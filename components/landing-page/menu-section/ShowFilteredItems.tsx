@@ -1,7 +1,6 @@
 "use client";
 import CustomSeparator from "@/components/custom/custom-separator";
 import { useMenuFilterStore } from "@/store/useMenuFilterStore";
-import VisitHomeSection from "../visit-us-section/visit-home-section";
 import MenuItemCard from "./MenuItemCard";
 import OffersSection from "./OffersSection";
 
@@ -62,7 +61,6 @@ const ShowFilteredItems = () => {
           </>
         )}
       </div>
-      <VisitHomeSection />
     </div>
   );
 };

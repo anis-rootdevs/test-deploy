@@ -2,16 +2,23 @@ import { CustomButton } from "@/components/custom/custom-button";
 import OpeningsHours from "@/components/custom/openings-hours";
 import { Separator } from "@/components/ui/separator";
 import { routes } from "@/config/routes";
+import { ReservationShowcase } from "@/lib/types";
 import Image from "next/image";
-import React from "react";
 
-const BookReserveHome = () => {
+const BookReserveHome = ({
+  reservationShowcase,
+}: {
+  reservationShowcase: ReservationShowcase;
+}) => {
   return (
     <section className="relative w-full h-[500px] md:h-[550px] lg:h-[800px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/images/book-reserve/book-reserve.svg"
+          src={
+            reservationShowcase?.darkImage ||
+            "/images/book-reserve/book-reserve.svg"
+          }
           alt="Reservation background"
           fill
           className="object-cover"
@@ -28,7 +35,7 @@ const BookReserveHome = () => {
           <div className="max-w-2xl">
             {/* Subtitle */}
             <p className="text-[#E2E2E2] font-jost text-lg md:text-[24px] ">
-              Book a Reservation
+              {reservationShowcase?.cta || "Book a Reservation"}
             </p>
             <div className="w-[75px] mt-2 mb-3">
               <Separator className="bg-primary h-[2px]" />
@@ -36,12 +43,13 @@ const BookReserveHome = () => {
 
             {/* Main Heading */}
             <h2 className="text-[#FAF8F5] font-jost text-[32px] md:text-[36px] font-semibold uppercase  mb-3 md:mb-4">
-              RESERVE YOUR COMFORT CORNER
+              {reservationShowcase?.heading || "RESERVE YOUR COMFORT CORNER"}
             </h2>
 
             {/* Description */}
             <p className="text-[#E2E2E2] font-jost text-sm md:text-base font-normal mb-6 md:mb-10">
-              Every table is ready to welcome you with warmth and comfort.
+              {reservationShowcase?.tagline ||
+                "  Every table is ready to welcome you with warmth and comfort."}
             </p>
 
             {/* CTA Buttons */}
@@ -62,11 +70,9 @@ const BookReserveHome = () => {
             </div>
 
             <OpeningsHours
-              data={[
-                { days: "Sunday to Thursday", time: "12 AM - 8 PM" },
-                { days: "Friday & Saturday", time: "11 AM - 11 PM" },
-              ]}
-              textClass="text-[#FAF8F5]"
+              data={reservationShowcase?.businessHour || []}
+              textClass="text-[#FAF8F5] text-sm md:text-base"
+              containerClass="flex flex-col items-start font-jost space-y-2"
             />
           </div>
         </div>

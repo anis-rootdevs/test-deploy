@@ -33,6 +33,7 @@ export const routes = {
         shopShowcase: "/admin/dashboard/shop",
         storyShowcase: "/admin/dashboard/story",
         offerShowcase: "/admin/dashboard/offer",
+        reservationShowcase: "/admin/dashboard/reservation",
       },
       notification: `/admin/notification`,
       contact: `/admin/contact`,

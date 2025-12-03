@@ -86,9 +86,8 @@ export const useMenuFilterStore = create<MenuFilterState>((set, get) => ({
       });
     } else {
       const category = categories.find((cat) => cat.slug === categorySlug);
-      console.log("category", category);
+
       const products = category ? category.products : [];
-      console.log("products", category);
 
       set({
         activeCategory: categorySlug,

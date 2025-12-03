@@ -304,6 +304,10 @@ export const adminDashboardMenu = {
           title: "Offer Showcase",
           url: routes.privateRoutes.admin.showcase.offerShowcase,
         },
+        {
+          title: "Reservation Showcase",
+          url: routes.privateRoutes.admin.showcase.reservationShowcase,
+        },
       ],
     },
     {
@@ -390,16 +394,9 @@ export const quickMenu = [
   { name: "Reserve Table", href: routes.publicRoutes.reserveTable },
 ];
 
-export const locations = [
-  { name: "San Francisco", href: routes.publicRoutes.locations },
-  { name: "Newport Beach", href: routes.publicRoutes.locations },
-  { name: "Sun City", href: routes.publicRoutes.locations },
-];
-
 export const policy = [
-  { name: "Reserve Policy", href: routes.publicRoutes.policy },
+  { name: "Terms and Conditions", href: routes.publicRoutes.policy },
   { name: "Privacy Policy", href: routes.publicRoutes.policy },
-  { name: "Image Used Policy", href: routes.publicRoutes.policy },
 ];
 
 export const galleryImages = [

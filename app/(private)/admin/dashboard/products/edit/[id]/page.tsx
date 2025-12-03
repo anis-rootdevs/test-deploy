@@ -1,4 +1,5 @@
 import { getCategoriesList } from "@/actions/categories/categoriesActions";
+import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
 import ProductForm from "../../_components/ProductForm";
 
 interface ProductEditPageProps {
@@ -6,6 +7,12 @@ interface ProductEditPageProps {
     id: string;
   };
 }
+const breadcrumbItems = [
+  { label: "Home", href: "/" },
+  { label: "Dashboard", href: "/admin/dashboard" },
+  { label: "Product" },
+  { label: "Edit" },
+];
 
 export default async function ProductEditPage({
   params,
@@ -25,7 +32,13 @@ export default async function ProductEditPage({
 
   return (
     <div className="lg:w-1/2 md:w-2/3 w-full">
-      <h2 className="text-xl font-medium mb-4">Edit Product</h2>
+      <div className="flex flex-col flex-1 gap-2 mb-8">
+        <h2 className="font-jost font-medium text-lg">Manage Edit Product</h2>
+        <div>
+          <DynamicBreadcrumb items={breadcrumbItems} />
+        </div>
+      </div>
+
       <ProductForm categories={categoriesResult.data} productId={id} />
     </div>
   );

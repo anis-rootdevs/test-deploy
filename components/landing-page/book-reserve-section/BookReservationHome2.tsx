@@ -2,9 +2,14 @@ import { CustomButton } from "@/components/custom/custom-button";
 import OpeningsHours from "@/components/custom/openings-hours";
 import { Separator } from "@/components/ui/separator";
 import { routes } from "@/config/routes";
+import { ReservationShowcase } from "@/lib/types";
 import Image from "next/image";
 
-const BookReservationHome2 = () => {
+const BookReservationHome2 = ({
+  reservationShowcase,
+}: {
+  reservationShowcase: ReservationShowcase;
+}) => {
   return (
     <div className="max-w-[1320px] mx-auto py-20 w-full px-4">
       <div className="grid md:grid-cols-2 gap-6 grid-cols-1">
@@ -13,7 +18,7 @@ const BookReservationHome2 = () => {
           <div className="max-w-2xl">
             {/* Subtitle */}
             <p className=" font-jost text-lg md:text-[24px] ">
-              Book a Reservation
+              {reservationShowcase?.cta || "Book a Reservation"}
             </p>
             <div className="w-[75px] mt-2 mb-3">
               <Separator className="bg-primary h-[2px]" />
@@ -21,12 +26,13 @@ const BookReservationHome2 = () => {
 
             {/* Main Heading */}
             <h2 className=" font-jost text-[32px] md:text-[36px] font-semibold uppercase  mb-3 md:mb-4">
-              RESERVE YOUR COMFORT CORNER
+              {reservationShowcase?.heading || "RESERVE YOUR COMFORT CORNER"}
             </h2>
 
             {/* Description */}
             <p className="font-jost text-sm md:text-base font-normal mb-6 md:mb-10">
-              Every table is ready to welcome you with warmth and comfort.
+              {reservationShowcase?.tagline ||
+                "  Every table is ready to welcome you with warmth and comfort."}
             </p>
 
             {/* CTA Buttons */}
@@ -46,34 +52,21 @@ const BookReservationHome2 = () => {
               </CustomButton>
             </div>
             <OpeningsHours
-              data={[
-                { days: "Sunday to Thursday", time: "10 AM - 9 PM" },
-                { days: "Friday & Saturday", time: "11 AM - 11 PM" },
-              ]}
+              data={reservationShowcase?.businessHour || []}
+              textClass="text-[#2A2A2F] text-sm md:text-base"
+              containerClass="flex flex-col items-start font-jost space-y-2"
             />
-
-            {/* Opening Hours */}
-            {/* <div className="flex flex-col">
-              <div className="font-medium  text-base font-jost">
-                <span className="">Sunday to Thursday</span> -
-                <span className="ml-3 ">10 AM - 9 PM</span>
-              </div>
-              <div className="w-[268px] my-2">
-                <Separator className="bg-primary h-[1px]" />
-              </div>
-              <div className="font-medium text-base font-jost">
-                <span className="d">Friday & Saturday</span> -
-                <span className="ml-3">11 AM - 11 PM</span>
-              </div>
-            </div> */}
           </div>
         </div>
         <div>
           <Image
-            src="/images/menu-items/high-angle-view-breakfast-table.svg"
+            src={
+              reservationShowcase?.lightImage ||
+              "/images/menu-items/high-angle-view-breakfast-table.svg"
+            }
             alt="booked image"
-            width={100}
-            height={100}
+            width={700}
+            height={700}
             className="h-full w-full"
           />
         </div>
