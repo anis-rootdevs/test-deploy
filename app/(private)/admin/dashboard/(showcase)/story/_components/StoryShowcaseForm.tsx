@@ -462,9 +462,9 @@ export default function StoryShowcaseForm({
                   {isEditMode ? "Updating..." : "Adding..."}
                 </>
               ) : isEditMode ? (
-                "Update Showcase"
+                "Update Story Showcase"
               ) : (
-                "Add Showcase"
+                "Add Story Showcase"
               )}
             </Button>
           </div>

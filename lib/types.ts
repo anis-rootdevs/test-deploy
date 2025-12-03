@@ -374,4 +374,5 @@ export type OfferShowcase = {
   heading: string;
   deadline: string;
   image?: string;
+  products?: string[];
 };
