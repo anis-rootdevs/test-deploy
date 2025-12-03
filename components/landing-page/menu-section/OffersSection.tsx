@@ -39,8 +39,8 @@ const OffersSection = ({ offerShowcase }: { offerShowcase: OfferShowcase }) => {
 
             {/* Bottom Left Text */}
             <p className="text-sm md:text-[15px] opacity-90 font-normal uppercase font-jost">
-              {tagline || ""}
-              <p> ** Till {formattedDate}</p>
+              <p>** {tagline || ""} </p>
+              <p>** Till {formattedDate}</p>
             </p>
           </div>
         </div>

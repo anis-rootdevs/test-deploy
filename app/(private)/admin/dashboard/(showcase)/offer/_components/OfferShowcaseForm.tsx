@@ -10,6 +10,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import FileUploadComponent from "../../../_components/FileUploadComponent";
+import DropdownSearchSkelton from "./DropdownSearchSkelton";
 
 interface ReservationShowcaseFormData {
   tagline: string;
@@ -250,12 +251,9 @@ export default function OfferShowcaseForm({
               />
 
               {isDropdownOpen && (
-                <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto">
+                <div className="absolute z-10 w-full mt-1 bg-white  border rounded-md shadow-lg max-h-60 overflow-y-auto">
                   {isSearching ? (
-                    <div className="p-4 text-center text-gray-500">
-                      <Loader2 className="h-5 w-5 animate-spin mx-auto" />
-                      <p className="text-sm mt-2">Searching...</p>
-                    </div>
+                    <DropdownSearchSkelton />
                   ) : products.length === 0 ? (
                     <div className="p-4 text-center text-gray-500">
                       No products found

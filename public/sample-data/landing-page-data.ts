@@ -1,6 +1,5 @@
 import { routes } from "@/config/routes";
 import {
-  BookOpen,
   Frame,
   GalleryVerticalEnd,
   Images,
@@ -310,32 +309,10 @@ export const adminDashboardMenu = {
         },
       ],
     },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
+
     {
       title: "Settings",
-      url: "#",
+      url: routes.privateRoutes.admin.settings,
       icon: Settings2,
     },
   ],

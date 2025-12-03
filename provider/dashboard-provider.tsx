@@ -20,7 +20,8 @@ export default function DashboardProvider({
     }
   }, [token, userData]);
 
-  if (isLoading) {
+  // Block everything until userData is ready
+  if (isLoading || (token && !userData)) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <DashboardLoader />
@@ -28,5 +29,5 @@ export default function DashboardProvider({
     );
   }
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 }

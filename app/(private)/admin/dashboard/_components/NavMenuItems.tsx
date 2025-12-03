@@ -67,7 +67,9 @@ export default function NavMenuItems({ items }: { items: NavItem[] }) {
                     <SidebarMenuButton
                       tooltip={item.title}
                       className={`font-jost font-medium h-9 rounded-sm flex items-center gap-2 ${
-                        isChildActive ? "text-primary" : ""
+                        isChildActive
+                          ? "text-primary"
+                          : "hover:bg-accent hover:text-white"
                       }`}
                     >
                       {item.icon && <item.icon className="!size-5" />}
@@ -76,7 +78,7 @@ export default function NavMenuItems({ items }: { items: NavItem[] }) {
                       </span>
                       <ChevronRight
                         className="ml-auto transition-transform duration-200 
-                        group-data-[state=open]/collapsible:rotate-90 cursor-pointer"
+                        group-data-[state=open]/collapsible:rotate-90 cursor-pointer hover:text-white"
                       />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
@@ -93,7 +95,7 @@ export default function NavMenuItems({ items }: { items: NavItem[] }) {
                                 className={` font-jost font-medium h-9 rounded-sm  ${
                                   subActive
                                     ? "text-white bg-primary hover:!bg-primary hover:text-white px-4"
-                                    : "hover:bg-accent hover:text-accent-foreground"
+                                    : "hover:bg-accent hover:text-white"
                                 }`}
                               >
                                 {sub.title}
@@ -114,7 +116,7 @@ export default function NavMenuItems({ items }: { items: NavItem[] }) {
                       ${
                         isActive
                           ? "text-white bg-primary hover:!bg-primary hover:text-white"
-                          : "hover:bg-accent hover:text-accent-foreground"
+                          : "hover:bg-accent hover:text-white"
                       }
                     `}
                   >
