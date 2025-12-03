@@ -269,6 +269,10 @@ export interface IGeneral extends Document {
   supportEmail: string;
   ownerName: string;
   ownerEmail: string;
+  facebook: string;
+  instagram: string;
+  twitter: string;
+  youtube: string;
 }
 
 export interface IBusinessHours {
@@ -293,10 +297,19 @@ export interface ICloudinary {
   secureUrlBase: string;
 }
 
+export interface IMetadata {
+  title: string;
+  applicationName: string;
+  description: string;
+  keywords: string[];
+  openGraphImage: string;
+}
+
 export interface ISettings extends Document {
   general: IGeneral;
   pageBanner: IPageBanner;
   cloudinary: ICloudinary;
+  metadata: IMetadata;
   businessHours: IBusinessHours[];
   createdAt?: Date;
   updatedAt?: Date;

@@ -7,7 +7,6 @@ import { apiResponse } from "@/lib/utils";
 import Settings from "@/model/Settings";
 import { NextRequest } from "next/server";
 
-// Update Page Banner
 export const PUT = asyncFormDataHandler(
   null,
   async (req: NextRequest, _, formData: FormData) => {

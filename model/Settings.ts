@@ -12,6 +12,10 @@ const general = new mongoose.Schema(
     supportEmail: { type: String, required: true, trim: true },
     ownerName: { type: String, required: true, trim: true },
     ownerEmail: { type: String, required: true, trim: true },
+    facebook: { type: String, required: true, trim: true },
+    instagram: { type: String, required: true, trim: true },
+    twitter: { type: String, required: true, trim: true },
+    youtube: { type: String, required: true, trim: true },
   },
   {
     _id: false,
@@ -56,11 +60,25 @@ const cloudinary = new mongoose.Schema(
   }
 );
 
+const metadata = new mongoose.Schema(
+  {
+    title: { type: String, required: true, trim: true },
+    applicationName: { type: String, required: true, trim: true },
+    description: { type: String, required: true, trim: true },
+    keywords: { type: [String], required: true, trim: true },
+    openGraphImage: { type: String, required: true, trim: true },
+  },
+  {
+    _id: false,
+  }
+);
+
 const SettingsSchema: Schema = new mongoose.Schema(
   {
     general,
     pageBanner,
     cloudinary,
+    metadata,
     businessHours: {
       type: [businessHour],
       default: [

@@ -9,7 +9,6 @@ import Settings from "@/model/Settings";
 import { NextRequest } from "next/server";
 import z from "zod";
 
-// Update General Settings
 export const PUT = asyncFormDataHandler(
   settingsGeneralSchema,
   async (

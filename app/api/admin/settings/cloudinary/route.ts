@@ -5,7 +5,6 @@ import Settings from "@/model/Settings";
 import { NextRequest } from "next/server";
 import z from "zod";
 
-// Update Cloudinary Settings
 export const PUT = asyncHandler(
   cloudinarySchema,
   async (req: NextRequest, data: z.infer<typeof cloudinarySchema>) => {
