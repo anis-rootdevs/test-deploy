@@ -1,12 +1,9 @@
 import { getAllFeaturedGallery } from "@/actions/gallery/galleryActions";
+import { getAllOutlets } from "@/actions/outlets/outletsActions";
 import { routes } from "@/config/routes";
-import { Galleries } from "@/lib/types";
-import {
-  locations,
-  policy,
-  quickMenu,
-} from "@/public/sample-data/landing-page-data";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Galleries, Outlets } from "@/lib/types";
+import { policy, quickMenu } from "@/public/sample-data/landing-page-data";
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -21,6 +18,8 @@ import { Separator } from "../ui/separator";
 const FooterSection = async () => {
   // api call grt galleries
   const gallery = await getAllFeaturedGallery(6);
+  const outlet = await getAllOutlets();
+
   return (
     <footer className="w-full bg-[#E2E2E2] dark:bg-[#222831] text-[#2A2A2F] dark:text-[#FEFEFF] ">
       <div className="max-w-[1320px] mx-auto px-6 py-10 md:py-14">
@@ -53,10 +52,12 @@ const FooterSection = async () => {
               <Separator className="bg-primary h-[2px]" />
             </div>
             <ul className="md:space-y-6 space-y-4">
-              {locations.map((loc, i) => (
-                <li key={i}>
+              {outlet?.data?.slice(0, 3).map((loc: Outlets) => (
+                <li key={loc._id}>
                   <Link
-                    href={loc.href}
+                    href={loc.googleMapLink || ""}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-base font-jost hover:text-primary font-normal text-[#101020] dark:text-[#FEFEFF]"
                   >
                     {loc.name}
@@ -64,6 +65,16 @@ const FooterSection = async () => {
                 </li>
               ))}
             </ul>
+            {outlet?.data?.length > 3 && (
+              <div className="mt-4">
+                <Link
+                  href={routes.publicRoutes.locations}
+                  className="text-primary font-jost font-medium hover:underline"
+                >
+                  See More →
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Policy */}
@@ -121,9 +132,9 @@ const FooterSection = async () => {
                   <div className="">
                     <Link
                       href={routes.publicRoutes.gallery}
-                      className="text-[13px] font-jost font-normal hover:text-primary "
+                      className="text-primary font-jost font-medium hover:underline"
                     >
-                      See more
+                      See More →
                     </Link>
                   </div>
                   <div className="absolute -right-7">
@@ -168,6 +179,12 @@ const FooterSection = async () => {
                 className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
               >
                 <Instagram size={20} />
+              </Link>
+              <Link
+                href="#"
+                className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
+              >
+                <Youtube size={20} />
               </Link>
             </div>
           </div>

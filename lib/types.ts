@@ -334,3 +334,18 @@ export type ShopShowcase = {
   imageTwo?: string;
   imageThree?: string;
 };
+
+export type BusinessHour = {
+  day: string;
+  open: string;
+  close: string;
+};
+export type ReservationShowcase = {
+  _id: string;
+  tagline: string;
+  heading: string;
+  cta: string;
+  darkImage?: string;
+  lightImage?: string;
+  businessHour?: string[];
+};

@@ -8,13 +8,14 @@ export async function getMenuList() {
       method: "GET",
       tags: ["menu"],
     });
+
     return res;
   } catch (error) {
     return {
       ok: false,
       message:
-        error instanceof Error ? error.message : "Failed to get menu list",
-      data: null,
+        error instanceof Error ? error.message : "Failed to get all menu",
+      data: [],
     };
   }
 }
