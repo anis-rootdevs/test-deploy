@@ -73,12 +73,23 @@ const metadata = new mongoose.Schema(
   }
 );
 
+const termsPolicy = new mongoose.Schema(
+  {
+    terms: { type: String, required: true, trim: true },
+    policy: { type: String, required: true, trim: true },
+  },
+  {
+    _id: false,
+  }
+);
+
 const SettingsSchema: Schema = new mongoose.Schema(
   {
     general,
     pageBanner,
     cloudinary,
     metadata,
+    termsPolicy,
     businessHours: {
       type: [businessHour],
       default: [
