@@ -26,7 +26,7 @@ export const PUT = asyncFormDataHandler(
     if (!valid) return apiResponse(false, 400, error!);
 
     const file = formData.get("image");
-    let imagePublicId = null;
+    let imagePublicId = existingShowcase?.image;
 
     if (file) {
       const { valid, error } = fileValidator(file as File, {
