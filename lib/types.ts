@@ -367,3 +367,10 @@ export type ReservationShowcase = {
   lightImage?: string;
   businessHour?: string[];
 };
+export type OfferShowcase = {
+  _id: string;
+  tagline: string;
+  heading: string;
+  deadline: string;
+  image?: string;
+};

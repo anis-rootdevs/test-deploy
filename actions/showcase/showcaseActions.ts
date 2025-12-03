@@ -211,3 +211,76 @@ export async function getAllStoryShowcase() {
     };
   }
 }
+
+// offer showcase api
+
+export async function getOfferShowcase() {
+  try {
+    const res = await apiClient(`/api/admin/offer-showcase`, {
+      method: "GET",
+      tags: ["offer-showcase"],
+    });
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get offer showcase list",
+      data: null,
+    };
+  }
+}
+
+export async function updateOfferShowcase(id: string, data: FormData) {
+  try {
+    // Both create and update use PUT method
+    const endpoint =
+      id && id.trim() !== ""
+        ? `/api/admin/offer-showcase/${id}`
+        : `/api/admin/offer-showcase`;
+
+    const res = await apiClient(endpoint, {
+      method: "PUT",
+      body: data,
+      isFormData: true,
+    });
+
+    if (res?.status) {
+      updateTag("offer-showcase");
+    }
+
+    return res;
+  } catch (error) {
+    return {
+      status: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to save offer showcase",
+      data: null,
+    };
+  }
+}
+
+export async function getAllOfferShowcase() {
+  try {
+    const res = await apiClient(`/api/showcase/offer-showcase`, {
+      method: "GET",
+      tags: ["offer-showcase"],
+      // cache: "no-store",
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get all offer showcase",
+      data: null,
+    };
+  }
+}

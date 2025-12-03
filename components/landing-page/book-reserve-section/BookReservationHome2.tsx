@@ -53,7 +53,7 @@ const BookReservationHome2 = ({
             </div>
             <OpeningsHours
               data={reservationShowcase?.businessHour || []}
-              textClass="text-[#2A2A2F] text-sm md:text-base"
+              textClass="text-[#2A2A2F] dark:text-white text-sm md:text-base"
               containerClass="flex flex-col items-start font-jost space-y-2"
             />
           </div>

@@ -4,7 +4,9 @@ import CategoriesItemsSection from "./CategoriesItemsSection";
 import MenuHeroSection from "./MenuHeroSection";
 import ShowFilteredItems from "./ShowFilteredItems";
 
+import { ReservationShowcase } from "@/lib/types";
 import { useEffect } from "react";
+import BookReserveHome from "../book-reserve-section/book-reserve-home";
 import {
   CategorySectionSkeleton,
   MenuItemsGridSkeleton,
@@ -33,9 +35,13 @@ interface ApiResponse {
 
 interface MenuSectionPageProps {
   initialMenuData: ApiResponse;
+  reservationShowcase: ReservationShowcase;
 }
 
-const MenuSectionPage = ({ initialMenuData }: MenuSectionPageProps) => {
+const MenuSectionPage = ({
+  initialMenuData,
+  reservationShowcase,
+}: MenuSectionPageProps) => {
   const { activeCategory, isLoading, error, initializeMenu } =
     useMenuFilterStore();
 
@@ -84,7 +90,7 @@ const MenuSectionPage = ({ initialMenuData }: MenuSectionPageProps) => {
       {/* Content - Always show filtered items now */}
       {!isLoading && !error && <ShowFilteredItems />}
 
-      {/* <BookReserveHome /> */}
+      <BookReserveHome reservationShowcase={reservationShowcase} />
     </>
   );
 };
