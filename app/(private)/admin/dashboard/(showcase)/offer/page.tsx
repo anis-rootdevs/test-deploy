@@ -10,7 +10,7 @@ const breadcrumbItems = [
 
 export default async function OfferShowcaseHome() {
   const reservationShowcase = await getOfferShowcase();
-  console.log(reservationShowcase);
+
   return (
     <div className="lg:w-1/2 w-full">
       <div className="flex flex-col flex-1 gap-2 mb-8">

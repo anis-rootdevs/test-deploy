@@ -368,11 +368,22 @@ export type ReservationShowcase = {
   lightImage?: string;
   businessHour?: string[];
 };
+
+export type OfferProducts = {
+  _id: string;
+  name: string;
+  price?: number;
+  image?: string;
+  heading?: string;
+  shortDesc?: string;
+  // any other fields you use
+};
+
 export type OfferShowcase = {
   _id: string;
   tagline: string;
   heading: string;
   deadline: string;
   image?: string;
-  products?: string[];
+  products?: OfferProducts[];
 };

@@ -117,12 +117,12 @@ export default function DatePickerField<T extends FieldValues>({
               minuteIncrement,
               defaultHour,
               defaultMinute,
-              onChange: (selectedDates, dateStr) => {
+              onChange: (selectedDates) => {
                 // Store as ISO string for consistency
                 if (selectedDates.length > 0) {
                   field.onChange(selectedDates[0].toISOString());
                 } else {
-                  field.onChange(dateStr);
+                  field.onChange("");
                 }
               },
               onClose: () => {
@@ -153,17 +153,10 @@ export default function DatePickerField<T extends FieldValues>({
           // Sync external field value with Flatpickr
           useEffect(() => {
             if (flatpickrInstanceRef.current && field.value) {
-              // Convert ISO string to Date object for Flatpickr
-              let dateToSet = field.value;
-
-              if (typeof field.value === "string") {
-                const parsedDate = new Date(field.value);
-                if (!isNaN(parsedDate.getTime())) {
-                  dateToSet = parsedDate;
-                }
+              const date = new Date(field.value); // convert string → Date
+              if (!isNaN(date.getTime())) {
+                flatpickrInstanceRef.current.setDate(date, false);
               }
-
-              flatpickrInstanceRef.current.setDate(dateToSet, false);
             }
           }, [field.value]);
 

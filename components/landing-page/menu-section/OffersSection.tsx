@@ -1,19 +1,32 @@
 import CustomSeparator from "@/components/custom/custom-separator";
-import { menuItems } from "@/public/sample-data/landing-page-data";
+import { OfferShowcase } from "@/lib/types";
+import { format } from "date-fns";
 import Image from "next/image";
 import MenuItemCard from "./MenuItemCard";
 
-const OffersSection = () => {
+const OffersSection = ({ offerShowcase }: { offerShowcase: OfferShowcase }) => {
+  const {
+    image: offerImage,
+    deadline,
+    heading,
+    products = [],
+    tagline,
+  } = offerShowcase || {};
+  console.log("offerShowcase", offerShowcase);
+  const formattedDate = format(new Date(deadline), "dd MMMM, yy");
   return (
     <div className="max-w-[1320px] mx-auto w-full px-4 pb-10">
       <CustomSeparator title="Offers" />
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 ">
         <div className="relative overflow-hidden rounded-lg">
           <Image
-            src="/images/menu-items/table-ice-cream-parlor-banner.svg" // replace with your image path
+            src={
+              offerImage ||
+              "/images/menu-items/table-ice-cream-parlor-banner.svg"
+            } // replace with your image path
             alt="Limited time offer desserts"
-            width={100}
-            height={100}
+            width={500}
+            height={500}
             className="object-cover h-full w-full"
           />
 
@@ -21,25 +34,25 @@ const OffersSection = () => {
           <div className="absolute inset-0 bg-black/40 text-white flex flex-col justify-between p-6">
             {/* Top Left Heading */}
             <h2 className="text-2xl md:text-[28px] font-semibold  uppercase  max-w-sm">
-              HALF THE PRICE, FULL OF FLAVOR — LIMITED TIME OFFER!
+              {heading || ""}
             </h2>
 
             {/* Bottom Left Text */}
             <p className="text-sm md:text-[15px] opacity-90 font-normal uppercase font-jost">
-              ** Enjoy this offer on some of our limited items.
-              <br /> ** Till 25 October, 25.
+              {tagline || ""}
+              <p> ** Till {formattedDate}</p>
             </p>
           </div>
         </div>
         <div>
           <div className="grid lg:gap-x-[80px] md:gap-x-[40px] grid-cols-1">
-            {menuItems.slice(0, 4).map((item, index, arr) => (
-              <div key={item.id}>
+            {products.slice(0, 4).map((item, index, arr) => (
+              <div key={item._id}>
                 <MenuItemCard
-                  image={item.image}
+                  image={item.image || ""}
                   title={item.name}
-                  description={item.description}
-                  price={item.price}
+                  description={item.shortDesc || ""}
+                  price={item.price || ""}
                   className="bg-[#FAF8F5] dark:bg-[#181C20]"
                 />
 
@@ -51,6 +64,19 @@ const OffersSection = () => {
             ))}
           </div>
         </div>
+      </div>
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-6 my-4">
+        {products.slice(4).map((item) => (
+          <div key={item._id}>
+            <MenuItemCard
+              image={item.image || ""}
+              title={item.name}
+              description={item.shortDesc || ""}
+              price={item.price || ""}
+              className="bg-[#FAF8F5] dark:bg-[#181C20]"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

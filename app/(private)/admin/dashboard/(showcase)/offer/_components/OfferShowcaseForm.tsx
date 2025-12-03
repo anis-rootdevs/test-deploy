@@ -4,7 +4,7 @@ import { updateOfferShowcase } from "@/actions/showcase/showcaseActions";
 import DatePickerField from "@/components/custom/DatePickerFiled";
 import InputField from "@/components/form/InputField";
 import { Button } from "@/components/ui/button";
-import { OfferShowcase, Products } from "@/lib/types";
+import { OfferProducts, OfferShowcase, Products } from "@/lib/types";
 import { Loader2, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -30,7 +30,7 @@ export default function OfferShowcaseForm({
 
   // Product search states
   const [products, setProducts] = useState<Products[]>([]);
-  const [selectedProducts, setSelectedProducts] = useState<Products[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<OfferProducts[]>([]);
   const [searchText, setSearchText] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -55,7 +55,6 @@ export default function OfferShowcaseForm({
       const result = await getProductList(1, 10, search, {});
       setProducts(result?.data?.docs || []);
     } catch (error) {
-      console.error("Error fetching products:", error);
       toast.error("Failed to fetch products");
     } finally {
       setIsSearching(false);
@@ -104,7 +103,7 @@ export default function OfferShowcaseForm({
   const handleProductSelect = (product: Products) => {
     // Check if product is already selected
     const isAlreadySelected = selectedProducts.some(
-      (p) => p._id === product._id
+      (product) => product._id === product._id
     );
 
     if (!isAlreadySelected) {
@@ -116,7 +115,9 @@ export default function OfferShowcaseForm({
   };
 
   const handleRemoveProduct = (productId: string) => {
-    setSelectedProducts(selectedProducts.filter((p) => p._id !== productId));
+    setSelectedProducts(
+      selectedProducts.filter((product) => product._id !== productId)
+    );
   };
 
   const onSubmit = async (data: ReservationShowcaseFormData) => {
@@ -162,7 +163,7 @@ export default function OfferShowcaseForm({
 
       toast.success(
         result.message ||
-          `Showcase ${isEditMode ? "updated" : "added"} successfully!`
+          `Showcase ${isEditMode ? "updated" : "Updated"} successfully!`
       );
 
       // Reset form and images on success (only in create mode)
@@ -172,7 +173,7 @@ export default function OfferShowcaseForm({
         setSelectedProducts([]);
       }
     } catch (error: any) {
-      toast.error("Error saving showcase!");
+      toast.error("Error saving offer showcase!");
     }
   };
 
@@ -218,17 +219,17 @@ export default function OfferShowcaseForm({
 
             {/* Selected Products Display */}
             {selectedProducts.length > 0 && (
-              <div className="flex flex-wrap gap-2 p-3 bg-gray-50 rounded-md border">
+              <div className="flex flex-wrap gap-2 p-3 bg-gray-50 dark:bg-black rounded-md border">
                 {selectedProducts.map((product) => (
                   <div
                     key={product._id}
-                    className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border shadow-sm"
+                    className="flex items-center gap-2  px-3 py-1.5 rounded-full border shadow-sm"
                   >
                     <span className="text-sm">{product.name}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveProduct(product._id)}
-                      className="text-gray-400 hover:text-red-500 transition-colors"
+                      className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -273,7 +274,7 @@ export default function OfferShowcaseForm({
                           className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors border-b last:border-b-0 ${
                             isSelected
                               ? "bg-gray-100 cursor-not-allowed opacity-50"
-                              : ""
+                              : "cursor-pointer"
                           }`}
                         >
                           <div className="flex items-center gap-3">
@@ -338,7 +339,7 @@ export default function OfferShowcaseForm({
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {isEditMode ? "Updating..." : "Adding..."}
+                  {isEditMode ? "Updating..." : "Updating..."}
                 </>
               ) : isEditMode ? (
                 "Update Offer"
