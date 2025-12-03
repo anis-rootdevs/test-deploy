@@ -281,6 +281,47 @@ export function formatBusinessHours(businessHours: IBusinessHours[]): string[] {
   return result;
 }
 
+export const transformCloudinaryPaths = (
+  data: any,
+  folderName: string
+): any => {
+  if (!data || !folderName) return data;
+
+  const baseUrl = process.env.CLOUDINARY_SECURE_URL_BASE || "";
+  const folderPattern = `${folderName}/`;
+
+  // Handle arrays
+  if (Array.isArray(data)) {
+    return data.map((item) => transformCloudinaryPaths(item, folderName));
+  }
+
+  // Handle objects
+  if (typeof data === "object" && data !== null) {
+    const transformed: any = {};
+
+    for (const [key, value] of Object.entries(data)) {
+      if (typeof value === "string" && value.startsWith(folderPattern)) {
+        // This is a Cloudinary path, prepend base URL
+        transformed[key] = `${baseUrl}${value}`;
+      } else if (typeof value === "object") {
+        // Recursively transform nested objects
+        transformed[key] = transformCloudinaryPaths(value, folderName);
+      } else {
+        transformed[key] = value;
+      }
+    }
+
+    return transformed;
+  }
+
+  // Handle primitive values
+  if (typeof data === "string" && data.startsWith(folderPattern)) {
+    return `${baseUrl}${data}`;
+  }
+
+  return data;
+};
+
 export const requiredStringField = (fieldName: string) =>
   z
     .string({

@@ -227,6 +227,7 @@ export interface IStoryShowcase extends Document {
   imageOne: string;
   imageTwo: string;
   imageThree: string;
+  valueShortDesc: string;
   values: {
     title: string;
     shortDesc: string;
