@@ -88,21 +88,30 @@ export const reservationShowcaseSchema = z.object({
 });
 
 export const cloudinarySchema = z.object({
-  cloudName: requiredStringField("cloudName"),
-  apiKey: requiredStringField("apiKey"),
-  apiSecret: requiredStringField("apiSecret"),
-  folder: requiredStringField("folder"),
-  secureUrlBase: requiredStringField("secureUrlBase"),
+  cloudName: optionalStringField("cloudName"),
+  apiKey: optionalStringField("apiKey"),
+  apiSecret: optionalStringField("apiSecret"),
+  folder: optionalStringField("folder"),
+  secureUrlBase: optionalStringField("secureUrlBase"),
+});
+
+export const metadataSchema = z.object({
+  title: optionalStringField("title"),
+  applicationName: optionalStringField("applicationName"),
+  description: optionalStringField("description"),
+  keywords: z
+    .array(optionalStringField("keywords"))
+    .min(1, "At least one keyword is required!"),
 });
 
 export const settingsGeneralSchema = z.object({
-  companyName: requiredStringField("companyName"),
-  companyDialCode: requiredStringField("companyDialCode"),
-  companyPhone: requiredStringField("companyPhone"),
-  companyAddress: requiredStringField("companyAddress"),
-  supportEmail: requiredStringField("supportEmail"),
-  ownerName: requiredStringField("ownerName"),
-  ownerEmail: requiredStringField("ownerEmail"),
+  companyName: optionalStringField("companyName"),
+  companyDialCode: optionalStringField("companyDialCode"),
+  companyPhone: optionalStringField("companyPhone"),
+  companyAddress: optionalStringField("companyAddress"),
+  supportEmail: optionalStringField("supportEmail"),
+  ownerName: optionalStringField("ownerName"),
+  ownerEmail: optionalStringField("ownerEmail"),
   logo: optionalStringField("logo"),
   favicon: optionalStringField("favicon"),
   facebook: optionalStringField("facebook"),
