@@ -95,6 +95,11 @@ export const cloudinarySchema = z.object({
   secureUrlBase: optionalStringField("secureUrlBase"),
 });
 
+export const termsSchema = z.object({
+  terms: optionalStringField("terms"),
+  policy: optionalStringField("policy"),
+});
+
 export const metadataSchema = z.object({
   title: optionalStringField("title"),
   applicationName: optionalStringField("applicationName"),

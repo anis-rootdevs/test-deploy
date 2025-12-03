@@ -106,9 +106,6 @@ export interface FormInputProps<TFieldValues extends FieldValues> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-// change password
-
-//banner types
 export type Banner = {
   _id: string;
   tagline: string;
@@ -304,12 +301,17 @@ export interface IMetadata {
   keywords: string[];
   openGraphImage: string;
 }
+export interface ITermsPolicy {
+  terms: string;
+  policy: string;
+}
 
 export interface ISettings extends Document {
   general: IGeneral;
   pageBanner: IPageBanner;
   cloudinary: ICloudinary;
   metadata: IMetadata;
+  termsPolicy: ITermsPolicy;
   businessHours: IBusinessHours[];
   createdAt?: Date;
   updatedAt?: Date;
