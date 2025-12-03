@@ -31,6 +31,7 @@ const storyShowcase = new mongoose.Schema(
     imageOne: { type: String, required: true, trim: true },
     imageTwo: { type: String, required: true, trim: true },
     imageThree: { type: String, required: true, trim: true },
+    valueShortDesc: { type: String, required: true, trim: true },
     values: [storyShowcaseValue],
   },
   {

@@ -158,16 +158,17 @@ export const offerShowcaseSchema = z.object({
 });
 
 export const storyShowcaseSchema = z.object({
-  heading: requiredStringField("heading"),
-  shortDesc: requiredStringField("shortDesc"),
-  story: requiredStringField("story"),
-  tagline: requiredStringField("tagline"),
+  heading: optionalStringField("heading"),
+  shortDesc: optionalStringField("shortDesc"),
+  story: optionalStringField("story"),
+  tagline: optionalStringField("tagline"),
+  valueShortDesc: optionalStringField("valueShortDesc"),
   values: z
     .array(
       z.object({
         _id: optionalObjectIdField("_id"), // If exists = UPDATE, if not = CREATE
-        title: requiredStringField("title"),
-        shortDesc: requiredStringField("shortDesc"),
+        title: optionalStringField("title"),
+        shortDesc: optionalStringField("shortDesc"),
         icon: optionalStringField("icon"),
         _delete: booleanField("_delete", false), // Flag for deletion
       })
