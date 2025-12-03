@@ -6,10 +6,13 @@ import {
   getNewProducts,
 } from "@/actions/product/productActions";
 import { getAllChefList } from "@/actions/shapeAction/shapeActions";
-import { getShowcase } from "@/actions/showcase/showcaseActions";
+import {
+  getAllReservationShowcase,
+  getShowcase,
+} from "@/actions/showcase/showcaseActions";
 import ImageGalleryLanding from "@/components/gallery/image-gallery-landing";
 import { Suspense } from "react";
-import BookReservationHome2 from "../book-reserve-section/book-reservation-home2";
+import BookReservationHome2 from "../book-reserve-section/BookReservationHome2";
 import ChefShapeHome from "../chef-shape/ChefShapeHome";
 import HeroSectionHome from "../hero-section/hero-section-home";
 import HeroSectionLoader from "../hero-section/HeroSectionLoader";
@@ -27,6 +30,7 @@ const LandingPageSecond = async () => {
   const chefList = await getAllChefList();
   const showCase = await getShowcase();
   const newProducts = await getNewProducts(5);
+  const reservationShowcase = await getAllReservationShowcase();
   return (
     <>
       <Suspense fallback={<HeroSectionLoader />}>
@@ -52,7 +56,9 @@ const LandingPageSecond = async () => {
       <Suspense fallback={<p>Loading...</p>}>
         <ImageGalleryLanding gallery={gallery?.data || []} />
       </Suspense>
-      <BookReservationHome2 />
+      <Suspense fallback={<p>Loading...................</p>}>
+        <BookReservationHome2 reservationShowcase={reservationShowcase?.data} />
+      </Suspense>
     </>
   );
 };

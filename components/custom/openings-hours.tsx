@@ -1,5 +1,5 @@
-import React from "react";
 import { Separator } from "@radix-ui/react-separator";
+import React from "react";
 
 interface OpeningHoursItem {
   days: string;
@@ -7,32 +7,45 @@ interface OpeningHoursItem {
 }
 
 interface OpeningHoursProps {
-  data: OpeningHoursItem[];
+  data: OpeningHoursItem[] | string[];
   containerClass?: string;
   textClass?: string;
   separatorColor?: string;
 }
 
 const OpeningsHours = ({
-  data = [
-    { days: "Sunday to Thursday", time: "10 AM - 9 PM" },
-    { days: "Friday & Saturday", time: "11 AM - 11 PM" },
-  ],
+  data,
   containerClass = "flex flex-col items-start text-[15px] font-jost",
   textClass = "font-medium text-base font-jost",
   separatorColor = "bg-primary",
 }: OpeningHoursProps) => {
+  const formattedData =
+    data?.map((item) => {
+      if (typeof item === "string") {
+        const parts = item.split(" - ");
+        const days = parts[0];
+        const time = parts.slice(1).join(" - "); // FIXED HERE
+        return { days, time };
+      }
+      return item;
+    }) || [];
+
   return (
     <div className={containerClass}>
-      {data.map((item, index) => (
+      {formattedData.map((item, index) => (
         <React.Fragment key={index}>
-          <div className={`${textClass}`}>
+          <div
+            className={`${textClass} flex items-center gap-2 whitespace-nowrap`}
+          >
             <span>{item.days}</span>
-            <span className="mx-2">-</span>
+            <span>-</span>
             <span>{item.time}</span>
           </div>
-          {index !== data.length - 1 && (
-            <Separator className={`${separatorColor} h-[1px] w-[270px] my-2`} />
+
+          {index !== formattedData.length - 1 && (
+            <Separator
+              className={`${separatorColor} h-[1px] w-full max-w-[270px] my-2`}
+            />
           )}
         </React.Fragment>
       ))}

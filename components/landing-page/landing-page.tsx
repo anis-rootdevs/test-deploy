@@ -6,7 +6,10 @@ import {
   getNewProducts,
 } from "@/actions/product/productActions";
 import { getAllChefList } from "@/actions/shapeAction/shapeActions";
-import { getShowcase } from "@/actions/showcase/showcaseActions";
+import {
+  getAllReservationShowcase,
+  getShowcase,
+} from "@/actions/showcase/showcaseActions";
 import { Suspense } from "react";
 import ImageGalleryLanding from "../gallery/image-gallery-landing";
 import BookReserveHome from "./book-reserve-section/book-reserve-home";
@@ -27,6 +30,7 @@ const LandingPage = async () => {
   const chefList = await getAllChefList();
   const showCase = await getShowcase();
   const newProducts = await getNewProducts(5);
+  const reservationShowcase = await getAllReservationShowcase();
 
   return (
     <>
@@ -52,7 +56,11 @@ const LandingPage = async () => {
       <Suspense fallback={<p>Loading...</p>}>
         <ImageGalleryLanding gallery={gallery?.data || []} />
       </Suspense>
-      <BookReserveHome />
+      <Suspense fallback={<p>Loading...</p>}>
+        <BookReserveHome
+          reservationShowcase={reservationShowcase?.data || []}
+        />
+      </Suspense>
     </>
   );
 };

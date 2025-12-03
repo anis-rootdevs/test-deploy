@@ -1,6 +1,5 @@
 "use client";
 import { useMenuFilterStore } from "@/store/useMenuFilterStore";
-import BookReserveHome from "../book-reserve-section/book-reserve-home";
 import CategoriesItemsSection from "./CategoriesItemsSection";
 import MenuHeroSection from "./MenuHeroSection";
 import ShowFilteredItems from "./ShowFilteredItems";
@@ -85,7 +84,7 @@ const MenuSectionPage = ({ initialMenuData }: MenuSectionPageProps) => {
       {/* Content - Always show filtered items now */}
       {!isLoading && !error && <ShowFilteredItems />}
 
-      <BookReserveHome />
+      {/* <BookReserveHome /> */}
     </>
   );
 };
