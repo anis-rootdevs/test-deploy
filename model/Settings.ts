@@ -16,6 +16,7 @@ const general = new mongoose.Schema(
     instagram: { type: String, required: true, trim: true },
     twitter: { type: String, required: true, trim: true },
     youtube: { type: String, required: true, trim: true },
+    homeView: { type: String, required: true, trim: true },
   },
   {
     _id: false,

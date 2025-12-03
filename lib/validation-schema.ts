@@ -2,6 +2,7 @@ import { RESERVE_TABLE_STATUS } from "@/config/constant";
 import { z } from "zod";
 import {
   booleanField,
+  optionalEnumField,
   optionalObjectIdField,
   optionalStringField,
   requiredEnumField,
@@ -123,6 +124,7 @@ export const settingsGeneralSchema = z.object({
   instagram: optionalStringField("instagram"),
   twitter: optionalStringField("twitter"),
   youtube: optionalStringField("youtube"),
+  homeView: optionalEnumField("homeView", ["home-1", "home-2"]),
 });
 
 export const businessHourSchema = z.object({
