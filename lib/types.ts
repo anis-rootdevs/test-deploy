@@ -333,6 +333,24 @@ export type ShopShowcase = {
   imageThree?: string;
 };
 
+export type StoryShowcase = {
+  _id: string;
+  tagline: string;
+  heading: string;
+  shortDesc: string;
+  story: string;
+  valueShortDesc: string;
+  imageOne?: string;
+  imageTwo?: string;
+  imageThree?: string;
+  values?: {
+    _id?: string;
+    title: string;
+    shortDesc: string;
+    icon: string;
+  }[];
+};
+
 export type BusinessHour = {
   day: string;
   open: string;
