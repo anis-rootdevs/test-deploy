@@ -194,3 +194,51 @@ export async function updateMetadata(data: FormData) {
     };
   }
 }
+
+// meta data settings api
+
+export async function getBusinessHours() {
+  try {
+    const res = await apiClient(`/api/admin/settings/business-hour`, {
+      method: "GET",
+      tags: ["businessHours"],
+    });
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get businessHours list",
+      data: null,
+    };
+  }
+}
+
+export async function updateBusinessHours(data: any) {
+  try {
+    // Both create and update use PUT method
+    const endpoint = `/api/admin/settings/business-hour`;
+
+    const res = await apiClient(endpoint, {
+      method: "PUT",
+      body: data,
+      isFormData: false,
+    });
+
+    if (res?.status) {
+      updateTag("businessHours");
+    }
+
+    return res;
+  } catch (error) {
+    return {
+      status: false,
+      message:
+        error instanceof Error ? error.message : "Failed to save businessHours",
+      data: null,
+    };
+  }
+}

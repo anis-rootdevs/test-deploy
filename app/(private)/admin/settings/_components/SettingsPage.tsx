@@ -7,17 +7,18 @@ import {
 } from "@/components/ui/tooltip";
 import { Globe, Mail, Settings, Shield, Users } from "lucide-react";
 import { useState } from "react";
+import BusinessHour from "./BusinessHour";
 import CloudinarySettings from "./CloudinarySettings";
 import GeneralSettings from "./GeneralSettings";
 import MetadataSettings from "./MetadataSettings";
 import PageBanner from "./PageBanner";
-import SystemSettings from "./SystemSettings";
 
 export default function SettingsPage({
   generalSettings,
   pageBanner,
   cloudinary,
   metadata,
+  businessHours,
 }: any) {
   const [activeTab, setActiveTab] = useState("general");
 
@@ -26,7 +27,7 @@ export default function SettingsPage({
     { id: "banner", label: "Banner", icon: Mail },
     { id: "cloudinary", label: "Cloudinary", icon: Shield },
     { id: "metaData", label: "Meta Data", icon: Users },
-    { id: "system", label: "System", icon: Settings },
+    { id: "hours", label: "Business Hour", icon: Settings },
   ];
 
   const renderContent = () => {
@@ -39,8 +40,8 @@ export default function SettingsPage({
         return <CloudinarySettings cloudinary={cloudinary} />;
       case "metaData":
         return <MetadataSettings metadata={metadata} />;
-      case "system":
-        return <SystemSettings />;
+      case "hours":
+        return <BusinessHour businessHours={businessHours} />;
       default:
         return <GeneralSettings general={generalSettings} />;
     }

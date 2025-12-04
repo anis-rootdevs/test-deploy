@@ -1,4 +1,5 @@
 import {
+  getBusinessHours,
   getCloudinary,
   getGeneralSettings,
   getMetadata,
@@ -18,6 +19,8 @@ export default async function page() {
   const bannerPage = await getPageBanner();
   const cloudinary = await getCloudinary();
   const metadata = await getMetadata();
+  const businessHours = await getBusinessHours();
+  console.log("businessHours", businessHours);
 
   return (
     <div className="space-y-3">
@@ -34,6 +37,7 @@ export default async function page() {
         pageBanner={bannerPage?.data || []}
         cloudinary={cloudinary?.data || []}
         metadata={metadata?.data || []}
+        businessHours={businessHours?.data || []}
       />
     </div>
   );
