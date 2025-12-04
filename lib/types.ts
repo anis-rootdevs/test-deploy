@@ -336,6 +336,24 @@ export type ShopShowcase = {
   imageThree?: string;
 };
 
+export type StoryShowcase = {
+  _id: string;
+  tagline: string;
+  heading: string;
+  shortDesc: string;
+  story: string;
+  valueShortDesc: string;
+  imageOne?: string;
+  imageTwo?: string;
+  imageThree?: string;
+  values?: {
+    _id?: string;
+    title: string;
+    shortDesc: string;
+    icon: string;
+  }[];
+};
+
 export type BusinessHour = {
   day: string;
   open: string;
@@ -349,4 +367,23 @@ export type ReservationShowcase = {
   darkImage?: string;
   lightImage?: string;
   businessHour?: string[];
+};
+
+export type OfferProducts = {
+  _id: string;
+  name: string;
+  price?: number;
+  image?: string;
+  heading?: string;
+  shortDesc?: string;
+  // any other fields you use
+};
+
+export type OfferShowcase = {
+  _id: string;
+  tagline: string;
+  heading: string;
+  deadline: string;
+  image?: string;
+  products?: OfferProducts[];
 };

@@ -1,10 +1,15 @@
 "use client";
 import CustomSeparator from "@/components/custom/custom-separator";
+import { OfferShowcase } from "@/lib/types";
 import { useMenuFilterStore } from "@/store/useMenuFilterStore";
 import MenuItemCard from "./MenuItemCard";
 import OffersSection from "./OffersSection";
 
-const ShowFilteredItems = () => {
+const ShowFilteredItems = ({
+  offerShowcase,
+}: {
+  offerShowcase: OfferShowcase;
+}) => {
   const { filteredProducts, activeCategory, categories } = useMenuFilterStore();
 
   const isAllCategory = activeCategory === "all";
@@ -22,7 +27,7 @@ const ShowFilteredItems = () => {
           <>
             {isAllCategory ? (
               <>
-                <OffersSection />
+                <OffersSection offerShowcase={offerShowcase} />
                 {categories.map((category) => (
                   <div key={category._id}>
                     {/* Category Separator */}

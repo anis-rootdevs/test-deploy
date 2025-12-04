@@ -63,12 +63,6 @@ export default function ReservationShowcaseForm({
   }, [showCase, reset]);
 
   const onSubmit = async (data: ReservationShowcaseFormData) => {
-    // Validate at least one image for create mode
-    // if (imageOneFiles.length === 0) {
-    //   toast.error("Please upload at least one image!");
-    //   return;
-    // }
-
     try {
       const loadingToast = toast.loading(
         isEditMode ? "Updating showcase..." : "Adding showcase..."

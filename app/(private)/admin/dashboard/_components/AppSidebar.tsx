@@ -1,15 +1,13 @@
 "use client";
 
-import { adminDashboardMenu } from "@/public/sample-data/landing-page-data";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
 } from "@/components/ui/sidebar";
+import { adminDashboardMenu } from "@/public/sample-data/landing-page-data";
 import AppSidebarHeader from "./AppSidebarHeader";
 import NavMenuItems from "./NavMenuItems";
-import AppSidebarFooter from "./AppSidebarFooter";
 
 export default function AppSidebar({
   ...props
@@ -23,9 +21,9 @@ export default function AppSidebar({
         <NavMenuItems items={adminDashboardMenu.navMain} />
         {/* <NavProjects projects={adminDashboardMenu.projects} /> */}
       </SidebarContent>
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <AppSidebarFooter user={adminDashboardMenu.user} />
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Sidebar>
   );
 }

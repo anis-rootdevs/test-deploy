@@ -92,6 +92,17 @@ export default function DatePickerField<T extends FieldValues>({
             if (flatpickrInstanceRef.current) {
               flatpickrInstanceRef.current.destroy();
             }
+            // Parse initial value if it exists
+            let initialDate = field.value || defaultDate;
+
+            // If field.value is an ISO string or timestamp, convert it to Date object
+            if (initialDate && typeof initialDate === "string") {
+              // Check if it's an ISO date string
+              const parsedDate = new Date(initialDate);
+              if (!isNaN(parsedDate.getTime())) {
+                initialDate = parsedDate;
+              }
+            }
 
             // Create new Flatpickr instance
             flatpickrInstanceRef.current = flatpickr(inputRef.current, {
@@ -101,13 +112,18 @@ export default function DatePickerField<T extends FieldValues>({
               minDate,
               maxDate,
               mode,
-              defaultDate: field.value || defaultDate,
+              defaultDate: initialDate,
               time_24hr,
               minuteIncrement,
               defaultHour,
               defaultMinute,
-              onChange: (_, dateStr) => {
-                field.onChange(dateStr);
+              onChange: (selectedDates) => {
+                // Store as ISO string for consistency
+                if (selectedDates.length > 0) {
+                  field.onChange(selectedDates[0].toISOString());
+                } else {
+                  field.onChange("");
+                }
               },
               onClose: () => {
                 field.onBlur();
@@ -137,7 +153,10 @@ export default function DatePickerField<T extends FieldValues>({
           // Sync external field value with Flatpickr
           useEffect(() => {
             if (flatpickrInstanceRef.current && field.value) {
-              flatpickrInstanceRef.current.setDate(field.value, false);
+              const date = new Date(field.value); // convert string → Date
+              if (!isNaN(date.getTime())) {
+                flatpickrInstanceRef.current.setDate(date, false);
+              }
             }
           }, [field.value]);
 
