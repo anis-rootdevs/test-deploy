@@ -98,3 +98,53 @@ export async function updatePageBanner(data: FormData) {
     };
   }
 }
+
+// Cloudinary api
+
+export async function getCloudinary() {
+  try {
+    const res = await apiClient(`/api/admin/settings/cloudinary`, {
+      method: "GET",
+      tags: ["cloudinarySettings"],
+    });
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get cloudinary list",
+      data: null,
+    };
+  }
+}
+
+export async function updateCloudinary(data: any) {
+  try {
+    // Both create and update use PUT method
+    const endpoint = `/api/admin/settings/cloudinary`;
+
+    const res = await apiClient(endpoint, {
+      method: "PUT",
+      body: data,
+      isFormData: false,
+    });
+
+    if (res?.status) {
+      updateTag("cloudinarySettings");
+    }
+
+    return res;
+  } catch (error) {
+    return {
+      status: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to save cloudinarySettings",
+      data: null,
+    };
+  }
+}

@@ -1,4 +1,5 @@
 import {
+  getCloudinary,
   getGeneralSettings,
   getPageBanner,
 } from "@/actions/settings/settingsActions";
@@ -14,6 +15,7 @@ const breadcrumbItems = [
 export default async function page() {
   const generalSettings = await getGeneralSettings();
   const bannerPage = await getPageBanner();
+  const cloudinary = await getCloudinary();
 
   return (
     <div className="space-y-3">
@@ -28,6 +30,7 @@ export default async function page() {
       <SettingsPage
         generalSettings={generalSettings?.data || []}
         pageBanner={bannerPage?.data || []}
+        cloudinary={cloudinary?.data || []}
       />
     </div>
   );

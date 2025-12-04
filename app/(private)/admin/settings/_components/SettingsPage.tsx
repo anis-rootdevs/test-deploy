@@ -7,19 +7,23 @@ import {
 } from "@/components/ui/tooltip";
 import { Globe, Mail, Settings, Shield, Users } from "lucide-react";
 import { useState } from "react";
+import CloudinarySettings from "./CloudinarySettings";
 import GeneralSettings from "./GeneralSettings";
-import LegalSettings from "./LegalSettings";
 import PageBanner from "./PageBanner";
 import SocialSettings from "./SocialSettings";
 import SystemSettings from "./SystemSettings";
 
-export default function SettingsPage({ generalSettings, pageBanner }: any) {
+export default function SettingsPage({
+  generalSettings,
+  pageBanner,
+  cloudinary,
+}: any) {
   const [activeTab, setActiveTab] = useState("general");
 
   const tabs = [
     { id: "general", label: "General", icon: Globe },
     { id: "banner", label: "Banner", icon: Mail },
-    { id: "legal", label: "Legal", icon: Shield },
+    { id: "cloudinary", label: "Cloudinary", icon: Shield },
     { id: "social", label: "Social", icon: Users },
     { id: "system", label: "System", icon: Settings },
   ];
@@ -30,8 +34,8 @@ export default function SettingsPage({ generalSettings, pageBanner }: any) {
         return <GeneralSettings general={generalSettings} />;
       case "banner":
         return <PageBanner pageBanner={pageBanner} />;
-      case "legal":
-        return <LegalSettings />;
+      case "cloudinary":
+        return <CloudinarySettings cloudinary={cloudinary} />;
       case "social":
         return <SocialSettings />;
       case "system":
