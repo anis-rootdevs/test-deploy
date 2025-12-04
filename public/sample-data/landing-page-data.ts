@@ -3,6 +3,7 @@ import {
   Frame,
   GalleryVerticalEnd,
   Images,
+  LayoutDashboard,
   PieChart,
   Settings2,
 } from "lucide-react";
@@ -251,6 +252,11 @@ export const adminDashboardMenu = {
     },
   ],
   navMain: [
+    {
+      title: "Dashboard",
+      url: routes.privateRoutes.admin.dashboard,
+      icon: LayoutDashboard,
+    },
     {
       title: "Banner",
       url: routes.privateRoutes.admin.banner.home,

@@ -14,7 +14,7 @@ export default function AppSidebarHeader({ teams }: any) {
       <SidebarMenuItem>
         <SidebarMenuButton
           size="lg"
-          className="hover:bg-transparent hover:shadow-none hover:text-black dark:hover:text-white"
+          className="hover:bg-transparent active:bg-transparent hover:shadow-none hover:text-black dark:hover:text-white active:text-black"
         >
           <div className="bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-sm  ">
             <Coffee className="size-6" />

@@ -67,8 +67,8 @@
   --muted: #f5f5f5;
   --muted-foreground: #888888;
 
-  --accent: #ff642b99;
-  --accent-foreground: #ff642b;
+  --accent: #e6b17e;
+  --accent-foreground: #ffffff;
 
   --destructive: #830e0e;
   --border: #e5e5e5;
@@ -111,7 +111,7 @@
   --muted-foreground: #bbbbbb;
 
   --accent: #e6b17e;
-  --accent-foreground: #ff642b;
+  --accent-foreground: #ffffff;
 
   --destructive: #ff4d4f;
   --border: #444444;
@@ -145,6 +145,69 @@
 
   .datepicker-input ~ .flatpickr-calendar {
     @apply bg-card border border-red-500 rounded-lg shadow-lg p-2 z-50;
+  }
+  /* Sun Editor */
+  .suneditor-wrapper {
+    @apply relative;
+  }
+
+  .suneditor-wrapper * {
+    @apply dark:!border-[#BBC9DB];
+  }
+
+  .suneditor-wrapper .sun-editor {
+    @apply dark:!border-[#BBC9DB];
+  }
+
+  .suneditor-wrapper .se-container {
+    @apply dark:!bg-background dark:!text-foreground;
+  }
+
+  .suneditor-wrapper .se-toolbar {
+    @apply dark:!bg-background !sticky !top-0;
+  }
+
+  .suneditor-wrapper .se-toolbar button {
+    @apply dark:!text-foreground dark:hover:!bg-muted dark:hover:!text-foreground;
+  }
+  .suneditor-wrapper .se-toolbar .se-btn.on {
+    @apply dark:[&.on]:!bg-muted dark:[&.on]:!text-foreground dark:hover:!bg-muted dark:hover:!text-foreground;
+  }
+
+  .suneditor-wrapper .se-resizing-bar {
+    @apply dark:!bg-background dark:!border-[#BBC9DB];
+  }
+
+  .suneditor-wrapper .se-tooltip {
+    @apply dark:!text-foreground dark:hover:!bg-muted dark:hover:!text-foreground;
+  }
+
+  .suneditor-wrapper .se-wrapper-inner {
+    @apply dark:!bg-transparent dark:!text-foreground;
+  }
+
+  .suneditor-wrapper .se-code,
+  .suneditor-wrapper .se-code * {
+    @apply dark:!bg-background;
+  }
+  .suneditor-wrapper .se-list-layer {
+    @apply dark:!bg-muted dark:!text-foreground;
+  }
+
+  .suneditor-wrapper .se-list {
+    @apply dark:!bg-background dark:!text-foreground;
+  }
+
+  .suneditor-wrapper .se-list-item,
+  .suneditor-wrapper .se-btn-list {
+    @apply dark:!bg-background dark:!text-foreground;
+  }
+
+  .suneditor-wrapper .se-list::-webkit-scrollbar {
+    width: 2px;
+  }
+  .suneditor-wrapper .se-list::-webkit-scrollbar-thumb {
+    @apply dark:!bg-muted-foreground;
   }
 
   @font-face {

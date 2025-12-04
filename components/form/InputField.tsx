@@ -25,7 +25,7 @@ export default function InputField<TFieldValues extends FieldValues>({
   const fieldError = errors?.[name] as FieldError | undefined;
 
   return (
-    <div className="w-full">
+    <div className="w-full relative !z-0">
       {label && (
         <Label
           htmlFor={id || name}
