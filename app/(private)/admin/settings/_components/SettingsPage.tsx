@@ -9,14 +9,15 @@ import { Globe, Mail, Settings, Shield, Users } from "lucide-react";
 import { useState } from "react";
 import CloudinarySettings from "./CloudinarySettings";
 import GeneralSettings from "./GeneralSettings";
+import MetadataSettings from "./MetadataSettings";
 import PageBanner from "./PageBanner";
-import SocialSettings from "./SocialSettings";
 import SystemSettings from "./SystemSettings";
 
 export default function SettingsPage({
   generalSettings,
   pageBanner,
   cloudinary,
+  metadata,
 }: any) {
   const [activeTab, setActiveTab] = useState("general");
 
@@ -24,7 +25,7 @@ export default function SettingsPage({
     { id: "general", label: "General", icon: Globe },
     { id: "banner", label: "Banner", icon: Mail },
     { id: "cloudinary", label: "Cloudinary", icon: Shield },
-    { id: "social", label: "Social", icon: Users },
+    { id: "metaData", label: "Meta Data", icon: Users },
     { id: "system", label: "System", icon: Settings },
   ];
 
@@ -36,8 +37,8 @@ export default function SettingsPage({
         return <PageBanner pageBanner={pageBanner} />;
       case "cloudinary":
         return <CloudinarySettings cloudinary={cloudinary} />;
-      case "social":
-        return <SocialSettings />;
+      case "metaData":
+        return <MetadataSettings metadata={metadata} />;
       case "system":
         return <SystemSettings />;
       default:

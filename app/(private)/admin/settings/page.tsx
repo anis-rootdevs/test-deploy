@@ -1,6 +1,7 @@
 import {
   getCloudinary,
   getGeneralSettings,
+  getMetadata,
   getPageBanner,
 } from "@/actions/settings/settingsActions";
 import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
@@ -16,6 +17,7 @@ export default async function page() {
   const generalSettings = await getGeneralSettings();
   const bannerPage = await getPageBanner();
   const cloudinary = await getCloudinary();
+  const metadata = await getMetadata();
 
   return (
     <div className="space-y-3">
@@ -31,6 +33,7 @@ export default async function page() {
         generalSettings={generalSettings?.data || []}
         pageBanner={bannerPage?.data || []}
         cloudinary={cloudinary?.data || []}
+        metadata={metadata?.data || []}
       />
     </div>
   );

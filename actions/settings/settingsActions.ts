@@ -148,3 +148,49 @@ export async function updateCloudinary(data: any) {
     };
   }
 }
+
+// meta data settings api
+
+export async function getMetadata() {
+  try {
+    const res = await apiClient(`/api/admin/settings/metadata`, {
+      method: "GET",
+      tags: ["metaDataSettings"],
+    });
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Failed to get metadata list",
+      data: null,
+    };
+  }
+}
+
+export async function updateMetadata(data: FormData) {
+  try {
+    // Both create and update use PUT method
+    const endpoint = `/api/admin/settings/metadata`;
+
+    const res = await apiClient(endpoint, {
+      method: "PUT",
+      body: data,
+      isFormData: true,
+    });
+
+    if (res?.status) {
+      updateTag("metaDataSettings");
+    }
+
+    return res;
+  } catch (error) {
+    return {
+      status: false,
+      message:
+        error instanceof Error ? error.message : "Failed to save metadata",
+      data: null,
+    };
+  }
+}
