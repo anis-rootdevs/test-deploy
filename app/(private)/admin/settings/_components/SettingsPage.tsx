@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Globe, Mail, Settings, Shield, Users } from "lucide-react";
+import { Globe, Mail, Shield, Timer, Users } from "lucide-react";
 import { useState } from "react";
 import BusinessHour from "./BusinessHour";
 import CloudinarySettings from "./CloudinarySettings";
@@ -27,7 +27,7 @@ export default function SettingsPage({
     { id: "banner", label: "Banner", icon: Mail },
     { id: "cloudinary", label: "Cloudinary", icon: Shield },
     { id: "metaData", label: "Meta Data", icon: Users },
-    { id: "hours", label: "Business Hour", icon: Settings },
+    { id: "hours", label: "Business Hour", icon: Timer },
   ];
 
   const renderContent = () => {

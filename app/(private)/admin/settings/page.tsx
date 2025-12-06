@@ -20,7 +20,6 @@ export default async function page() {
   const cloudinary = await getCloudinary();
   const metadata = await getMetadata();
   const businessHours = await getBusinessHours();
-  console.log("businessHours", businessHours);
 
   return (
     <div className="space-y-3">

@@ -2,104 +2,118 @@
 
 import { updateBusinessHours } from "@/actions/settings/settingsActions";
 import { Button } from "@/components/ui/button";
+import { IBusinessHours } from "@/lib/types";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import OpeningHours from "./OpeningHours";
 
-interface BusinessHour {
-  dayOfWeek: number;
-  openTime: number;
-  closeTime: number;
-  isClosed: boolean;
-}
+import OpensHours, { initialValues } from "./OpensHours";
+
+const convertTimeToMinutes = (timeString: string): number => {
+  if (!timeString) return 0;
+  const [hours, minutes] = timeString.split(":").map(Number);
+  return hours * 60 + minutes;
+};
+
+const REVERSE_DAY_MAPPING: Record<string, number> = {
+  monday: 1,
+  tuesday: 2,
+  wednesday: 3,
+  thursday: 4,
+  friday: 5,
+  saturday: 6,
+  sunday: 0,
+};
 
 interface FormData {
-  operationHours: {
+  businessHour: {
     [key: string]: { open: string; close: string };
   };
-  businessHoursFormatted: BusinessHour[];
 }
 
-export function convertTimeToMinutes(time: any) {
-  // If already a number (like 540), return it
-  if (typeof time === "number" && !Number.isNaN(time)) {
-    return time;
-  }
-
-  // If empty or invalid → return 0
-  if (!time || typeof time !== "string" || !time.includes(":")) {
-    return 0;
-  }
-
-  const [h, m] = time.split(":").map(Number);
-  if (Number.isNaN(h) || Number.isNaN(m)) return 0;
-
-  return h * 60 + m;
-}
-
-export default function BusinessHours({ businessHours }: any) {
+export default function BusinessHours({
+  businessHours,
+}: {
+  businessHours: IBusinessHours[] | { businessHours: IBusinessHours[] };
+}) {
   const methods = useForm<FormData>({
     defaultValues: {
-      operationHours: {
-        monday: { open: "", close: "" },
-        tuesday: { open: "", close: "" },
-        wednesday: { open: "", close: "" },
-        thursday: { open: "", close: "" },
-        friday: { open: "", close: "" },
-        saturday: { open: "", close: "" },
-        sunday: { open: "", close: "" },
-      },
-      businessHoursFormatted: [],
+      businessHour: {},
     },
   });
 
   const {
     handleSubmit,
+    setValue,
+    control,
     formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data: any) => {
     try {
-      const finalPayload = data.businessHoursFormatted.map((row) => {
-        const open = convertTimeToMinutes(row.openTime);
-        const close = convertTimeToMinutes(row.closeTime);
+      const businessHourArray = initialValues.map((day) => {
+        const dayData = data.businessHour[day.value];
+        const openTime = dayData?.open ? convertTimeToMinutes(dayData.open) : 0;
+        const closeTime = dayData?.close
+          ? convertTimeToMinutes(dayData.close)
+          : 0;
 
-        const isClosed = row.isClosed || open === 0 || close === 0;
+        // isClosed is true when no times are set OR when times are 0
+        const isClosed =
+          !dayData?.open ||
+          !dayData?.close ||
+          openTime === 0 ||
+          closeTime === 0;
 
         return {
-          dayOfWeek: row.dayOfWeek,
-          openTime: isClosed ? 0 : open,
-          closeTime: isClosed ? 0 : close,
+          dayOfWeek: REVERSE_DAY_MAPPING[day.value],
+          openTime: isClosed ? 0 : openTime,
+          closeTime: isClosed ? 0 : closeTime,
           isClosed,
         };
       });
 
-      console.log("FINAL PAYLOAD SENT TO API:", finalPayload);
+      // Wrap in businessHour key as expected by API
+      const finalPayload = {
+        businessHour: businessHourArray,
+      };
 
       const response: any = await updateBusinessHours(finalPayload);
 
       if (!response || response.status !== true) {
-        throw new Error("Failed to update business hours");
+        throw new Error(response?.message || "Failed to update business hours");
       }
 
-      toast.success("Business hours updated successfully!");
+      toast.success(
+        response?.message || "Business hours updated successfully!"
+      );
     } catch (error) {
-      console.error("Error updating business hours:", error);
-      toast.error("Failed to update business hours");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to update business hours"
+      );
     }
   };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <OpeningHours businessHours={businessHours || []} />
+      <div className="space-y-6">
+        <OpensHours
+          control={control}
+          setValue={setValue}
+          businessHours={businessHours}
+        />
 
-        <div className="flex justify-end">
-          <Button type="submit" disabled={isSubmitting}>
+        <div className="flex justify-end gap-4">
+          <Button
+            type="button"
+            onClick={handleSubmit(onSubmit)}
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Updating..." : "Update Business Hours"}
           </Button>
         </div>
-      </form>
+      </div>
     </FormProvider>
   );
 }
