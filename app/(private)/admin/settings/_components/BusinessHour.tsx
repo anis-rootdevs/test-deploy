@@ -6,6 +6,7 @@ import { IBusinessHours } from "@/lib/types";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
+import { Save } from "lucide-react";
 import OpensHours, { initialValues } from "./OpensHours";
 
 const convertTimeToMinutes = (timeString: string): number => {
@@ -109,8 +110,10 @@ export default function BusinessHours({
             type="button"
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitting}
+            className="flex items-center gap-2 cursor-pointer"
           >
-            {isSubmitting ? "Updating..." : "Update Business Hours"}
+            <Save className="h-4 w-4" />
+            {isSubmitting ? "Updating Business..." : "Update Business Hours"}
           </Button>
         </div>
       </div>

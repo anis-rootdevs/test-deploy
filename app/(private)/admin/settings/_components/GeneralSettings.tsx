@@ -377,7 +377,7 @@ export default function GeneralSettings({ general }: any) {
           <Button
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitting}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 cursor-pointer"
           >
             <Save className="h-4 w-4" />
             {isSubmitting ? "Updating..." : "Update General Settings"}

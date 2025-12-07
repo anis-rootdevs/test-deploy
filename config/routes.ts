@@ -8,6 +8,7 @@ export const routes = {
     ourStory: "/our-story",
     adminLogin: "/admin/login",
     policy: "/policy",
+    terms: "/terms",
   },
   privateRoutes: {
     admin: {

@@ -211,7 +211,7 @@ export default function PageBanner({ pageBanner }: any) {
             className="flex items-center gap-2 cursor-pointer"
           >
             <Save className="h-4 w-4" />
-            {isSubmitting ? "Updating Banner..." : "Update Banner Image"}
+            {isSubmitting ? "Updating Banner..." : "Update Banner Settings"}
           </Button>
         </div>
       </div>

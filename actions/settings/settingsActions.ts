@@ -288,3 +288,23 @@ export async function updateTermsPolicy(data: any) {
     };
   }
 }
+
+export async function getAllSettingsDetails(context: string) {
+  try {
+    const res = await apiClient(`/api/settings?context=${context}`, {
+      method: "GET",
+      tags: ["settings"],
+      // cache: "no-store",
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get general setting data",
+      data: null,
+    };
+  }
+}

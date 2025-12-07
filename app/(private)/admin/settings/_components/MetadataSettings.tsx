@@ -17,7 +17,7 @@ import { Save, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FaMeta } from "react-icons/fa6";
+import { FaFileCode } from "react-icons/fa6";
 import FileUploadComponent from "../../dashboard/_components/FileUploadComponent";
 
 interface MetadataFormData {
@@ -138,7 +138,7 @@ export default function MetadataSettings({ metadata }: any) {
         <Card className="dark:bg-gray-800 dark:border-gray-700">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <FaMeta className="h-5 w-5 text-primary" />
+              <FaFileCode className="h-5 w-5 text-primary" />
               Metadata Information
             </CardTitle>
             <CardDescription className="dark:text-gray-400">
@@ -264,7 +264,7 @@ export default function MetadataSettings({ metadata }: any) {
             className="flex items-center gap-2 cursor-pointer"
           >
             <Save className="h-4 w-4" />
-            {isSubmitting ? "Updating..." : "Update General Settings"}
+            {isSubmitting ? "Updating Metadata..." : "Update Metadata Settings"}
           </Button>
         </div>
       </div>

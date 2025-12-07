@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useState } from "react";
 import { FaSlidersH } from "react-icons/fa";
-import { FaFileContract, FaImage, FaMeta } from "react-icons/fa6";
+import { FaFileCode, FaFileContract, FaImage } from "react-icons/fa6";
 import { MdAccessTime } from "react-icons/md";
 import { SiCloudinary } from "react-icons/si";
 import BusinessHour from "./BusinessHour";
@@ -30,7 +30,7 @@ export default function SettingsPage({
     { id: "general", label: "General", icon: FaSlidersH },
     { id: "banner", label: "Banner", icon: FaImage },
     { id: "cloudinary", label: "Cloudinary", icon: SiCloudinary },
-    { id: "metaData", label: "Meta Data", icon: FaMeta },
+    { id: "metaData", label: "Metadata", icon: FaFileCode },
     { id: "hours", label: "Business Hour", icon: MdAccessTime },
     { id: "terms", label: "Terms & Policy", icon: FaFileContract },
   ];
