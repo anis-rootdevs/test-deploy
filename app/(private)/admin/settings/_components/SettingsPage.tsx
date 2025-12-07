@@ -1,0 +1,111 @@
+"use client";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Globe, Mail, Shield, Timer, Users } from "lucide-react";
+import { useState } from "react";
+import BusinessHour from "./BusinessHour";
+import CloudinarySettings from "./CloudinarySettings";
+import GeneralSettings from "./GeneralSettings";
+import MetadataSettings from "./MetadataSettings";
+import PageBanner from "./PageBanner";
+
+export default function SettingsPage({
+  generalSettings,
+  pageBanner,
+  cloudinary,
+  metadata,
+  businessHours,
+}: any) {
+  const [activeTab, setActiveTab] = useState("general");
+
+  const tabs = [
+    { id: "general", label: "General", icon: Globe },
+    { id: "banner", label: "Banner", icon: Mail },
+    { id: "cloudinary", label: "Cloudinary", icon: Shield },
+    { id: "metaData", label: "Meta Data", icon: Users },
+    { id: "hours", label: "Business Hour", icon: Timer },
+  ];
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "general":
+        return <GeneralSettings general={generalSettings} />;
+      case "banner":
+        return <PageBanner pageBanner={pageBanner} />;
+      case "cloudinary":
+        return <CloudinarySettings cloudinary={cloudinary} />;
+      case "metaData":
+        return <MetadataSettings metadata={metadata} />;
+      case "hours":
+        return <BusinessHour businessHours={businessHours} />;
+      default:
+        return <GeneralSettings general={generalSettings} />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-8">
+      <div className="w-full">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Sidebar Navigation - Desktop */}
+          <aside className="hidden lg:block lg:w-72 flex-shrink-0">
+            <nav className="space-y-1 bg-white dark:bg-gray-800 rounded-lg shadow p-2">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`w-full flex items-center gap-3 px-4 py-2 rounded-sm text-left transition-colors cursor-pointer ${
+                      activeTab === tab.id
+                        ? "bg-primary text-white"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span className="font-medium">{tab.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </aside>
+
+          {/* Mobile Navigation - Icons Only with Tooltips */}
+          <TooltipProvider>
+            <nav className="lg:hidden inline-flex items-center gap-2 bg-white dark:bg-gray-800 rounded-lg shadow p-3 mb-4 overflow-x-scroll">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <Tooltip key={tab.id}>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`flex-shrink-0 p-3 rounded-sm transition-colors ${
+                          activeTab === tab.id
+                            ? "bg-primary text-white"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        }`}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{tab.label}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </nav>
+          </TooltipProvider>
+
+          {/* Content Area */}
+          <main className="flex-1">{renderContent()}</main>
+        </div>
+      </div>
+    </div>
+  );
+}

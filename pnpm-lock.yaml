@@ -62,6 +62,9 @@ importers:
       '@radix-ui/react-switch':
         specifier: ^1.2.6
         version: 1.2.6(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-tabs':
+        specifier: ^1.1.13
+        version: 1.1.13(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-tooltip':
         specifier: ^1.2.8
         version: 1.2.8(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -137,6 +140,9 @@ importers:
       react-dom:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
+      react-flatpickr:
+        specifier: ^4.0.11
+        version: 4.0.11(react@19.1.0)
       react-hook-form:
         specifier: ^7.62.0
         version: 7.64.0(react@19.1.0)
@@ -152,6 +158,12 @@ importers:
       react-phone-input-2:
         specifier: ^2.15.1
         version: 2.15.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      suneditor:
+        specifier: ^2.47.8
+        version: 2.47.8
+      suneditor-react:
+        specifier: 3.6.1
+        version: 3.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(suneditor@2.47.8)
       swiper:
         specifier: ^12.0.3
         version: 12.0.3
@@ -2801,6 +2813,11 @@ packages:
     peerDependencies:
       react: ^19.1.0
 
+  react-flatpickr@4.0.11:
+    resolution: {integrity: sha512-S0TAu8eUeJgN8lZ0Efi41WGPM/tPPUvrveXQ8CAUO60+7TTrF5Ehyv8fvPVagKCqJahY7hXYERM7XfH2hSAWdg==}
+    peerDependencies:
+      react: '>= 16 <= 19'
+
   react-hook-form@7.64.0:
     resolution: {integrity: sha512-fnN+vvTiMLnRqKNTVhDysdrUay0kUUAymQnFIznmgDvapjveUWOOPqMNzPg+A+0yf9DuE2h6xzBjN1s+Qx8wcg==}
     engines: {node: '>=18.0.0'}
@@ -3025,6 +3042,16 @@ packages:
         optional: true
       babel-plugin-macros:
         optional: true
+
+  suneditor-react@3.6.1:
+    resolution: {integrity: sha512-12f9KLnEB6pAdyHJINTzRBg3UOWVZZ+jVYSEtwdBTDYQW4amUZr0xOnpikbBAlxb9rcTYV5RHAsad3gnNhLsuA==}
+    peerDependencies:
+      react: '>= 16.8.0'
+      react-dom: '>= 16.8.0'
+      suneditor: ^2.44.10
+
+  suneditor@2.47.8:
+    resolution: {integrity: sha512-GGzaN1m+rFIR/zHdRxSH5JvzzJIF4UoaX2bWmcvk6NIcq2qgvdkR0iO+yFyjIL6zTVMeBI/GWkJMvOh8Qe5ehw==}
 
   supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -5947,6 +5974,11 @@ snapshots:
       react: 19.1.0
       scheduler: 0.26.0
 
+  react-flatpickr@4.0.11(react@19.1.0):
+    dependencies:
+      flatpickr: 4.6.13
+      react: 19.1.0
+
   react-hook-form@7.64.0(react@19.1.0):
     dependencies:
       react: 19.1.0
@@ -6236,6 +6268,14 @@ snapshots:
     dependencies:
       client-only: 0.0.1
       react: 19.1.0
+
+  suneditor-react@3.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(suneditor@2.47.8):
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      suneditor: 2.47.8
+
+  suneditor@2.47.8: {}
 
   supports-color@7.2.0:
     dependencies:
