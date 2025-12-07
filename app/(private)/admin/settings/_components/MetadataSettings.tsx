@@ -13,10 +13,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Info, Save, X } from "lucide-react";
+import { Save, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaMeta } from "react-icons/fa6";
 import FileUploadComponent from "../../dashboard/_components/FileUploadComponent";
 
 interface MetadataFormData {
@@ -137,7 +138,7 @@ export default function MetadataSettings({ metadata }: any) {
         <Card className="dark:bg-gray-800 dark:border-gray-700">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Info className="h-5 w-5 text-primary" />
+              <FaMeta className="h-5 w-5 text-primary" />
               Metadata Information
             </CardTitle>
             <CardDescription className="dark:text-gray-400">

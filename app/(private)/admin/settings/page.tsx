@@ -4,6 +4,7 @@ import {
   getGeneralSettings,
   getMetadata,
   getPageBanner,
+  getTermsPolicy,
 } from "@/actions/settings/settingsActions";
 import { DynamicBreadcrumb } from "@/components/custom/DynamicBreadcrumb";
 import SettingsPage from "./_components/SettingsPage";
@@ -20,6 +21,7 @@ export default async function page() {
   const cloudinary = await getCloudinary();
   const metadata = await getMetadata();
   const businessHours = await getBusinessHours();
+  const termsPolicy = await getTermsPolicy();
 
   return (
     <div className="space-y-3">
@@ -37,6 +39,7 @@ export default async function page() {
         cloudinary={cloudinary?.data || []}
         metadata={metadata?.data || []}
         businessHours={businessHours?.data || []}
+        termsPolicy={termsPolicy?.data || []}
       />
     </div>
   );

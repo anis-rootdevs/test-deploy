@@ -5,31 +5,34 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Globe, Mail, Shield, Timer, Users } from "lucide-react";
 import { useState } from "react";
+import { FaSlidersH } from "react-icons/fa";
+import { FaFileContract, FaImage, FaMeta } from "react-icons/fa6";
+import { MdAccessTime } from "react-icons/md";
+import { SiCloudinary } from "react-icons/si";
 import BusinessHour from "./BusinessHour";
 import CloudinarySettings from "./CloudinarySettings";
 import GeneralSettings from "./GeneralSettings";
 import MetadataSettings from "./MetadataSettings";
 import PageBanner from "./PageBanner";
 import TermsConditions from "./TermsConditions";
-
 export default function SettingsPage({
   generalSettings,
   pageBanner,
   cloudinary,
   metadata,
   businessHours,
+  termsPolicy,
 }: any) {
   const [activeTab, setActiveTab] = useState("general");
 
   const tabs = [
-    { id: "general", label: "General", icon: Globe },
-    { id: "banner", label: "Banner", icon: Mail },
-    { id: "cloudinary", label: "Cloudinary", icon: Shield },
-    { id: "metaData", label: "Meta Data", icon: Users },
-    { id: "hours", label: "Business Hour", icon: Timer },
-    { id: "terms", label: "Terms & Policy", icon: Timer },
+    { id: "general", label: "General", icon: FaSlidersH },
+    { id: "banner", label: "Banner", icon: FaImage },
+    { id: "cloudinary", label: "Cloudinary", icon: SiCloudinary },
+    { id: "metaData", label: "Meta Data", icon: FaMeta },
+    { id: "hours", label: "Business Hour", icon: MdAccessTime },
+    { id: "terms", label: "Terms & Policy", icon: FaFileContract },
   ];
 
   const renderContent = () => {
@@ -45,7 +48,7 @@ export default function SettingsPage({
       case "hours":
         return <BusinessHour businessHours={businessHours} />;
       case "terms":
-        return <TermsConditions />;
+        return <TermsConditions termsPolicy={termsPolicy} />;
       default:
         return <GeneralSettings general={generalSettings} />;
     }
@@ -80,30 +83,32 @@ export default function SettingsPage({
 
           {/* Mobile Navigation - Icons Only with Tooltips */}
           <TooltipProvider>
-            <nav className="lg:hidden inline-flex items-center gap-2 bg-white dark:bg-gray-800 rounded-lg shadow p-3 mb-4 overflow-x-scroll">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                return (
-                  <Tooltip key={tab.id}>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={() => setActiveTab(tab.id)}
-                        className={`flex-shrink-0 p-3 rounded-sm transition-colors ${
-                          activeTab === tab.id
-                            ? "bg-primary text-white"
-                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        }`}
-                      >
-                        <Icon className="h-5 w-5" />
-                      </button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{tab.label}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                );
-              })}
-            </nav>
+            <div className="lg:hidden bg-white dark:bg-gray-800 rounded-lg shadow mb-4 overflow-x-scroll scrollbar scrollbar-thumb-gray-400 scrollbar-track-transparent scrollbar-thin">
+              <nav className="flex items-center gap-2 p-2 min-w-max">
+                {tabs.map((tab) => {
+                  const Icon = tab.icon;
+                  return (
+                    <Tooltip key={tab.id}>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => setActiveTab(tab.id)}
+                          className={`flex-shrink-0 p-3 rounded-sm transition-colors ${
+                            activeTab === tab.id
+                              ? "bg-primary text-white"
+                              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                          }`}
+                        >
+                          <Icon className="h-5 w-5" />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{tab.label}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                })}
+              </nav>
+            </div>
           </TooltipProvider>
 
           {/* Content Area */}

@@ -33,7 +33,7 @@ export function FlatpickrTimePicker({
           dateFormat: "H:i",
           time_24hr: false,
         }}
-        className="flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 bg-white"
+        className="flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 bg-white dark:bg-gray-900"
         disabled={disabled}
         placeholder="Select time"
       />
