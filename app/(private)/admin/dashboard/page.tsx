@@ -1,18 +1,41 @@
-"use client";
+import { getDashboardStatistics } from "@/actions/dashboard/dashboardActions";
+import DashboardCard from "./_components/DashboardCard";
 
-import useUserProfile from "@/store/useUserProfile";
-
-export default function DashboardPage() {
-  const { userData } = useUserProfile();
-
+export default async function DashboardPage() {
+  const statistics = await getDashboardStatistics();
+  console.log(statistics);
+  const {
+    totalProducts,
+    totalActiveProducts,
+    totalCategory,
+    totalActiveCategory,
+    totalOutlets,
+    totalActiveOutlets,
+    totalPendingReserveTable,
+  } = statistics?.data || {};
   return (
     <div className="">
-      <h1 className="text-2xl font-bold mb-2">
-        Welcome To , Mr. {userData?.data.name}
-      </h1>
-      <p className="mb-6 text-gray-600">You’re logged in successfully!</p>
-
-      <div className="my-4"></div>
+      <div className="my-4 grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <DashboardCard
+          total={totalPendingReserveTable}
+          label="Pending ReserveTable"
+        />
+        <DashboardCard
+          total={totalProducts}
+          active={totalActiveProducts}
+          label="Products"
+        />
+        <DashboardCard
+          total={totalCategory}
+          active={totalActiveCategory}
+          label="Categories"
+        />
+        <DashboardCard
+          total={totalOutlets}
+          active={totalActiveOutlets}
+          label="Outlets"
+        />
+      </div>
     </div>
   );
 }
