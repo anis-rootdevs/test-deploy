@@ -1,5 +1,6 @@
 import { getAllFeaturedGallery } from "@/actions/gallery/galleryActions";
 import { getAllOutlets } from "@/actions/outlets/outletsActions";
+import { getAllSettingsDetails } from "@/actions/settings/settingsActions";
 import { routes } from "@/config/routes";
 import { Galleries, Outlets } from "@/lib/types";
 import { policy, quickMenu } from "@/public/sample-data/landing-page-data";
@@ -19,6 +20,19 @@ const FooterSection = async () => {
   // api call grt galleries
   const gallery = await getAllFeaturedGallery(6);
   const outlet = await getAllOutlets();
+  const settings = await getAllSettingsDetails("general");
+
+  const {
+    companyAddress,
+    ownerEmail,
+    favicon,
+    logo,
+    youtube,
+    twitter,
+    instagram,
+    companyName,
+    facebook,
+  } = settings?.data || {};
 
   return (
     <footer className="w-full bg-[#E2E2E2] dark:bg-[#222831] text-[#2A2A2F] dark:text-[#FEFEFF] ">
@@ -162,30 +176,49 @@ const FooterSection = async () => {
             </div>
             {/* Social Icons */}
             <div className="flex items-center gap-4 mb-6">
-              <Link
-                href="#"
-                className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
-              >
-                <Facebook size={20} />
-              </Link>
-              <Link
-                href="#"
-                className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
-              >
-                <Twitter size={20} />
-              </Link>
-              <Link
-                href="#"
-                className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
-              >
-                <Instagram size={20} />
-              </Link>
-              <Link
-                href="#"
-                className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
-              >
-                <Youtube size={20} />
-              </Link>
+              {facebook && (
+                <Link
+                  href={facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
+                >
+                  <Facebook size={20} />
+                </Link>
+              )}
+
+              {twitter && (
+                <Link
+                  href={twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
+                >
+                  <Twitter size={20} />
+                </Link>
+              )}
+
+              {instagram && (
+                <Link
+                  href={instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
+                >
+                  <Instagram size={20} />
+                </Link>
+              )}
+
+              {youtube && (
+                <Link
+                  href={youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 bg-[#FAF8F5] dark:bg-[#181C20] text-[#1B2A41] dark:text-[#FEFEFF] rounded-full hover:bg-primary"
+                >
+                  <Youtube size={20} />
+                </Link>
+              )}
             </div>
           </div>
           <div className="mb-4">
@@ -194,8 +227,9 @@ const FooterSection = async () => {
 
           {/* Copyright */}
           <p className="text-[13px] font-normal font-jost">
-            © {new Date().getFullYear()} Neber | Powered by{" "}
-            <span className="">Rootstream</span>
+            © {new Date().getFullYear()} {companyName || ""} | All Rights
+            Reserved!
+            <span className="ml-1"> Rootstream</span>
           </p>
         </div>
       </div>
