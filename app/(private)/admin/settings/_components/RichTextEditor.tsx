@@ -24,7 +24,7 @@ interface IProps {
   disabled?: boolean;
 }
 
-export default function FormEditor({
+export default function RichTextEditor({
   label,
   name,
   description,
@@ -41,7 +41,10 @@ export default function FormEditor({
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid} className="gap-2">
           {label && (
-            <FieldLabel className="font-bold" htmlFor={field.name}>
+            <FieldLabel
+              className="font-bold text-sm font-jost mb-1.5"
+              htmlFor={field.name}
+            >
               {label}
               {required && <span className="text-destructive">*</span>}
             </FieldLabel>
@@ -54,7 +57,8 @@ export default function FormEditor({
               setOptions={{
                 buttonList: [
                   ["undo", "redo"],
-                  ["font", "fontSize", "formatBlock"],
+                  // ["font", "fontSize", "formatBlock"],
+                  ["formatBlock"],
                   [
                     "bold",
                     "underline",
@@ -63,12 +67,14 @@ export default function FormEditor({
                     "subscript",
                     "superscript",
                   ],
-                  ["fontColor", "hiliteColor"],
+                  // ["fontColor", "hiliteColor"],
                   ["removeFormat"],
                   ["outdent", "indent"],
                   ["align", "horizontalRule", "list", "lineHeight"],
-                  ["table", "link", "image"],
-                  ["fullScreen", "showBlocks", "codeView"],
+                  // ["table", "link", "image"],
+                  ["table", "link"],
+                  // ["fullScreen", "showBlocks", "codeView"],
+                  ["fullScreen"],
                 ],
                 defaultTag: "p",
                 minHeight: "300px",

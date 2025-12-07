@@ -9,10 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Cloud, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { SiCloudinary } from "react-icons/si";
 
 interface CloudinaryData {
   cloudName: string;
@@ -38,10 +39,7 @@ export default function CloudinarySettings({
 
   const {
     handleSubmit,
-    register,
-    control,
     reset,
-    setValue,
     watch,
     formState: { isSubmitting, errors },
   } = methods;
@@ -97,7 +95,7 @@ export default function CloudinarySettings({
         <Card className="dark:bg-gray-800 dark:border-gray-700  ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Cloud className="h-5 w-5 text-primary" />
+              <SiCloudinary className="h-5 w-5 text-primary" />
               Cloudinary Information
             </CardTitle>
             <CardDescription className="dark:text-gray-400">

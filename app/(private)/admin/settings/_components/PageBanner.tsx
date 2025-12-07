@@ -9,10 +9,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Inbox, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaImage } from "react-icons/fa6";
 import FileUploadComponent from "../../dashboard/_components/FileUploadComponent";
 
 interface BannerFormData {
@@ -103,7 +104,7 @@ export default function PageBanner({ pageBanner }: any) {
         <Card className="dark:bg-gray-800 dark:border-gray-700  ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Inbox className="h-5 w-5 text-primary" />
+              <FaImage className="h-5 w-5 text-primary" />
               Page Banner Information
             </CardTitle>
             <CardDescription className="dark:text-gray-400">
@@ -210,7 +211,7 @@ export default function PageBanner({ pageBanner }: any) {
             className="flex items-center gap-2 cursor-pointer"
           >
             <Save className="h-4 w-4" />
-            {isSubmitting ? "Updating Banner..." : "Update Banner Image"}
+            {isSubmitting ? "Updating Banner..." : "Update Banner Settings"}
           </Button>
         </div>
       </div>

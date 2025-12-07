@@ -378,7 +378,7 @@ export const quickMenu = [
 ];
 
 export const policy = [
-  { name: "Terms and Conditions", href: routes.publicRoutes.policy },
+  { name: "Terms and Conditions", href: routes.publicRoutes.terms },
   { name: "Privacy Policy", href: routes.publicRoutes.policy },
 ];
 

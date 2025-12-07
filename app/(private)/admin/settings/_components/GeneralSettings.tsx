@@ -19,10 +19,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Globe, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaSlidersH } from "react-icons/fa";
 import FileUploadComponent from "../../dashboard/_components/FileUploadComponent";
 
 interface GeneralFormData {
@@ -176,7 +177,7 @@ export default function GeneralSettings({ general }: any) {
         <Card className="dark:bg-gray-800 dark:border-gray-700  ">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Globe className="h-5 w-5 text-primary" />
+              <FaSlidersH className="h-5 w-5 text-primary" />
               General Information
             </CardTitle>
             <CardDescription className="dark:text-gray-400">
@@ -376,7 +377,7 @@ export default function GeneralSettings({ general }: any) {
           <Button
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitting}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 cursor-pointer"
           >
             <Save className="h-4 w-4" />
             {isSubmitting ? "Updating..." : "Update General Settings"}

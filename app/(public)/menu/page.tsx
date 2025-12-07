@@ -12,7 +12,7 @@ export default async function MenuHome() {
   const menuList = await getMenuList();
   const reservationShowcase = await getAllReservationShowcase();
   const offerShowcase = await getAllOfferShowcase();
-  console.log(offerShowcase);
+
   return (
     <Suspense fallback={<CategorySectionSkeleton />}>
       <MenuSectionPage

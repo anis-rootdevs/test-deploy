@@ -195,7 +195,7 @@ export async function updateMetadata(data: FormData) {
   }
 }
 
-// meta data settings api
+//Business hours settings api
 
 export async function getBusinessHours() {
   try {
@@ -238,6 +238,72 @@ export async function updateBusinessHours(data: any) {
       status: false,
       message:
         error instanceof Error ? error.message : "Failed to save businessHours",
+      data: null,
+    };
+  }
+}
+
+//Terms & Policy settings api
+
+export async function getTermsPolicy() {
+  try {
+    const res = await apiClient(`/api/admin/settings/terms`, {
+      method: "GET",
+      tags: ["terms"],
+    });
+
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error ? error.message : "Failed to get terms list",
+      data: null,
+    };
+  }
+}
+
+export async function updateTermsPolicy(data: any) {
+  try {
+    // Both create and update use PUT method
+    const endpoint = `/api/admin/settings/terms`;
+
+    const res = await apiClient(endpoint, {
+      method: "PUT",
+      body: data,
+      isFormData: false,
+    });
+
+    if (res?.status) {
+      updateTag("terms");
+    }
+
+    return res;
+  } catch (error) {
+    return {
+      status: false,
+      message:
+        error instanceof Error ? error.message : "Failed to save TermsPolicy",
+      data: null,
+    };
+  }
+}
+
+export async function getAllSettingsDetails(context: string) {
+  try {
+    const res = await apiClient(`/api/settings?context=${context}`, {
+      method: "GET",
+      tags: ["settings"],
+      // cache: "no-store",
+    });
+    return res;
+  } catch (error) {
+    return {
+      ok: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Failed to get general setting data",
       data: null,
     };
   }
