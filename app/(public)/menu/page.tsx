@@ -1,4 +1,5 @@
 import { getMenuList } from "@/actions/menu/menuActions";
+import { getAllSettingsDetails } from "@/actions/settings/settingsActions";
 import {
   getAllOfferShowcase,
   getAllReservationShowcase,
@@ -12,6 +13,7 @@ export default async function MenuHome() {
   const menuList = await getMenuList();
   const reservationShowcase = await getAllReservationShowcase();
   const offerShowcase = await getAllOfferShowcase();
+  const settings = await getAllSettingsDetails("pageBanner");
 
   return (
     <Suspense fallback={<CategorySectionSkeleton />}>
@@ -19,6 +21,7 @@ export default async function MenuHome() {
         initialMenuData={menuList || []}
         reservationShowcase={reservationShowcase?.data}
         offerShowcase={offerShowcase?.data}
+        bannerImage={settings?.data?.menu}
       />
     </Suspense>
   );

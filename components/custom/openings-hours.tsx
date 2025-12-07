@@ -20,15 +20,19 @@ const OpeningsHours = ({
   separatorColor = "bg-primary",
 }: OpeningHoursProps) => {
   const formattedData =
-    data?.map((item) => {
-      if (typeof item === "string") {
-        const parts = item.split(" - ");
-        const days = parts[0];
-        const time = parts.slice(1).join(" - "); // FIXED HERE
-        return { days, time };
-      }
-      return item;
-    }) || [];
+    data
+      ?.map((item) => {
+        if (typeof item === "string") {
+          const parts = item.split(" - ");
+          const days = parts[0];
+          const time = parts.slice(1).join(" - ");
+          return { days, time };
+        }
+        return item;
+      })
+      .filter(
+        (item) => item.time && !item.time.toLowerCase().includes("closed")
+      ) || [];
 
   return (
     <div className={containerClass}>

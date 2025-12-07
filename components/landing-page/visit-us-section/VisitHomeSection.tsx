@@ -10,19 +10,22 @@ import { useEffect, useState } from "react";
 import VisitUsCard from "./VisitUsCard";
 
 const VisitHomeSection = ({ newProducts }: { newProducts: Products[] }) => {
+  const hasMultiple = newProducts.length > 1;
   const [currentIndex, setCurrentIndex] = useState(0);
+  console.log(hasMultiple);
 
   const currentProduct = newProducts[currentIndex];
 
   // Auto-rotate every 5 seconds using setTimeout
   useEffect(() => {
+    if (!hasMultiple) return;
     const timeout = setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % newProducts.length);
     }, 5000);
 
     // Cleanup timeout on unmount or when currentIndex changes
     return () => clearTimeout(timeout);
-  }, [currentIndex, newProducts.length]);
+  }, [currentIndex, newProducts.length, hasMultiple]);
   return (
     <section className="w-full py-20 px-4 md:px-8 bg-[#E2E2E2] dark:bg-[#222831]">
       <div className="max-w-[1320px] mx-auto ">
@@ -40,24 +43,36 @@ const VisitHomeSection = ({ newProducts }: { newProducts: Products[] }) => {
         <div className="relative grid lg:grid-cols-2">
           {/* Image Container - Slides from bottom */}
           <div className="relative w-full max-w-[759px] lg:max-w-none">
-            <AnimatePresence mode="wait">
-              <motion.div
-                layout
-                key={`image-${currentProduct._id}`}
-                initial={{ y: 120, opacity: 0, scale: 0.98 }}
-                animate={{ y: 0, opacity: 1, scale: 1 }}
-                exit={{ y: -110, opacity: 0, scale: 0.95 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 60,
-                  damping: 10,
-                  mass: 0.5,
-                }}
-                className="aspect-[759/427] relative xl:left-24 lg:left-16"
-              >
+            {hasMultiple ? (
+              <AnimatePresence mode="wait">
+                <motion.div
+                  layout
+                  key={`image-${currentProduct._id}`}
+                  initial={{ y: 120, opacity: 0, scale: 0.98 }}
+                  animate={{ y: 0, opacity: 1, scale: 1 }}
+                  exit={{ y: -110, opacity: 0, scale: 0.95 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 60,
+                    damping: 10,
+                    mass: 0.5,
+                  }}
+                  className="aspect-[759/427] relative xl:left-24 lg:left-16"
+                >
+                  <Image
+                    src={
+                      currentProduct.image ||
+                      "/images/visit-us/close-up-coffee-table.svg"
+                    }
+                    alt={currentProduct.name}
+                    className="w-full h-full object-cover"
+                    fill
+                  />
+                </motion.div>
+              </AnimatePresence>
+            ) : (
+              <div className="aspect-[759/427] relative xl:left-24 lg:left-16">
                 <Image
-                  // width={759}
-                  // height={427}
                   src={
                     currentProduct.image ||
                     "/images/visit-us/close-up-coffee-table.svg"
@@ -65,31 +80,36 @@ const VisitHomeSection = ({ newProducts }: { newProducts: Products[] }) => {
                   alt={currentProduct.name}
                   className="w-full h-full object-cover"
                   fill
-                  // priority
                 />
-              </motion.div>
-            </AnimatePresence>
+              </div>
+            )}
           </div>
 
           {/* Card Container - Slides from top */}
           <div className="absolute -bottom-[130px] left-8 md:-bottom-20 md:left-24 lg:-top-8 lg:right-8 lg:left-auto lg:bottom-auto xl:-top-16 xl:right-24">
-            <AnimatePresence mode="wait">
-              <motion.div
-                layout
-                key={`card-${currentProduct._id}`}
-                initial={{ y: -120, opacity: 0, scale: 0.96 }}
-                animate={{ y: 0, opacity: 1, scale: 1 }}
-                exit={{ y: 120, opacity: 0, scale: 0.92 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 60,
-                  damping: 10,
-                  mass: 0.8,
-                }}
-              >
+            {hasMultiple ? (
+              <AnimatePresence mode="wait">
+                <motion.div
+                  layout
+                  key={`card-${currentProduct._id}`}
+                  initial={{ y: -120, opacity: 0, scale: 0.96 }}
+                  animate={{ y: 0, opacity: 1, scale: 1 }}
+                  exit={{ y: 120, opacity: 0, scale: 0.92 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 60,
+                    damping: 10,
+                    mass: 0.8,
+                  }}
+                >
+                  <VisitUsCard product={currentProduct} price={true} />
+                </motion.div>
+              </AnimatePresence>
+            ) : (
+              <>
                 <VisitUsCard product={currentProduct} price={true} />
-              </motion.div>
-            </AnimatePresence>
+              </>
+            )}
           </div>
         </div>
 

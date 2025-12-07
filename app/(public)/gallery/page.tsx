@@ -1,5 +1,6 @@
 // app/(public)/gallery/page.tsx
 import { getAllGalleries } from "@/actions/gallery/galleryActions";
+import { getAllSettingsDetails } from "@/actions/settings/settingsActions";
 import GalleryLoadMore from "@/components/gallery/GalleryLoadMore";
 import MenuHeroSection from "@/components/landing-page/menu-section/MenuHeroSection";
 
@@ -20,10 +21,15 @@ const GalleryPage = async () => {
     console.error("Error fetching gallery:", error);
   }
 
+  const settings = await getAllSettingsDetails("pageBanner");
+
   return (
     <>
       <MenuHeroSection
-        imageSrc="/images/menu-items/mushroom-chaga-coffee-fresh.svg"
+        imageSrc={
+          settings?.data?.gallery ||
+          "/images/menu-items/mushroom-chaga-coffee-fresh.svg"
+        }
         title="Gallery"
       />
 

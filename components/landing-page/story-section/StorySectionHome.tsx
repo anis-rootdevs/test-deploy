@@ -30,8 +30,8 @@ const StorySectionHome = ({ showCase }: { showCase: ShopShowcase }) => {
                 <Image
                   src={showCase.imageOne || ""}
                   alt="Showcase 1"
-                  width={100}
-                  height={100}
+                  width={500}
+                  height={500}
                   className="h-[360px] w-full object-cover rounded-md"
                 />
               </div>
@@ -39,8 +39,8 @@ const StorySectionHome = ({ showCase }: { showCase: ShopShowcase }) => {
                 <Image
                   src={showCase.imageTwo || ""}
                   alt="Showcase 2"
-                  width={100}
-                  height={100}
+                  width={500}
+                  height={500}
                   className="h-[420px] w-full object-cover rounded-md"
                 />
               </div>
