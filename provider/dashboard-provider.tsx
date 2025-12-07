@@ -2,7 +2,7 @@
 import DashboardLoader from "@/components/custom/DashboardLoader";
 import useUserProfile from "@/store/useUserProfile";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function DashboardProvider({
   children,
@@ -10,7 +10,8 @@ export default function DashboardProvider({
   children: React.ReactNode;
 }) {
   const { data: session } = useSession();
-  const { isLoading, fetchUserData, userData } = useUserProfile();
+  const { fetchUserData, userData } = useUserProfile();
+  const [mainLoading, setMainLoading] = useState(true);
 
   const token = session?.token;
 
@@ -18,10 +19,13 @@ export default function DashboardProvider({
     if (token && !userData) {
       fetchUserData(token);
     }
-  }, [token, userData]);
+    if (userData) {
+      setMainLoading(false);
+    }
+  }, [fetchUserData, token, userData]);
 
   // Block everything until userData is ready
-  if (isLoading || (token && !userData)) {
+  if (mainLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <DashboardLoader />
