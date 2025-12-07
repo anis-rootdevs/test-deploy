@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import { getAllOutlets } from "@/actions/outlets/outletsActions";
+import { getAllSettingsDetails } from "@/actions/settings/settingsActions";
 import MenuHeroSection from "@/components/landing-page/menu-section/MenuHeroSection";
 import LocationCardComponents from "@/components/locations/location-card-components";
 import { Outlets } from "@/lib/types";
@@ -7,11 +8,15 @@ import { Outlets } from "@/lib/types";
 const LocationsHomePage = async () => {
   const allOutlets = await getAllOutlets();
   const data: Outlets[] = allOutlets?.data || [];
+  const settings = await getAllSettingsDetails("pageBanner");
 
   return (
     <div className="">
       <MenuHeroSection
-        imageSrc="/images/menu-items/mushroom-chaga-coffee-fresh.svg"
+        imageSrc={
+          settings?.data?.location ||
+          "/images/menu-items/mushroom-chaga-coffee-fresh.svg"
+        }
         title="Location"
       />
       <div className="mt-16">

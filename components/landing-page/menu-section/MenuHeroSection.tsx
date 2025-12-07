@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 interface MHeroSection {
   imageSrc: string;
   title: string;
@@ -8,9 +7,8 @@ interface MHeroSection {
 const MenuHeroSection = ({ imageSrc, title }: MHeroSection) => {
   return (
     <div className="relative w-full h-[450px] md:h-[500px] overflow-hidden">
-      {/* Full Background Image */}
       <Image
-        src={imageSrc || "/images/menu-items/mushroom-chaga-coffee-fresh.svg"} // corrected ".svgg" to ".svg"
+        src={imageSrc}
         alt={title}
         fill
         className="object-cover"

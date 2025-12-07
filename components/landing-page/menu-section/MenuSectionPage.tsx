@@ -37,12 +37,14 @@ interface MenuSectionPageProps {
   initialMenuData: ApiResponse;
   reservationShowcase: ReservationShowcase;
   offerShowcase: OfferShowcase;
+  bannerImage: string;
 }
 
 const MenuSectionPage = ({
   initialMenuData,
   reservationShowcase,
   offerShowcase,
+  bannerImage,
 }: MenuSectionPageProps) => {
   const { activeCategory, isLoading, error, initializeMenu } =
     useMenuFilterStore();
@@ -57,7 +59,9 @@ const MenuSectionPage = ({
   return (
     <>
       <MenuHeroSection
-        imageSrc="/images/menu-items/mushroom-chaga-coffee-fresh.svg"
+        imageSrc={
+          bannerImage || "/images/menu-items/mushroom-chaga-coffee-fresh.svg"
+        }
         title="Menu List"
       />
 

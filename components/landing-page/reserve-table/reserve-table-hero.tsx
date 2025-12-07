@@ -7,6 +7,7 @@ import Image from "next/image";
 interface OpeningHour {
   days: string;
   time: string;
+  openingHours?: string[];
 }
 
 interface ReserveTableHeroProps {
@@ -16,23 +17,18 @@ interface ReserveTableHeroProps {
   title?: string;
   subtitle?: string;
   description?: string;
-  /** Opening hours data */
   openingHours?: OpeningHour[];
-  /** Optional custom text color (for dark/light backgrounds) */
   textColor?: string;
 }
 
 const ReserveTableHero = ({
   bgType = "gradient",
-  bgImage = "/images/book-reserve/reserve-hero-image.svg",
+  bgImage = "",
   overlay = true,
   title = "RESERVE YOUR COMFORT CORNER",
   subtitle = "Reserve Table",
   description = "Every table is ready to welcome you with warmth and comfort.",
-  openingHours = [
-    { days: "Sunday to Thursday", time: "12 AM - 8 PM" },
-    { days: "Friday & Saturday", time: "11 AM - 11 PM" },
-  ],
+  openingHours = [],
   textColor = "#FAF8F5",
 }: ReserveTableHeroProps) => {
   return (
