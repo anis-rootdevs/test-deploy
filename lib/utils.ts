@@ -316,7 +316,7 @@ export const transformCloudinaryPaths = (
 
   // Handle primitive values
   if (typeof data === "string" && data.startsWith(folderPattern)) {
-    return `${baseUrl}${data}`;
+    return `${baseUrl}/${data}`;
   }
 
   return data;
