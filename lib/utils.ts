@@ -302,7 +302,7 @@ export const transformCloudinaryPaths = (
     for (const [key, value] of Object.entries(data)) {
       if (typeof value === "string" && value.startsWith(folderPattern)) {
         // This is a Cloudinary path, prepend base URL
-        transformed[key] = `${baseUrl}${value}`;
+        transformed[key] = `${baseUrl}/${value}`;
       } else if (typeof value === "object") {
         // Recursively transform nested objects
         transformed[key] = transformCloudinaryPaths(value, folderName);
