@@ -16,6 +16,9 @@ export const PUT = asyncFormDataHandler(
     data: z.infer<typeof metadataSchema>,
     formData: FormData
   ) => {
+    const { metadata } = (await Settings.findOne({})) || {};
+    let openGraphImage = metadata?.openGraphImage;
+
     // Fetch existing showcase data
     const { valid, error } = fileValidator(
       formData.get("openGraphImage") as File,
@@ -25,18 +28,22 @@ export const PUT = asyncFormDataHandler(
     );
     if (!valid) return apiResponse(false, 400, error!);
 
-    // Upload to cloudinary
-    const { public_id } = await uploadToCloudinary(
-      formData.get("openGraphImage") as File,
-      {
-        folder: `${process.env.CLOUDINARY_FOLDER}/settings`,
-      }
-    );
+    if (formData.get("openGraphImage")) {
+      // Upload to cloudinary
+      const { public_id } = await uploadToCloudinary(
+        formData.get("openGraphImage") as File,
+        {
+          folder: `${process.env.CLOUDINARY_FOLDER}/settings`,
+        }
+      );
+
+      openGraphImage = public_id;
+    }
 
     // Build $set object with only the fields being updated
     const updateFields = Object.entries({
       ...data,
-      openGraphImage: public_id,
+      openGraphImage,
     }).reduce((acc, [key, value]) => {
       acc[`metadata.${key}`] = value;
       return acc;
