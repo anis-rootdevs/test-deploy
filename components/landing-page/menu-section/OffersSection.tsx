@@ -12,7 +12,6 @@ const OffersSection = ({ offerShowcase }: { offerShowcase: OfferShowcase }) => {
     products = [],
     tagline,
   } = offerShowcase || {};
-  console.log("offerShowcase", offerShowcase);
   const formattedDate = format(new Date(deadline), "dd MMMM, yy");
   return (
     <div className="max-w-[1320px] mx-auto w-full px-4 pb-10">
@@ -38,10 +37,10 @@ const OffersSection = ({ offerShowcase }: { offerShowcase: OfferShowcase }) => {
             </h2>
 
             {/* Bottom Left Text */}
-            <p className="text-sm md:text-[15px] opacity-90 font-normal uppercase font-jost">
+            <div className="text-sm md:text-[15px] opacity-90 font-normal uppercase font-jost">
               <p>** {tagline || ""} </p>
               <p>** Till {formattedDate}</p>
-            </p>
+            </div>
           </div>
         </div>
         <div>

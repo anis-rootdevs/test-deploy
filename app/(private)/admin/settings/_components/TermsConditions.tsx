@@ -86,7 +86,7 @@ export default function TermsConditions({
                 <div className="space-y-4">
                   <RichTextEditor
                     name="terms"
-                    label="Terms & Conditions"
+                    label=""
                     placeholder="Enter terms and conditions..."
                   />
                 </div>

@@ -78,6 +78,7 @@ export async function updateProduct(id: string, formData: FormData) {
 
     if (res?.status) {
       updateTag("product");
+      updateTag("menu");
     }
 
     return res;
@@ -163,7 +164,7 @@ export async function getMostLovedProducts(limit: number) {
     const res = await apiClient(`/api/product/most-loved?limit=${limit}`, {
       method: "GET",
       // tags: ["banners"],
-      cache: "no-store",
+      cache: "force-cache",
     });
     return res;
   } catch (error) {
@@ -182,7 +183,7 @@ export async function getFeaturedProducts(limit: number) {
     const res = await apiClient(`/api/product/featured?limit=${limit}`, {
       method: "GET",
       // tags: ["banners"],
-      cache: "no-store",
+      cache: "force-cache",
     });
     return res;
   } catch (error) {
@@ -221,7 +222,8 @@ export async function getNewProducts(limit: number) {
     const res = await apiClient(`/api/product/new?limit=${limit}`, {
       method: "GET",
       tags: ["product"],
-      // cache: "no-store",
+      revalidate: 300,
+      // cache: "force-cache",
     });
     return res;
   } catch (error) {

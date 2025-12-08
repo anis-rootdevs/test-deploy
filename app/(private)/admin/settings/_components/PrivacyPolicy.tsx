@@ -82,7 +82,7 @@ export default function PrivacyPolicy({
                 <div className="space-y-4">
                   <RichTextEditor
                     name="policy"
-                    label="Privacy Policy"
+                    label=""
                     placeholder="Enter privacy policy..."
                   />
                 </div>

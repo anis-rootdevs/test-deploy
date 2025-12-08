@@ -115,6 +115,7 @@ export default function MetadataSettings({ metadata }: any) {
       const loadingToast = toast.loading("Updating metadata setting...");
 
       const result = await updateMetadata(formData);
+      console.log(result);
 
       toast.dismiss(loadingToast);
 

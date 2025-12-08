@@ -53,6 +53,8 @@ export async function getShowcase() {
     const res = await apiClient(`/api/showcase/shop-showcase`, {
       method: "GET",
       tags: ["showcase"],
+      revalidate: 300,
+      // cache: "force-cache",
     });
 
     return res;
@@ -123,8 +125,9 @@ export async function getAllReservationShowcase() {
   try {
     const res = await apiClient(`/api/showcase/reservation-showcase`, {
       method: "GET",
-      // tags: ["gallery"],
-      cache: "no-store",
+      tags: ["gallery"],
+      revalidate: 300,
+      // cache: "force-cache",
     });
     return res;
   } catch (error) {
@@ -197,6 +200,7 @@ export async function getAllStoryShowcase() {
     const res = await apiClient(`/api/showcase/story-showcase`, {
       method: "GET",
       tags: ["storyShowcase"],
+      revalidate: 300,
       // cache: "no-store",
     });
     return res;
@@ -270,6 +274,7 @@ export async function getAllOfferShowcase() {
     const res = await apiClient(`/api/showcase/offer-showcase`, {
       method: "GET",
       tags: ["offer-showcase"],
+      revalidate: 300,
       // cache: "no-store",
     });
     return res;

@@ -14,6 +14,7 @@ export default async function MenuHome() {
   const reservationShowcase = await getAllReservationShowcase();
   const offerShowcase = await getAllOfferShowcase();
   const settings = await getAllSettingsDetails("pageBanner");
+  console.log("menuList", menuList);
 
   return (
     <Suspense fallback={<CategorySectionSkeleton />}>

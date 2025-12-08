@@ -9,6 +9,7 @@ export async function getCategoriesList() {
     const res = await apiClient("/api/admin/category", {
       method: "GET",
       tags: ["categories"],
+      revalidate: 300,
     });
     return res;
   } catch (error) {
@@ -31,6 +32,7 @@ export async function createCategory(data: Category) {
     });
     if (res?.status) {
       updateTag("categories");
+      updateTag("menu");
     }
     return res;
   } catch (error) {

@@ -149,8 +149,9 @@ export async function getAllFeaturedGallery(limit: number) {
   try {
     const res = await apiClient(`/api/gallery/featured?limit=${limit}`, {
       method: "GET",
-      // tags: ["gallery"],
-      cache: "no-store",
+      tags: ["gallery"],
+      revalidate: 300,
+      // cache: "force-cache",
     });
     return res;
   } catch (error) {
@@ -168,8 +169,9 @@ export async function getAllGalleries(limit: number, page: number) {
       `/api/gallery/all?limit=${limit}&page=${page}`,
       {
         method: "GET",
-        // tags: ["gallery"],
-        cache: "no-store",
+        tags: ["gallery"],
+        revalidate: 120,
+        // cache: "no-store",
       }
     );
     return res;
