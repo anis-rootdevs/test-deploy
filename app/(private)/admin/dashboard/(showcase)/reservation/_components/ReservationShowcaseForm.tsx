@@ -152,9 +152,7 @@ export default function ReservationShowcaseForm({
                 existingImageUrl={
                   showCase?.lightImage ? showCase?.lightImage : undefined
                 }
-                onRemoveExisting={() => {
-                  console.log("Image one removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
 
@@ -171,9 +169,7 @@ export default function ReservationShowcaseForm({
                 existingImageUrl={
                   showCase?.darkImage ? showCase?.darkImage : undefined
                 }
-                onRemoveExisting={() => {
-                  console.log("Image removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
           </div>

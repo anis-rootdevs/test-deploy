@@ -148,7 +148,6 @@ export default function GeneralSettings({ general }: any) {
       if (logoFiles.length > 0) {
         formData.append("logo", logoFiles[0]);
       }
-      console.log("formData", formData);
 
       const loadingToast = toast.loading("Updating general setting...");
 

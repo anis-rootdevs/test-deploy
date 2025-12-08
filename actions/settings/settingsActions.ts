@@ -294,7 +294,7 @@ export async function getAllSettingsDetails(context: string) {
     const res = await apiClient(`/api/settings?context=${context}`, {
       method: "GET",
       tags: ["settings"],
-      revalidate: 300,
+      revalidate: 30,
       // cache: "force-cache",
     });
     return res;

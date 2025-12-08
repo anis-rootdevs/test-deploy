@@ -320,9 +320,7 @@ export default function OfferShowcaseForm({
                 maxFiles={1}
                 onFilesChange={setImageFiles}
                 existingImageUrl={showCase?.image ? showCase?.image : undefined}
-                onRemoveExisting={() => {
-                  console.log("Image one removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
           </div>

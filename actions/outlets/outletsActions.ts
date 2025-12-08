@@ -145,7 +145,7 @@ export async function getAllOutlets() {
     const res = await apiClient(`/api/outlet/all`, {
       method: "GET",
       tags: ["outlets"],
-      revalidate: 300,
+      revalidate: 30,
       // cache: "no-store",
     });
     return res;

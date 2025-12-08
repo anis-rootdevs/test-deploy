@@ -99,7 +99,6 @@ export default function OutletsFormModal({
       if (imageFiles.length > 0) {
         formData.append("image", imageFiles[0]);
       }
-      console.log("formData", formData);
 
       const loadingToast = toast.loading(
         isEditMode ? "Updating outlet..." : "Adding outlet..."

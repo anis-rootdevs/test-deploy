@@ -70,7 +70,6 @@ export default function GalleryFormModal({
       toast.error("Please upload an image!");
       return;
     }
-    console.log("data svg", data);
 
     try {
       const formData = new FormData();
@@ -182,7 +181,6 @@ export default function GalleryFormModal({
                 }
                 onRemoveExisting={() => {
                   // Optional: Handle when user removes existing image
-                  console.log("Existing image removed");
                 }}
               />
             </div>

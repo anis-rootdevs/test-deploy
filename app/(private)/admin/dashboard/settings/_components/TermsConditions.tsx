@@ -26,7 +26,6 @@ export default function TermsConditions({
 }: {
   termsPolicy: TermsPolicyData;
 }) {
-  console.log(termsPolicy);
   const methods = useForm<TermsPolicyData>({
     defaultValues: {
       terms: "",
@@ -52,7 +51,6 @@ export default function TermsConditions({
   const onSubmit = async (data: TermsPolicyData) => {
     try {
       const response = await updateTermsPolicy(data);
-      console.log("response", response);
 
       if (response?.status) {
         toast.success(

@@ -36,7 +36,8 @@ export async function getReversedList(
       {
         method: "GET",
         tags: ["reserve"],
-        cache: "no-store",
+        revalidate: 30,
+        // cache: "no-store",
       }
     );
 

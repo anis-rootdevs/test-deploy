@@ -9,7 +9,6 @@ export async function getMenuList() {
       tags: ["menu"],
       revalidate: 20,
     });
-    console.log(res);
 
     return res;
   } catch (error) {

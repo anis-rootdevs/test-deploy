@@ -161,8 +161,6 @@ const FileUploadComponent = ({
       setDragActive(false);
       if (isUploadDisabled) return;
 
-      console.log("file List", e.dataTransfer.files);
-
       handleFiles(e.dataTransfer.files);
     },
     [handleFiles]

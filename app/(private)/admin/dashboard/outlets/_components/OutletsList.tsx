@@ -23,7 +23,6 @@ export default function OutletsList() {
   const fetchOutlets = async (page: number, limit: number, search: string) => {
     try {
       const result = await getOutletsList(page, limit, search);
-      console.log(result, "result outleft");
       setData(result?.data);
     } catch (error) {
       console.error(error);

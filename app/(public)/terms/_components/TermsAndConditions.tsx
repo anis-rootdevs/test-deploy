@@ -29,18 +29,9 @@ export default function TermsAndConditions({ terms }: { terms: TermsData }) {
           {/* Content Area */}
           <div className="p-3 md:p-4 lg:p-6">
             <div
-              className="prose prose-gray dark:prose-invert max-w-none
-                prose-headings:text-gray-900 dark:prose-headings:text-gray-100
-                prose-p:text-gray-700 dark:prose-p:text-gray-300
-                prose-a:text-primary hover:prose-a:text-primary/80
-                prose-strong:text-gray-900 dark:prose-strong:text-gray-100
-                prose-ul:text-gray-700 dark:prose-ul:text-gray-300
-                prose-ol:text-gray-700 dark:prose-ol:text-gray-300
-                prose-li:text-gray-700 dark:prose-li:text-gray-300"
-              dangerouslySetInnerHTML={{
-                __html: terms?.terms || "",
-              }}
-            />
+              className="prose max-w-none prose-gray dark:prose-invert prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6 prose-li:my-1"
+              dangerouslySetInnerHTML={{ __html: terms?.terms || "" }}
+            ></div>
           </div>
         </div>
 

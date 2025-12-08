@@ -130,7 +130,7 @@ export async function getAllChefList() {
     const res = await apiClient(`/api/chef`, {
       method: "GET",
       tags: ["chef"],
-      revalidate: 300,
+      revalidate: 30,
     });
     return res;
   } catch (error) {

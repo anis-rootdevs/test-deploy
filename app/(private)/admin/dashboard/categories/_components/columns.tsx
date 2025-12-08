@@ -35,9 +35,6 @@ export const columns: ColumnDef<Category>[] = [
           initialStatus={category.status || false}
           onStatusChange={(newStatus) => {
             // Optional: Handle status change (e.g., update cache, show toast)
-            console.log(
-              `Banner ${category._id} status changed to ${newStatus}`
-            );
           }}
         />
       );
