@@ -7,6 +7,7 @@ export async function getMenuList() {
     const res = await apiClient("/api/menu", {
       method: "GET",
       tags: ["menu"],
+      revalidate: 20,
     });
 
     return res;
@@ -24,6 +25,7 @@ export async function getMenuCold() {
     const res = await apiClient("/api/menu/cold-cofee", {
       method: "GET",
       tags: ["menu"],
+      revalidate: 300,
     });
     return res;
   } catch (error) {

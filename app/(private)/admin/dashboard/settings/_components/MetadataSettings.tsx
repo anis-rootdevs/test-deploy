@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaFileCode } from "react-icons/fa6";
-import FileUploadComponent from "../../dashboard/_components/FileUploadComponent";
+import FileUploadComponent from "../../_components/FileUploadComponent";
 
 interface MetadataFormData {
   title: string;
@@ -44,10 +44,7 @@ export default function MetadataSettings({ metadata }: any) {
   const {
     handleSubmit,
     register,
-    control,
     reset,
-    setValue,
-    watch,
     formState: { isSubmitting, errors },
   } = methods;
 

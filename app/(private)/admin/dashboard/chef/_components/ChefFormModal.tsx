@@ -249,9 +249,7 @@ export default function ChefFormModal({
                 existingImageUrl={
                   isEditMode && chef?.image ? chef.image : undefined
                 }
-                onRemoveExisting={() => {
-                  console.log("Existing image removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
 

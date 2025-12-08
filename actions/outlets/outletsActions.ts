@@ -144,8 +144,9 @@ export async function getAllOutlets() {
   try {
     const res = await apiClient(`/api/outlet/all`, {
       method: "GET",
-      // tags: ["outlets"],
-      cache: "no-store",
+      tags: ["outlets"],
+      revalidate: 30,
+      // cache: "no-store",
     });
     return res;
   } catch (error) {

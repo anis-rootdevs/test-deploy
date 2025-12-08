@@ -24,7 +24,6 @@ export async function getBannerById(id: string) {
   try {
     const res = await apiClient(`/api/admin/banner/${id}`, {
       method: "GET",
-      cache: "no-store",
       tags: ["banners"],
     });
 
@@ -157,6 +156,7 @@ export async function getBanner() {
     const res = await apiClient("/api/banner", {
       method: "GET",
       tags: ["banners"],
+      revalidate: 300, // 5 minutes (5 × 60 = 300 seconds)
     });
     return res;
   } catch (error) {

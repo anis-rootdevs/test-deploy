@@ -33,7 +33,8 @@ export async function getProductList(
     const res = await apiClient(`/api/admin/product?${params.toString()}`, {
       method: "GET",
       tags: ["product"],
-      cache: "no-store",
+      revalidate: 30,
+      // cache: "no-store",
     });
 
     return res;
@@ -78,6 +79,7 @@ export async function updateProduct(id: string, formData: FormData) {
 
     if (res?.status) {
       updateTag("product");
+      updateTag("menu");
     }
 
     return res;
@@ -162,8 +164,8 @@ export async function getMostLovedProducts(limit: number) {
   try {
     const res = await apiClient(`/api/product/most-loved?limit=${limit}`, {
       method: "GET",
-      // tags: ["banners"],
-      cache: "no-store",
+      tags: ["product"], // ✅ Added tags
+      revalidate: 300,
     });
     return res;
   } catch (error) {
@@ -181,8 +183,8 @@ export async function getFeaturedProducts(limit: number) {
   try {
     const res = await apiClient(`/api/product/featured?limit=${limit}`, {
       method: "GET",
-      // tags: ["banners"],
-      cache: "no-store",
+      tags: ["product"],
+      revalidate: 300,
     });
     return res;
   } catch (error) {
@@ -201,8 +203,8 @@ export async function getProductById(id: string) {
   try {
     const res = await apiClient(`/api/admin/product/${id}`, {
       method: "GET",
-      cache: "no-store",
       tags: ["product"],
+      revalidate: 30,
     });
 
     return res;
@@ -221,7 +223,8 @@ export async function getNewProducts(limit: number) {
     const res = await apiClient(`/api/product/new?limit=${limit}`, {
       method: "GET",
       tags: ["product"],
-      // cache: "no-store",
+      revalidate: 30,
+      // cache: "force-cache",
     });
     return res;
   } catch (error) {

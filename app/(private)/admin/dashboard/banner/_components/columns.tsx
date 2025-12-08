@@ -58,7 +58,6 @@ export const columns: ColumnDef<Banner>[] = [
           initialStatus={banner.status || false}
           onStatusChange={(newStatus) => {
             // Optional: Handle status change (e.g., update cache, show toast)
-            console.log(`Banner ${banner._id} status changed to ${newStatus}`);
           }}
         />
       );

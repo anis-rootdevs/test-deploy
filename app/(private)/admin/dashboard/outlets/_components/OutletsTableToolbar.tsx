@@ -67,7 +67,7 @@ export default function OutletsTableToolbar({
                   <Badge
                     key={filter.key}
                     variant="secondary"
-                    className="gap-1 pr-1 text-xs capitalize"
+                    className="gap-1 pr-1 text-xs capitalize dark:bg-gray-950"
                   >
                     {filter.label}
                     <Button

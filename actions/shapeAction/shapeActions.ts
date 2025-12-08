@@ -129,8 +129,8 @@ export async function getAllChefList() {
   try {
     const res = await apiClient(`/api/chef`, {
       method: "GET",
-      // tags: ["chef"],
-      cache: "no-store",
+      tags: ["chef"],
+      revalidate: 30,
     });
     return res;
   } catch (error) {

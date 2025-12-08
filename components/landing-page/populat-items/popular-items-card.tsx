@@ -8,7 +8,6 @@ const PopularItemsCard = ({
   mostLovedProducts: MostLovedItems[];
 }) => {
   const handleExploreClick = () => {
-    console.log("Explore More Menu clicked!");
     // Add your navigation logic here
     // router.push('/menu');
   };

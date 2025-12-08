@@ -296,9 +296,7 @@ export default function StoryShowcaseForm({
                 existingImageUrl={
                   showCase?.imageOne ? showCase?.imageOne : undefined
                 }
-                onRemoveExisting={() => {
-                  console.log("Image one removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
 
@@ -315,9 +313,7 @@ export default function StoryShowcaseForm({
                 existingImageUrl={
                   showCase?.imageTwo ? showCase?.imageTwo : undefined
                 }
-                onRemoveExisting={() => {
-                  console.log("Image two removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
 
@@ -334,9 +330,7 @@ export default function StoryShowcaseForm({
                 existingImageUrl={
                   showCase?.imageThree ? showCase?.imageThree : undefined
                 }
-                onRemoveExisting={() => {
-                  console.log("Image three removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
           </div>
@@ -429,9 +423,7 @@ export default function StoryShowcaseForm({
                               handleIconChange(index, files)
                             }
                             existingImageUrl={value.existingIconUrl}
-                            onRemoveExisting={() => {
-                              console.log(`Icon removed for value ${index}`);
-                            }}
+                            onRemoveExisting={() => {}}
                           />
                         </div>
                       </div>

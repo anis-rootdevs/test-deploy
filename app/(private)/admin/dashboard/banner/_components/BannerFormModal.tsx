@@ -182,7 +182,6 @@ export default function BannerFormModal({
                 }
                 onRemoveExisting={() => {
                   // Optional: Handle when user removes existing image
-                  console.log("Existing image removed");
                 }}
               />
             </div>

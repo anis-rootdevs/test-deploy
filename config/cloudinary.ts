@@ -42,10 +42,7 @@ export const initializeCloudinary = async () => {
     };
 
     isConfigured = true;
-
-    console.log("✅ Cloudinary configured successfully!");
   } catch (err) {
-    console.log(err);
     throw new Error("Cloudinary initialization failed!");
   }
 };

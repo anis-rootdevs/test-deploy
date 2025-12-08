@@ -12,7 +12,6 @@ import VisitUsCard from "./VisitUsCard";
 const VisitHomeSection = ({ newProducts }: { newProducts: Products[] }) => {
   const hasMultiple = newProducts.length > 1;
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log(hasMultiple);
 
   const currentProduct = newProducts[currentIndex];
 

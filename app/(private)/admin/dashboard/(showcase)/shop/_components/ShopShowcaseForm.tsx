@@ -195,9 +195,7 @@ export default function ShopShowcaseForm({
                 existingImageUrl={
                   showCase?.imageOne ? showCase?.imageOne : undefined
                 }
-                onRemoveExisting={() => {
-                  console.log("Image one removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
 
@@ -214,9 +212,7 @@ export default function ShopShowcaseForm({
                 existingImageUrl={
                   showCase?.imageTwo ? showCase?.imageTwo : undefined
                 }
-                onRemoveExisting={() => {
-                  console.log("Image two removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
 
@@ -233,9 +229,7 @@ export default function ShopShowcaseForm({
                 existingImageUrl={
                   showCase?.imageThree ? showCase?.imageThree : undefined
                 }
-                onRemoveExisting={() => {
-                  console.log("Image three removed");
-                }}
+                onRemoveExisting={() => {}}
               />
             </div>
           </div>

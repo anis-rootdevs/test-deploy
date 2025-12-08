@@ -6,13 +6,21 @@ type FetchOptions<TBody> = {
   tags?: string[];
   cache?: "force-cache" | "no-store";
   isFormData?: boolean;
+  revalidate?: number | false;
 };
 
 export async function apiClient<TResponse = any, TBody = undefined>(
   url: string,
   options: FetchOptions<TBody> = {}
 ): Promise<TResponse> {
-  const { method = "GET", body, tags, cache, isFormData = false } = options;
+  const {
+    method = "GET",
+    body,
+    tags,
+    cache,
+    isFormData = false,
+    revalidate,
+  } = options;
   const session = await auth();
 
   const token = session?.token;
@@ -37,10 +45,16 @@ export async function apiClient<TResponse = any, TBody = undefined>(
     headers,
     body: isFormData ? (body as any) : body ? JSON.stringify(body) : undefined,
 
-    //  proper cache + tag handling
-    ...(tags
-      ? { next: { tags } }
+    // Support both tags and revalidate
+    ...(tags || revalidate !== undefined
+      ? {
+          next: {
+            ...(tags && { tags }),
+            ...(revalidate !== undefined && { revalidate }),
+          },
+        }
       : { cache: isMutation ? "no-store" : cache || "force-cache" }),
+    // { cache: "force-cache" }),
   });
 
   if (!res.ok) {

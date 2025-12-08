@@ -280,9 +280,7 @@ export default function ProductForm({
             existingImageUrl={
               isEditMode && product?.image ? product.image : undefined
             }
-            onRemoveExisting={() => {
-              console.log("Existing image removed");
-            }}
+            onRemoveExisting={() => {}}
           />
         </div>
 

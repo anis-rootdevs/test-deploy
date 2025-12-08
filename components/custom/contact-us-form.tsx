@@ -24,7 +24,6 @@ const ContactUsForm = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log("Form Submitted:", data);
     reset();
   };
   return (

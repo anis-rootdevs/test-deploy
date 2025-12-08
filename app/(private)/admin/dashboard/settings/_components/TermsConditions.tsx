@@ -9,10 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Save, Shield } from "lucide-react";
+import { Save } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaFileContract } from "react-icons/fa6";
 import RichTextEditor from "./RichTextEditor";
 
 interface TermsPolicyData {
@@ -20,7 +21,7 @@ interface TermsPolicyData {
   policy: string;
 }
 
-export default function PrivacyPolicy({
+export default function TermsConditions({
   termsPolicy,
 }: {
   termsPolicy: TermsPolicyData;
@@ -42,7 +43,7 @@ export default function PrivacyPolicy({
   useEffect(() => {
     if (termsPolicy) {
       reset({
-        policy: termsPolicy.policy || "",
+        terms: termsPolicy.terms || "",
       });
     }
   }, [reset, termsPolicy]);
@@ -53,12 +54,13 @@ export default function PrivacyPolicy({
 
       if (response?.status) {
         toast.success(
-          response?.message || "Privacy Policy updated successfully"
+          response?.message || "Terms & Policy updated successfully"
         );
       } else {
         toast.error(response?.message || "Failed to update terms & policy");
       }
     } catch (error) {
+      console.error("Error updating terms & policy:", error);
       toast.error("An error occurred while updating");
     }
   };
@@ -70,20 +72,20 @@ export default function PrivacyPolicy({
             <Card className="dark:bg-gray-800 dark:border-gray-700">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-primary" />
-                  Privacy & Policy
+                  <FaFileContract className="h-5 w-5 text-primary" />
+                  Terms & Conditions
                 </CardTitle>
                 <CardDescription className="dark:text-gray-400">
-                  Privacy Policy Information
+                  Terms & Conditions Information
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Policy Section */}
+                {/* Terms Section */}
                 <div className="space-y-4">
                   <RichTextEditor
-                    name="policy"
-                    label="Privacy Policy"
-                    placeholder="Enter privacy policy..."
+                    name="terms"
+                    label=""
+                    placeholder="Enter terms and conditions..."
                   />
                 </div>
               </CardContent>
@@ -96,7 +98,7 @@ export default function PrivacyPolicy({
                 className="flex items-center gap-2 cursor-pointer"
               >
                 <Save className="h-4 w-4" />
-                {isSubmitting ? "Updating..." : "Update Privacy Policy"}
+                {isSubmitting ? "Updating..." : "Update Terms & Conditions"}
               </Button>
             </div>
           </div>
