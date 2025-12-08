@@ -1,18 +1,52 @@
-"use client";
+import { getDashboardStatistics } from "@/actions/dashboard/dashboardActions";
+import { routes } from "@/config/routes";
+import DashboardCard from "./_components/DashboardCard";
 
-import useUserProfile from "@/store/useUserProfile";
-
-export default function DashboardPage() {
-  const { userData } = useUserProfile();
-
+export default async function DashboardPage() {
+  const statistics = await getDashboardStatistics();
+  const {
+    totalProducts,
+    totalActiveProducts,
+    totalCategory,
+    totalActiveCategory,
+    totalOutlets,
+    totalActiveOutlets,
+    totalPendingReserveTable,
+  } = statistics?.data || {};
   return (
     <div className="">
-      <h1 className="text-2xl font-bold mb-2">
-        Welcome To , Mr. {userData?.data.name}
-      </h1>
-      <p className="mb-6 text-gray-600">You’re logged in successfully!</p>
+      <div className="my-4 grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <DashboardCard
+          total={totalPendingReserveTable}
+          label="Pending ReserveTable"
+          icon="books"
+          link={routes.privateRoutes.admin.reserve}
+        />
 
-      <div className="my-4"></div>
+        <DashboardCard
+          total={totalProducts}
+          active={totalActiveProducts}
+          label="Active Products"
+          icon="products"
+          link={routes.privateRoutes.admin.products.home}
+        />
+
+        <DashboardCard
+          total={totalCategory}
+          active={totalActiveCategory}
+          label="Active Categories"
+          icon="categories"
+          link={routes.privateRoutes.admin.categories}
+        />
+
+        <DashboardCard
+          total={totalOutlets}
+          active={totalActiveOutlets}
+          label="Active Outlets"
+          icon="outlets"
+          link={routes.privateRoutes.admin.outlets}
+        />
+      </div>
     </div>
   );
 }
