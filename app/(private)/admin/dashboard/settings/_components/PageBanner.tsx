@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaImage } from "react-icons/fa6";
-import FileUploadComponent from "../../dashboard/_components/FileUploadComponent";
+import FileUploadComponent from "../../_components/FileUploadComponent";
 
 interface BannerFormData {
   location: FileList | null;

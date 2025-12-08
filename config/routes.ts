@@ -39,7 +39,7 @@ export const routes = {
       notification: `/admin/notification`,
       contact: `/admin/contact`,
       newsletter: `/admin/newsletter`,
-      settings: `/admin/settings`,
+      settings: `/admin/dashboard/settings`,
     },
   },
 };

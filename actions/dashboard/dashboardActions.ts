@@ -6,7 +6,7 @@ export async function getDashboardStatistics() {
     const res = await apiClient(`/api/admin/dashboard`, {
       method: "GET",
       tags: ["statistics"],
-      revalidate: 120,
+      revalidate: 10,
     });
     return res;
   } catch (error) {

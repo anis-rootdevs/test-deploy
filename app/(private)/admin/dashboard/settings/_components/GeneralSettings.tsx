@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaSlidersH } from "react-icons/fa";
-import FileUploadComponent from "../../dashboard/_components/FileUploadComponent";
+import FileUploadComponent from "../../_components/FileUploadComponent";
 
 interface GeneralFormData {
   companyName: string;
