@@ -38,7 +38,7 @@ const LandingPage = async () => {
         <HeroSectionHome banners={banners?.data || []} />
       </Suspense>
       <Suspense fallback={<p>loading..................</p>}>
-        <StorySectionHome showCase={showCase?.data} />
+        <StorySectionHome showCase={showCase?.data || []} />
       </Suspense>
       <Suspense fallback={<p>loading..................</p>}>
         <PopularItemsCard mostLovedProducts={mostLovedProducts.data || []} />

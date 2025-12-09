@@ -37,10 +37,10 @@ const LandingPageSecond = async () => {
         <HeroSectionHome banners={banners?.data || []} />
       </Suspense>
       <Suspense fallback={<p>loading..................</p>}>
-        <StorySectionHome showCase={showCase?.data} />
+        <StorySectionHome showCase={showCase?.data || []} />
       </Suspense>
       <Suspense fallback={<p>loading..................</p>}>
-        <VisitHomeSectionTwo newProducts={newProducts?.data} />
+        <VisitHomeSectionTwo newProducts={newProducts?.data || []} />
       </Suspense>
       <Suspense fallback={<p>loading....</p>}>
         <PopularItemsCard mostLovedProducts={mostLovedProducts.data || []} />
@@ -50,14 +50,16 @@ const LandingPageSecond = async () => {
         <MenuSectionHome2 featuredProducts={featuredProducts?.data || []} />
       </Suspense>
       <Suspense fallback={<p>Loading...</p>}>
-        <ChefShapeHome chefList={chefList?.data} />
+        <ChefShapeHome chefList={chefList?.data || []} />
       </Suspense>
 
       <Suspense fallback={<p>Loading...</p>}>
         <ImageGalleryLanding gallery={gallery?.data || []} />
       </Suspense>
       <Suspense fallback={<p>Loading...................</p>}>
-        <BookReservationHome2 reservationShowcase={reservationShowcase?.data} />
+        <BookReservationHome2
+          reservationShowcase={reservationShowcase?.data || []}
+        />
       </Suspense>
     </>
   );

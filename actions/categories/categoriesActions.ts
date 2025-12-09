@@ -19,7 +19,7 @@ export async function getCategoriesList() {
         error instanceof Error
           ? error.message
           : "Failed to get categories list",
-      data: null,
+      data: [],
     };
   }
 }

@@ -24,7 +24,7 @@ export async function getOutletsList(
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get outlets list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -153,7 +153,7 @@ export async function getAllOutlets() {
     return {
       ok: false,
       message: error instanceof Error ? error.message : "Failed to get outlets",
-      data: null,
+      data: [],
     };
   }
 }

@@ -16,7 +16,7 @@ export async function getDashboardStatistics() {
         error instanceof Error
           ? error.message
           : "Failed to get dashboard Statistics",
-      data: null,
+      data: [],
     };
   }
 }
