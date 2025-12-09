@@ -43,7 +43,7 @@ export async function getProductList(
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get products list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -175,7 +175,7 @@ export async function getMostLovedProducts(limit: number) {
         error instanceof Error
           ? error.message
           : "Failed to get most loved products",
-      data: null,
+      data: [],
     };
   }
 }
@@ -213,7 +213,7 @@ export async function getProductById(id: string) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to fetch product data",
-      data: null,
+      data: [],
     };
   }
 }
@@ -232,7 +232,7 @@ export async function getNewProducts(limit: number) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get new products",
-      data: null,
+      data: [],
     };
   }
 }

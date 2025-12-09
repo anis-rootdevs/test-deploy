@@ -15,7 +15,7 @@ export async function getBanners() {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get banner list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -33,7 +33,7 @@ export async function getBannerById(id: string) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to fetch banner data",
-      data: null,
+      data: [],
     };
   }
 }
@@ -56,7 +56,7 @@ export async function createBanner(formData: FormData) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to create banner",
-      data: null,
+      data: [],
     };
   }
 }
@@ -79,7 +79,7 @@ export async function updateBanner(id: string, formData: FormData) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to update banner",
-      data: null,
+      data: [],
     };
   }
 }
@@ -100,7 +100,7 @@ export async function shortsTable(data: any) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to shorts banner",
-      data: null,
+      data: [],
     };
   }
 }
@@ -121,7 +121,7 @@ export async function deleteBanner(id: string) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to delete banner",
-      data: null,
+      data: [],
     };
   }
 }
@@ -146,7 +146,7 @@ export async function changeStatus(id: string, status: boolean) {
         error instanceof Error
           ? error.message
           : "Failed to update banner status",
-      data: null,
+      data: [],
     };
   }
 }
@@ -166,7 +166,7 @@ export async function getBanner() {
         error instanceof Error
           ? error.message
           : "Failed to get active banner list",
-      data: null,
+      data: [],
     };
   }
 }

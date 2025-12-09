@@ -16,7 +16,7 @@ export async function getAllChefLists() {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get chef list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -138,7 +138,7 @@ export async function getAllChefList() {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get all chef",
-      data: null,
+      data: [],
     };
   }
 }

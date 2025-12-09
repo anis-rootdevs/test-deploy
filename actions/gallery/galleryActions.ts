@@ -30,7 +30,7 @@ export async function getGalleryLists(
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get gallery list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -159,7 +159,7 @@ export async function getAllFeaturedGallery(limit: number) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get galleries",
-      data: null,
+      data: [],
     };
   }
 }
@@ -180,7 +180,7 @@ export async function getAllGalleries(limit: number, page: number) {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get all galleries",
-      data: null,
+      data: [],
     };
   }
 }

@@ -14,7 +14,7 @@ export async function getShowcaseList() {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get show case list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -63,7 +63,7 @@ export async function getShowcase() {
       ok: false,
       message:
         error instanceof Error ? error.message : "Failed to get showcase list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -85,7 +85,7 @@ export async function getReservationShowcase() {
         error instanceof Error
           ? error.message
           : "Failed to get reservation showcase list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -137,7 +137,7 @@ export async function getAllReservationShowcase() {
         error instanceof Error
           ? error.message
           : "Failed to get all reservation",
-      data: null,
+      data: [],
     };
   }
 }
@@ -159,7 +159,7 @@ export async function getStoryShowcase() {
         error instanceof Error
           ? error.message
           : "Failed to get stroy showcase list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -211,7 +211,7 @@ export async function getAllStoryShowcase() {
         error instanceof Error
           ? error.message
           : "Failed to get all story showcase",
-      data: null,
+      data: [],
     };
   }
 }
@@ -233,7 +233,7 @@ export async function getOfferShowcase() {
         error instanceof Error
           ? error.message
           : "Failed to get offer showcase list",
-      data: null,
+      data: [],
     };
   }
 }
@@ -285,7 +285,7 @@ export async function getAllOfferShowcase() {
         error instanceof Error
           ? error.message
           : "Failed to get all offer showcase",
-      data: null,
+      data: [],
     };
   }
 }
