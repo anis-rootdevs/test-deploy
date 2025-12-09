@@ -1,5 +1,6 @@
 "use client";
 
+import { updateAdminProfile } from "@/actions/profile/profileActions";
 import { CustomButton } from "@/components/custom/custom-button";
 import InputField from "@/components/form/InputField";
 import {
@@ -51,8 +52,8 @@ export default function EditProfileModal({
   useEffect(() => {
     if (userData) {
       form.reset({
-        name: userData?.data?.name || "",
-        email: userData?.data?.email || "",
+        name: userData?.name || "",
+        email: userData?.email || "",
       });
     }
   }, [userData, form]);
@@ -65,23 +66,13 @@ export default function EditProfileModal({
     };
 
     try {
-      const response = await fetch("/api/admin/auth/me", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await updateAdminProfile(payload);
 
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to update profile");
+      if (!response.status) {
+        throw new Error(response?.message || "Failed to update profile");
       }
 
-      toast.success(result.message || "Profile Update successfully!");
+      toast.success(response?.message || "Profile Update successfully!");
       form.reset();
 
       await fetchUserData(token as string);

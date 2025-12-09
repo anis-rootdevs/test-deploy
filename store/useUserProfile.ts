@@ -1,3 +1,4 @@
+import { getAdminProfile } from "@/actions/profile/profileActions";
 import { create } from "zustand";
 
 interface UserProfileState {
@@ -18,20 +19,12 @@ const useUserProfile = create<UserProfileState>((set) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const res = await fetch("/api/admin/auth/me", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store",
-      });
+      const res = await getAdminProfile();
 
-      if (!res.ok) throw new Error("Failed to fetch user data");
-      const data = await res.json();
+      if (!res.status) throw new Error("Failed to fetch user data");
 
-      set({ userData: data });
+      set({ userData: res?.data });
     } catch (error: any) {
-      console.error("Error fetching user data:", error);
       set({ error: error.message || "Unknown error" });
     } finally {
       set({ isLoading: false });

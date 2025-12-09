@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { updateAdminPassword } from "@/actions/profile/profileActions";
+import { CustomButton } from "@/components/custom/custom-button";
+import PasswordField from "@/components/form/PasswordField";
 import {
   Dialog,
   DialogClose,
@@ -14,13 +13,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import PasswordField from "@/components/form/PasswordField";
-import { Lock } from "lucide-react";
-import toast from "react-hot-toast";
-import { useSession } from "next-auth/react";
 import { passwordChangeSchema } from "@/lib/validation-schema";
-import { CustomButton } from "@/components/custom/custom-button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Lock } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { ImSpinner9 } from "react-icons/im";
+import * as z from "zod";
 
 type PasswordFormValues = z.infer<typeof passwordChangeSchema>;
 
@@ -34,9 +34,6 @@ export default function PasswordChangeModal({
   setOpen,
 }: PasswordChangeModalProps) {
   const [loading, setLoading] = useState<boolean>(false);
-  const { data: session } = useSession();
-
-  const token = session?.token;
 
   const form = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordChangeSchema),
@@ -57,30 +54,22 @@ export default function PasswordChangeModal({
     };
 
     try {
-      const response = await fetch("/api/admin/auth/password", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-
-        body: JSON.stringify(payload),
-      });
+      const response = await updateAdminPassword(payload);
 
       const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to change password");
+      if (!response.status) {
+        throw new Error(result?.message || "Failed to change password");
       }
 
-      toast.success(result.message || "Password changed successfully!");
+      toast.success(result?.message || "Password changed successfully!");
       form.reset();
       setOpen(false);
     } catch (error: unknown) {
       toast.error(
         error instanceof Error
           ? error.message
-          : "An error occurred. Please try again."
+          : "An error occurred when change password. Please try again."
       );
     }
   };
