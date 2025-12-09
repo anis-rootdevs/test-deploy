@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { NextRequest, NextResponse } from "next/server";
 import { routes } from "./config/routes";
-import { extractRoutes, isTokenExpired } from "./lib/utils";
+import { extractRoutes } from "./lib/utils";
 
 const secret = process.env.NEXTAUTH_SECRET;
 
@@ -16,7 +16,7 @@ export async function proxy(req: NextRequest) {
 
   const isProtected = isProtectedRoute(pathname);
 
-  if (isProtected && (!token || isTokenExpired(token.exp))) {
+  if (isProtected && !token) {
     const loginUrl = new URL(routes.publicRoutes.adminLogin, req.url);
     return NextResponse.redirect(loginUrl);
   }
