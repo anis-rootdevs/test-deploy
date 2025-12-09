@@ -63,7 +63,7 @@ const LoginForm = () => {
 
   // ✅ While session loading
   if (status === "loading") {
-    return <p className="text-center mt-10">Checking session...</p>;
+    return <p className="text-center mt-10">Loading..</p>;
   }
 
   return (
