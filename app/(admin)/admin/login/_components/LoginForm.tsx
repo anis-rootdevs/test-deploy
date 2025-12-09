@@ -42,11 +42,12 @@ const LoginForm = () => {
         toast.error(result.error);
         return;
       }
+      toast.success("Login successful!");
       // Trigger NextAuth sign-in on client
       const nextAuthRes: any = await signIn("credentials", {
         email: data.email,
         token: result.token,
-        // redirect: false,
+        callbackUrl: routes.privateRoutes.admin.dashboard,
       });
 
       if (nextAuthRes?.error) {
@@ -54,8 +55,7 @@ const LoginForm = () => {
         return;
       }
 
-      toast.success("Login successful!");
-      router.push(routes.privateRoutes.admin.dashboard);
+      // router.push(routes.privateRoutes.admin.dashboard);
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
     }
@@ -63,7 +63,7 @@ const LoginForm = () => {
 
   // ✅ While session loading
   if (status === "loading") {
-    return <p className="text-center mt-10">Loading..</p>;
+    return <p className="text-center mt-10">loading..</p>;
   }
 
   return (
