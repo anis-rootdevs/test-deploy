@@ -43,10 +43,10 @@ const LoginForm = () => {
         return;
       }
       // Trigger NextAuth sign-in on client
-      const nextAuthRes = await signIn("credentials", {
+      const nextAuthRes: any = await signIn("credentials", {
         email: data.email,
         token: result.token,
-        redirect: false,
+        // redirect: false,
       });
 
       if (nextAuthRes?.error) {
