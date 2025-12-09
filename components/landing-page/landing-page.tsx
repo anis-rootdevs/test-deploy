@@ -35,7 +35,7 @@ const LandingPage = async () => {
   return (
     <>
       <Suspense fallback={<HeroSectionLoader />}>
-        <HeroSectionHome banners={banners?.data} />
+        <HeroSectionHome banners={banners?.data || []} />
       </Suspense>
       <Suspense fallback={<p>loading..................</p>}>
         <StorySectionHome showCase={showCase?.data} />
@@ -47,10 +47,10 @@ const LandingPage = async () => {
         <MenuHome featuredProducts={featuredProducts?.data || []} />
       </Suspense>
       <Suspense fallback={<p>loading..................</p>}>
-        <VisitHomeSection newProducts={newProducts?.data} />
+        <VisitHomeSection newProducts={newProducts?.data || []} />
       </Suspense>
       <Suspense fallback={<p>Loading...</p>}>
-        <ChefShapeHome chefList={chefList?.data} />
+        <ChefShapeHome chefList={chefList?.data || []} />
       </Suspense>
 
       <Suspense fallback={<p>Loading...</p>}>
